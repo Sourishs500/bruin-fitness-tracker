@@ -1,0 +1,14 @@
+#!/bin/bash
+
+
+appFileName=${1:-../App.js}
+
+echo "import { useEffect, useState, useRef } from 'react';" > $appFileName
+./importingAllPageComponents.sh >> $appFileName
+echo "export default function" ${2:-"App"} "() {" >> $appFileName
+echo '    return (' >> $appFileName
+echo '        <div>' >> $appFileName
+./puttingTheComponentsInTheApp.sh >> $appFileName
+echo '        </div>' >> $appFileName
+echo '   );' >> $appFileName
+echo '};' >> $appFileName

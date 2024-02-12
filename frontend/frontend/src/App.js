@@ -1,12 +1,18 @@
 import { useEffect, useState, useRef } from 'react';
-import AddWorkoutButton from './components/AddWorkoutButton.js';
 
-const App = () => {
+import FullGeneralInfoComponents from './components/generalInfoComponents/fullGeneralInfoComponents.js'; 
+import FullHeaderComponents from './components/headerComponents/fullHeaderComponents.js'; 
+import FullHistoryComponents from './components/historyComponents/fullHistoryComponents.js'; 
+import FullSpecificInfoComponents from './components/specificInfoComponents/fullSpecificInfoComponents.js'; 
+
+//I haven't touched the history or specific info components
+export default function App () {
     return (
-        <div>
-            <AddWorkoutButton/>
-        </div>
-    );
+        <>
+        <div style={{ marginBottom: '30px' }}><FullHeaderComponents/></div>
+		<div style={{ marginBottom: '30px' }}><FullGeneralInfoComponents/></div>
+		<div><FullHistoryComponents/></div>
+		<div><FullSpecificInfoComponents/></div>
+        </>
+   );
 };
-
-export default App;
