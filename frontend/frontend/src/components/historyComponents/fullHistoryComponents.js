@@ -4,9 +4,11 @@ import PastWorkouts from './pastWorkouts.js';
 export default function FullHistoryComponents()
 {
     return (
-        <div> 
+        <div style={{display:"flex", justifyContent: 'space-between'}}>
+            <div></div> 
             <GraphGeneration/>
             <PastWorkouts/>
+            <div></div>
         </div>
     );
 }

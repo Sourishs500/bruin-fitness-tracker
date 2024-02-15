@@ -11,8 +11,8 @@ export default function App () {
         <>
         <div style={{ marginBottom: '30px' }}><FullHeaderComponents/></div>
 		<div style={{ marginBottom: '30px' }}><FullGeneralInfoComponents/></div>
-		<div><FullHistoryComponents/></div>
-		<div><FullSpecificInfoComponents/></div>
+		<div style={{ marginBottom: '30px' }}><FullSpecificInfoComponents/></div>
+        <div><FullHistoryComponents/></div>
         </>
    );
 };
