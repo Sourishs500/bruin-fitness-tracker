@@ -11,7 +11,7 @@ export default function FullGeneralInfoComponents()
 {
     return (
         <div style={{display:"flex", alignItems:"flex-start"}}>
-            <div> <MusclesWorkedOut/> </div>
+            <div style={{marginBottom:"20px", marginLeft:"20px", marginTop:"20px"}}> <MusclesWorkedOut/> </div>
             <div style={{marginLeft:"50px"}}>
                 <div> <Directions/>  </div>
                 <div> <GeneralInfo/> </div>

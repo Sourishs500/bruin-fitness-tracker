@@ -10,7 +10,7 @@ function CreateDateBox(setNum, exLabel)
 export default function PastWorkouts()
 {
     return (
-        <div>
+        <div style={{marginTop:"20px"}}>
             <div style={{"width":"300px", "height":"300px", "border":"1px solid black"}}> </div>
             <div style={{ display: "flex", alignItems: "flex-start" }}>
                 <CreateDateBox/>

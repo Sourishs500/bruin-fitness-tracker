@@ -5,7 +5,7 @@ export default function FullSpecificInfoComponents()
 {
     return (
         <div style={{display:"flex", alignItems:"flex-start"}}> 
-            <span style={{marginRight:"50px"}}> <SummaryBox/> </span>
+            <span style={{marginRight:"50px", marginBottom:"20px", marginLeft:"20px", marginTop:"20px"}}> <SummaryBox/> </span>
             <div><UserDataEntries/></div>
         </div>
     );

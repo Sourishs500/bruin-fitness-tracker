@@ -1,4 +1,14 @@
 import { useEffect, useState, useRef } from 'react';
+//import {Button} from 'react-native';
+
+function CreateTextBox()
+{
+    const [value, setValue] = useState('');
+    const handleChange = (event) => {setValue(event.target.value);};
+    return <textarea type="text" value={value} onChange={handleChange} placeholder="" style={{"width":"200px", "height":"145px", marginRight:"20px", overflowY:"scroll"}}/>;
+};
+
+
 
 export default function GeneralInfo ()
 {
@@ -14,10 +24,10 @@ export default function GeneralInfo ()
 
     return (
         <div style={{ display: "flex", alignItems: "flex-start" }}>
-            <TextBox/>
-            <select>{possibleCategories.map(category => <option value="Type of Day">{category}</option>)}</select>         
+            <CreateTextBox/>
+            <select>{possibleCategories.map(category => <option key={category[3]} value="Type of Day">{category}</option>)}</select>         
             <button onClick={getCategoryForRandomEx} style={{marginLeft:"10px", marginRight:"10px"}}>Generate Recommendation</button>
-            <text>{recommendationGenerated} </text>
+            <span>{recommendationGenerated} </span>
        </div>
     );
 };

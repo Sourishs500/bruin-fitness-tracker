@@ -9,10 +9,10 @@ import FullSpecificInfoComponents from './components/specificInfoComponents/full
 export default function App () {
     return (
         <>
-        <div style={{ marginBottom: '30px' }}><FullHeaderComponents/></div>
-		<div style={{ marginBottom: '30px' }}><FullGeneralInfoComponents/></div>
-		<div style={{ marginBottom: '30px' }}><FullSpecificInfoComponents/></div>
-        <div><FullHistoryComponents/></div>
+        <div style={{ backgroundColor: 'pink' }}><FullHeaderComponents/></div>
+		<div style={{ backgroundColor: 'lightgreen' }}><FullGeneralInfoComponents/></div>
+		<div style={{ backgroundColor: 'lightyellow' }}><FullSpecificInfoComponents/></div>
+        <div style={{ backgroundColor: 'lightblue' }}><FullHistoryComponents/></div>
         </>
    );
 };
