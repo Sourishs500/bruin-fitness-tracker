@@ -20,5 +20,3 @@ export default function PastWorkouts()
         </div>
     );
 }
-
-//style={{ display: "flex", alignItems: "flex-start" }}
