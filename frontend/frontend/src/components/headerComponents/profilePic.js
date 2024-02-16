@@ -1,3 +1,8 @@
+/*
+Remaining Tasks
+1) Display an actual image in the ProfilePic area
+*/
+
 export default function ProfilePic()
 {
     return (

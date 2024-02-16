@@ -12,3 +12,5 @@ export default function FullHistoryComponents()
         </div>
     );
 }
+
+//marginBottom:"20px", marginLeft:"20px", marginTop:"20px

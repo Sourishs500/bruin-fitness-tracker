@@ -1,7 +1,22 @@
+
+/*
+Remaining Tasks
+1) Write a function to generate graphs
+2) Call that function so that the graph is displayed inside the first div area
+*/
+
 export default function GraphGeneration()
+//One div box where the graph will go, [a selection for exercises, a selection for the type of statistic to display, a submit button]
+/*
+    functions defined:
+        
+    variables used:
+        allExercises, measurements, exCount, measCount
+*/
+
 {
-    const allExercises = ["Chest Press", "Preacher Curls", "Wall-Sits", "Bench Press", "Lat Pull-Downs", "Calf Raises"]
-    const measurements = ["Average", "Maximum", "Minimum"]
+    const allExercises = ["Chest Press", "Preacher Curls", "Wall-Sits", "Bench Press", "Lat Pull-Downs", "Calf Raises"] //hard-coded for now
+    const measurements = ["Average", "Maximum", "Minimum"] //this is hard-coded and should stay that way
     const exCount = [...Array(allExercises.length).keys()]
     const measCount=[...Array(measurements.length).keys()]
 
@@ -16,6 +31,3 @@ export default function GraphGeneration()
         </div>
     );
 }
-
-//style={{ display: "flex", alignItems: "flex-start" }}
-//marginBottom:"20px", marginLeft:"20px", marginTop:"20px
