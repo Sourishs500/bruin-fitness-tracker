@@ -20,7 +20,7 @@ function CreateTextBox({SendValueUp})
 
 
 
-export default function GeneralInfo ({SendValueUp}) //One text box for general notes, one selection for which type of exercises to recommend, a button (generates recommendations), an actual recommendation
+export default function GeneralInfo ({SendValueUp, exInfo}) //One text box for general notes, one selection for which type of exercises to recommend, a button (generates recommendations), an actual recommendation
 /*
     functions defined:
         getCategoryForRandomEx
@@ -29,10 +29,16 @@ export default function GeneralInfo ({SendValueUp}) //One text box for general n
         
 */
 {
-    let possibleCategories = ["Push", "Pull", "Legs"]; //To un-hardcode later
-    const [chosenCat, updateCat] = possibleCategories[0];
+    let possibleCategories = Object.keys(exInfo);
+    const [chosenCat, updateCat] = useState(possibleCategories[0]);
+
     const [recommendationGenerated, setRec] = useState("");
-    const getCategoryForRandomEx = cat => setRec("Recommendation: Chest Press"); //To un-hardcode later
+
+    const getCategoryForRandomEx = (cat) => {
+        const array = exInfo[cat]//Object.values(exInfo).flat();//["Chest Press", "Preacher Curls", "Wall-Sits", "Bench Press", "Lat Pull-Downs", "Calf Raises"];
+        const randomElement = array[Math.floor(Math.random() * array.length)];
+        setRec("Recommendation: "+randomElement);
+    } //To un-hardcode later
 
     const generalNotes = useRef("");
     function updateNotes({newNotes})
@@ -45,7 +51,11 @@ export default function GeneralInfo ({SendValueUp}) //One text box for general n
     return (
         <div style={{ display: "flex", alignItems: "flex-start" }}>
             <div style={{marginBottom:"15px"}}><CreateTextBox SendValueUp={updateNotes}/></div>
-            <select>{possibleCategories.map(category => <option key={category[3]} value="Type of Day">{category}</option>)}</select>         
+
+            <select onClick={ (event)=>{updateCat(event.target.value);} }>
+                {possibleCategories.map( (category) =>   <option value={category}> {category} </option>)}
+            </select>         
+            
             <button onClick={() => getCategoryForRandomEx(chosenCat)} style={{marginLeft:"10px", marginRight:"10px"}}>Generate Recommendation</button>
             <span> <b>{recommendationGenerated}</b> </span>
        </div>

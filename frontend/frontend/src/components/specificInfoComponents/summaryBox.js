@@ -11,12 +11,12 @@ function GetStats({rawInfo}) {
 
 function processSetInformation__default(setINF) //This is just some random default functionality; this function and others like it need to be implemented
 {
-    return setINF.map(set => {return <span> | {set} | </span>});
+    return setINF.map(set => {return <span> | {set} | <br/> </span>});
 }
 
 function getPrintable(x)
 {
-    if (Object.keys(x).length==0) return "";
+    if (Object.keys(x).length==0) return x.toString();
     console.log(x.Workout);
     return(
         <div>

@@ -33,7 +33,7 @@ export default function Directions()
 
             <h3>ADDITIONAL FEATURES (TBD)</h3>
                 <p>
-                    1) <b>Recommendation System:</b> Enter the theme for the day into the drop-down menu underneath these directions and then click "Generate Recommendation".
+                    1) <b>Recommendation System:</b> Enter the theme for the day into the drop-down menu underneath these directions and then click "Generate Recommendation". <em>(80% Complete)</em>
                 </p>
                 <p>
                     2) <b>Past Workout Access:</b> Go to the bottom right of the page in the blue section. Enter the date whose records you are looking for into the text box and click submit.

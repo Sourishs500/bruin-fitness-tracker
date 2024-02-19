@@ -28,7 +28,7 @@ function CreateSetBox({setNum, exLabel, SendValueUp} ) //pass in the text update
     return <input type="text" label = {setNum} name = {exLabel} style = {{"width":"75px", height:"10px"}} onInput = {handleChange}/>;   
 }
 
-export default function UserDataEntries ({SendValueUp}) //List of exercise rows, along with three buttons at the end (add exercise, remove exercise, and submit)
+export default function UserDataEntries ({SendValueUp, allExercises}) //List of exercise rows, along with three buttons at the end (add exercise, remove exercise, and submit)
 /*
 functions defined: 
     ExerciseRow, RemoveExercise, AddExercise, specialRemoveExercise, getAllSetsForExercisesSubmitted
@@ -37,7 +37,7 @@ variables used:
 */
 
 {
-    const allExercises = ["Chest Press", "Preacher Curls", "Wall-Sits", "Bench Press", "Lat Pull-Downs", "Calf Raises"]
+    //const allExercises = ["Chest Press", "Preacher Curls", "Wall-Sits", "Bench Press", "Lat Pull-Downs", "Calf Raises"];
 
     function ExerciseRow({exList, removal, Key, SendValueUp}) //pas6s in the text update here for the exercise and the sets
 

@@ -9,7 +9,7 @@ import MusclesWorkedOut from './musclesWorkedOut.js';
 //To-do: writing actual directions instead of placeholder text for directions
 //To-do: GeneralInfo: implementing the recommendation generator; implementing the textbox for the general notes
 
-export default function FullGeneralInfoComponents({SendValueUp})
+export default function FullGeneralInfoComponents({SendValueUp, exInfo})
 {
     const generalNotes = useRef("");
     function updateNotes({newNotes})
@@ -25,7 +25,7 @@ export default function FullGeneralInfoComponents({SendValueUp})
             <div style={{marginBottom:"20px", marginLeft:"20px", marginTop:"20px"}}> <MusclesWorkedOut/> </div>
             <div style={{marginLeft:"50px"}}>
                 <div> <Directions/>  </div>
-                <div> <GeneralInfo SendValueUp={updateNotes}/> </div>
+                <div> <GeneralInfo SendValueUp={updateNotes} exInfo={exInfo}/> </div>
             </div>
         </div>
     );
