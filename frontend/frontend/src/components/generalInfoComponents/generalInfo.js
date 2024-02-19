@@ -6,16 +6,21 @@ Remaining Tasks
 
 import { useEffect, useState, useRef } from 'react';
 
-function CreateTextBox()
+function CreateTextBox({SendValueUp})
 {
     const [value, setValue] = useState('');
-    const handleChange = (event) => {setValue(event.target.value);};
+    const handleChange = (event) => 
+    {
+        setValue(event.target.value); 
+        const n = event.target.value;
+        SendValueUp({newNotes:{n}})
+    };
     return <textarea type="text" value={value} onChange={handleChange} placeholder="" style={{"width":"200px", "height":"145px", marginRight:"20px", overflowY:"scroll"}}/>;
 };
 
 
 
-export default function GeneralInfo () //One text box for general notes, one selection for which type of exercises to recommend, a button (generates recommendations), an actual recommendation
+export default function GeneralInfo ({SendValueUp}) //One text box for general notes, one selection for which type of exercises to recommend, a button (generates recommendations), an actual recommendation
 /*
     functions defined:
         getCategoryForRandomEx
@@ -29,9 +34,18 @@ export default function GeneralInfo () //One text box for general notes, one sel
     const [recommendationGenerated, setRec] = useState("");
     const getCategoryForRandomEx = cat => setRec("Recommendation: Chest Press"); //To un-hardcode later
 
+    const generalNotes = useRef("");
+    function updateNotes({newNotes})
+    {
+        generalNotes.current = newNotes["n"];
+        const n = generalNotes.current;
+        SendValueUp({newNotes:{n}});
+        //console.log("General notes: ", generalNotes.current)
+    }
+
     return (
         <div style={{ display: "flex", alignItems: "flex-start" }}>
-            <CreateTextBox/>
+            <CreateTextBox SendValueUp={updateNotes}/>
             <select>{possibleCategories.map(category => <option key={category[3]} value="Type of Day">{category}</option>)}</select>         
             <button onClick={() => getCategoryForRandomEx(chosenCat)} style={{marginLeft:"10px", marginRight:"10px"}}>Generate Recommendation</button>
             <span>{recommendationGenerated} </span>

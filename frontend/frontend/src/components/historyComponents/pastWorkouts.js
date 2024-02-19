@@ -12,7 +12,7 @@ function CreateDateBox({dateFunc})
     return <input type="text" style = {{"width":"150px", height:"15px", marginTop:"10px"}} onInput = {handleChange}/>;   
 }
 
-function getDataOfPastDate({date}) {}; //should return the data of the json object from a given date, but formatted nicely
+function GetDataOfPastDate({date}) {}; //should return the data of the json object from a given date, but formatted nicely
 
 export default function PastWorkouts() 
 //One text box for the display of past data, [one text box for entering the date, one checkbox to show detailed version], one submit button
@@ -28,7 +28,7 @@ export default function PastWorkouts()
     
     return (
         <div style={{marginTop:"20px"}}>
-            <div style={{"width":"300px", "height":"300px", "border":"1px solid black"}}><getDataOfPastDate date={Date}/></div>
+            <div style={{"width":"300px", "height":"300px", "border":"1px solid black"}}><GetDataOfPastDate date={Date}/></div>
             <div style={{ display: "flex", alignItems: "flex-start" }}>
                 <CreateDateBox dateFunc={setDate}/>
                 <input type="checkbox" style = {{"width":"150px", height:"20px", marginTop:"10px", marginRight:"-63px"}}/>
