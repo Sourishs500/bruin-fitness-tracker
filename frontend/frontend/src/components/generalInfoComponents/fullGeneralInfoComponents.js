@@ -6,8 +6,6 @@ import MusclesWorkedOut from './musclesWorkedOut.js';
 
 
 //To-do: Actually implementing something for musclesWorkedOut.js
-//To-do: writing actual directions instead of placeholder text for directions
-//To-do: GeneralInfo: implementing the recommendation generator; implementing the textbox for the general notes
 
 export default function FullGeneralInfoComponents({SendValueUp, exInfo})
 {

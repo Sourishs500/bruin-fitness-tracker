@@ -5,6 +5,21 @@ import FullHeaderComponents from './components/headerComponents/fullHeaderCompon
 import FullHistoryComponents from './components/historyComponents/fullHistoryComponents.js'; 
 import FullSpecificInfoComponents from './components/specificInfoComponents/fullSpecificInfoComponents.js'; 
 
+function parseWorkoutString(singleSetRec, isCalisthenics, repSeparator, changeSeparator)
+{
+    let record = singleSetRec;
+    const og = singleSetRec;
+
+    const characterClass = /[^,x0123456789]/g;
+    const digits = /0123456789/g;
+
+    let extraCharRemoved = record.replaceAll(characterClass, "");
+
+    return singleSetRec;
+    //return extraCharRemoved;
+}
+
+
 
 export default function App () {
 
@@ -30,6 +45,9 @@ export default function App () {
                                              completeWorkoutData.current = {"GeneralNotes":generalNotes.current, "Workout":dataWithoutGeneralComments.current};
                                              console.log("Updated: ", completeWorkoutData.current);
                                              updateCompleteWorkout(completeWorkoutData.current);
+                                             //console.log("This: ", completeWorkoutData.current.Workout[0].SetInformation[0]);
+                                             //console.log(parseWorkoutString(completeWorkoutData.current.Workout[0].SetInformation[0],
+                                            //   "A", "B", "C"));
                                             }
 
     return (

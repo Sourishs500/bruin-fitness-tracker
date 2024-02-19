@@ -1,6 +1,7 @@
 import ProfilePic from './profilePic.js';
 
 //To-Do: Implementing the profile pic feature
+
 export default function FullHeader()
 {
     const name = "USERNAME" //to un-hardcode later
@@ -12,6 +13,3 @@ export default function FullHeader()
         </div>
     );
 }
-//<ProfilePic/>
-
-//marginBottom:"20px", marginLeft:"20px", marginTop:"20px"

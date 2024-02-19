@@ -17,22 +17,27 @@ function processSetInformation__default(setINF) //This is just some random defau
 function getPrintable(x)
 {
     if (Object.keys(x).length==0) return x.toString();
-    console.log(x.Workout);
+    //console.log(x.Workout);
     return(
         <div>
             <br/><b>Workout Details</b> <br/> <br/>
             <table style={{"border":"1px solid black", "borderCollapse":"collapse", "width":"90%"}}>
+                <thead>
                 <tr>
                     <th style={{"border":"1px solid black", "width":"28%"}}>Exercise</th>
                     <th style={{"border":"1px solid black", "width":"25%"}}>Default 1</th>
                     <th style={{"border":"1px solid black", "width":"25%"}}>Default 2</th>
                     <th style={{"border":"1px solid black", "width":"25%"}}>Default 3</th>
                 </tr>
-
+                </thead>
+                <tbody>
                 {
-                    x.Workout.map
-                    ( row =>
+                    //[...Array(x.Workout.length).keys()].map;
+                    //row = x.Workout[i]
+                    [...Array(x.Workout.length).keys()].map
+                    ( rowIndex =>
                         {
+                            const row = x.Workout[rowIndex];
                             let ex="N/A";
                             let inf="";
                             let infs = ["N/A", "N/A", "N/A"]
@@ -47,15 +52,10 @@ function getPrintable(x)
                                 infs = funcs.map(i => i(row.SetInformation));
                             }
                             return (
-                                <tr>
-                                    <td style={{"border":"1px solid black", "textAlign":"center"}}>{ex}</td>     
+                                <tr key={ex}>
+                                    <td key={-1*rowIndex} style={{"border":"1px solid black", "textAlign":"center"}}>{ex}</td>     
                                     {
-                                        /*infs.map(inf =>
-                                        {
-                                            <td style={{"border":"1px solid black"}}>{inf}</td>
-                                        }
-                                        )*/
-                                        infs.map((inf) => (<td style={{"border":"1px solid black", "textAlign":"center"}}>{inf}</td>))
+                                        [...Array(infs.length).keys()].map(i => (<td key={rowIndex*(infs.length)+i} style={{"border":"1px solid black", "textAlign":"center"}}>{infs[i]}</td>))
                                     }
                                     
                                 </tr>
@@ -63,7 +63,7 @@ function getPrintable(x)
                         }
                     )
                 }
-
+                </tbody>
             </table>
         </div>
     );

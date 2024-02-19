@@ -53,7 +53,7 @@ export default function GeneralInfo ({SendValueUp, exInfo}) //One text box for g
             <div style={{marginBottom:"15px"}}><CreateTextBox SendValueUp={updateNotes}/></div>
 
             <select onClick={ (event)=>{updateCat(event.target.value);} }>
-                {possibleCategories.map( (category) =>   <option value={category}> {category} </option>)}
+                {possibleCategories.map( (category) =>   <option key={Math.random()} value={category}> {category} </option>)}
             </select>         
             
             <button onClick={() => getCategoryForRandomEx(chosenCat)} style={{marginLeft:"10px", marginRight:"10px"}}>Generate Recommendation</button>

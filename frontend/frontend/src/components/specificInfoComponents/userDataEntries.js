@@ -77,8 +77,8 @@ variables used:
         function TrackSpecificNotes({val}) {specificNotesText.current = val["n"]; displayExerciseRow({displayable:false});} //updates the note for the exercise
         
         function incSets() {
-            updateSets([...sets, <CreateSetBox SendValueUp = {TrackSets} setNum={setCounter.current} />]);
             setCounter.current = setCounter.current + 1;
+            updateSets([...sets, <CreateSetBox key={setCounter.current} SendValueUp = {TrackSets} setNum={setCounter.current} />]);
             allSets.current = [...allSets.current, ""];
             displayExerciseRow({displayable:true});
         }
@@ -91,9 +91,9 @@ variables used:
         }
 
         return(
-            <div key={Key} style={{display:"flex"}}>
+            <div style={{display:"flex"}}>
                 <CreateTextBox key={"specificNotes"} SendValueUp={TrackSpecificNotes}/>
-                <select onChange={TrackEx} style={{marginRight:"10px"} }>{exList.map(category => <option value={category}>{category}</option>)}</select> 
+                <select onChange={TrackEx} style={{marginRight:"10px"} }>{exList.map(category => <option key={category} value={category}>{category}</option>)}</select> 
                 <div>{sets}</div>
                 <button onClick={incSets} style={{marginLeft:"10px", marginRight:"10px"}}>Add Set</button>
                 <button onClick={decSets} style={{marginLeft:"10px", marginRight:"10px"}}>Remove Set</button>
@@ -110,23 +110,26 @@ variables used:
         dataForWorkout.current.splice(i["workoutNum"], 1, val["n"]);
     } //updates the workout array
 
-    const [exerciseList, changeExerciseList] = useState([<ExerciseRow 
-        key={exCount.current} 
+    const [exerciseList, changeExerciseList] = useState([<ExerciseRow
+        Key={0}
+        key={Math.random()}
         exList={allExercises} 
         removal={() => {}}
         SendValueUp={TrackWorkout}
     />]);
 
     function AddExercise(index){
+        
         changeExerciseList([...exerciseList, <ExerciseRow 
-            Key={exCount.current} 
+            Key={exCount.current}
+            key={Math.random()}
             exList={allExercises} 
             removal={() => {}}
             SendValueUp={TrackWorkout}
         />])
-
         exCount.current = exCount.current+1;
         dataForWorkout.current = [...dataForWorkout.current, {}];
+        console.log(dataForWorkout);
     };
 
     function specialRemoveExercise()
@@ -134,6 +137,7 @@ variables used:
         changeExerciseList(exerciseList.slice(0, -1));
         exCount.current = Math.max(exCount.current-1, 0);
         dataForWorkout.current = dataForWorkout.current.slice(0, -1);
+        console.log(dataForWorkout);
     }
 
     function getAllSetsForExercisesSubmitted () {
