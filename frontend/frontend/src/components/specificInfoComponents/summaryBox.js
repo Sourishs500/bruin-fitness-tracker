@@ -7,5 +7,5 @@ function GetStats() {}; //should display user statistics for the most-recently-s
 
 export default function SummaryBox ()
 {
-    return (<div style={{"display":"inline-block","width":"150px", "height":"150px", "border":"1px solid black"}}> <GetStats/> </div>);
+    return (<div style={{"display":"inline-block","width":"250px", "height":"250px", "border":"1px solid black"}}> <GetStats/> </div>);
 }

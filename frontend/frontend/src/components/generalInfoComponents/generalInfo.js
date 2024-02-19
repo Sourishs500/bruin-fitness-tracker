@@ -40,15 +40,14 @@ export default function GeneralInfo ({SendValueUp}) //One text box for general n
         generalNotes.current = newNotes["n"];
         const n = generalNotes.current;
         SendValueUp({newNotes:{n}});
-        //console.log("General notes: ", generalNotes.current)
     }
 
     return (
         <div style={{ display: "flex", alignItems: "flex-start" }}>
-            <CreateTextBox SendValueUp={updateNotes}/>
+            <div style={{marginBottom:"15px"}}><CreateTextBox SendValueUp={updateNotes}/></div>
             <select>{possibleCategories.map(category => <option key={category[3]} value="Type of Day">{category}</option>)}</select>         
             <button onClick={() => getCategoryForRandomEx(chosenCat)} style={{marginLeft:"10px", marginRight:"10px"}}>Generate Recommendation</button>
-            <span>{recommendationGenerated} </span>
+            <span> <b>{recommendationGenerated}</b> </span>
        </div>
     );
 };
