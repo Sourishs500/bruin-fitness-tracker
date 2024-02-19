@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from 'react';
 import SummaryBox from './summaryBox.js';
 import UserDataEntries from './userDataEntries.js';
 
-export default function FullSpecificInfoComponents({SendValueUp})
+export default function FullSpecificInfoComponents({SendValueUp, summaryToDisplay})
 {
     const dataForWorkout_layer2 = useRef([]);
     function receiveData({data})
@@ -16,7 +16,7 @@ export default function FullSpecificInfoComponents({SendValueUp})
 
     return (
         <div style={{display:"flex", alignItems:"flex-start"}}> 
-            <span style={{marginRight:"50px", marginBottom:"20px", marginLeft:"20px", marginTop:"20px"}}> <SummaryBox/> </span>
+            <span style={{marginRight:"50px", marginBottom:"20px", marginLeft:"20px", marginTop:"20px"}}> <SummaryBox toShow={summaryToDisplay}/> </span>
             <div><UserDataEntries SendValueUp={receiveData}/></div>
         </div>
     );
