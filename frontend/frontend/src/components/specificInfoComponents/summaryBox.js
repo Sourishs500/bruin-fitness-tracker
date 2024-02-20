@@ -5,30 +5,24 @@ Remaining Tasks
 
 import { useEffect, useState, useRef } from 'react';
 
-function GetStats({rawInfo}) {
-    return(<span>{rawInfo}</span>)
-}; //should display user statistics for the most-recently-submitted userDataEntries
-
-function processSetInformation__default(setINF) //This is just some random default functionality; this function and others like it need to be implemented
-{
-    return setINF.map(set => {return <span> | {set} | <br/> </span>});
-}
-
 function getPrintable(x)
 {
     if (Object.keys(x).length==0) return "";
-    console.log("In the getPrintable function: ", x.Workout);
-    console.log("Number of rows: ", [...Array(x.Workout.length).keys()])
+
+    const widthList = ["12%", "10%", "10%", "20%", "13%", "13%"];
+    const statTypeList = Object.keys(x.Workout[0].OverallStats);
     return(
         <div>
             <br/><b>{"Workout Summary"}</b> <br/> <br/>
-            <table style={{"border":"1px solid black", "borderCollapse":"collapse", "width":"90%"}}>
+            <table style={{"border":"1px solid black", "borderCollapse":"collapse", "width":"97%"}}>
                 <thead>
                 <tr>
-                    <th style={{"border":"1px solid black", "width":"28%"}}>Exercise</th>
-                    <th style={{"border":"1px solid black", "width":"25%"}}>Default 1</th>
-                    <th style={{"border":"1px solid black", "width":"25%"}}>Default 2</th>
-                    <th style={{"border":"1px solid black", "width":"25%"}}>Default 3</th>
+                    <th style={{"border":"1px solid black", "width":"24%"}}>Exercise</th>
+                    {[...Array(statTypeList.length).keys()].map(
+                            (i => 
+                            <th style={{"border":"1px solid black", "width":widthList[i]}}>{statTypeList[i]}</th>)
+                        )
+                    }
                 </tr>
                 </thead>
                 <tbody>
@@ -38,26 +32,11 @@ function getPrintable(x)
                         {
                             const row = x.Workout[rowIndex];
                             let ex="N/A";
-                            let inf="";
-                            let infs = ["N/A", "N/A", "N/A"]
-                            const funcs = [
-                                processSetInformation__default, //this should be a real function
-                                processSetInformation__default, //this should be a real function
-                                processSetInformation__default //this should be a real function
-                            ];
-                            if (Object.keys(row).length>0)
-                            {
-                                ex = row.Exercise;
-                                infs = funcs.map(i => i(row.SetInformation));
-                                console.log("Processing exercise #", rowIndex, ", which is ", x.Workout[rowIndex]);
-                            }
+                            if (Object.keys(row).length>0) {ex = row.Exercise;}
                             return (
                                 <tr key={ex+String(Math.random())}>
                                     <td style={{"border":"1px solid black", "textAlign":"center"}}>{ex}</td>     
-                                    {
-                                        [...Array(infs.length).keys()].map(i => (<td key={rowIndex*(infs.length)+i} style={{"border":"1px solid black", "textAlign":"center"}}>{infs[i]}</td>))
-                                    }
-                                    
+                                    {statTypeList.map(i => <td style={{"border":"1px solid black", "textAlign":"center"}}> {row["OverallStats"][i]} </td>)}                                    
                                 </tr>
                             );
                         }

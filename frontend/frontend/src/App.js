@@ -5,17 +5,69 @@ import FullHeaderComponents from './components/headerComponents/fullHeaderCompon
 import FullHistoryComponents from './components/historyComponents/fullHistoryComponents.js'; 
 import FullSpecificInfoComponents from './components/specificInfoComponents/fullSpecificInfoComponents.js'; 
 
+//Source: https://www.geeksforgeeks.org/how-to-get-the-standard-deviation-of-an-array-of-numbers-using-javascript/
+function StandardDeviation(arr) {
+ 
+    // Creating the mean with Array.reduce
+    let mean = arr.reduce((acc, curr) => {
+        return acc + curr
+    }, 0) / arr.length;
+ 
+    // Assigning (value - mean) ^ 2 to
+    // every array item
+    arr = arr.map((k) => {
+        return (k - mean) ** 2
+    });
+ 
+    // Calculating the sum of updated array 
+    let sum = arr.reduce((acc, curr) => acc + curr, 0);
+ 
+    // Calculating the variance
+    let variance = sum / arr.length
+ 
+    // Returning the standard deviation
+    return Math.sqrt(sum / arr.length)
+}
+
+function calculateStats(listOfValues)
+{
+    const avg = listOfValues.reduce((a, b) => a + b) / listOfValues.length;
+    const max = listOfValues.reduce((a, b) => Math.max(a, b), -Infinity);
+    const min = listOfValues.reduce((a, b) => Math.min(a, b), Infinity);
+
+    return {"Mean":Number(avg.toFixed(2)), 
+            "Max":max, 
+            "Min":min, 
+            "Standard Deviation":Number(StandardDeviation(listOfValues).toFixed(2)),
+            "Total Reps":listOfValues.length};
+}
+
 function parseWorkoutString(singleSetRec, isCalisthenics, repSeparator, changeSeparator)
 {
     let record = singleSetRec;
     const og = singleSetRec;
 
-    const characterClass = /[^,x0123456789]/g;
-    const digits = /0123456789/g;
+    const signs = "[-+]";
+    const characterClass = "[^,x0123456789]";
+    const digits = "[0123456789]";
 
-    let extraCharRemoved = record.replaceAll(characterClass, "");
+    const setFormat = digits+"{1,4}"+repSeparator+digits+"{1,3}";
+    const setWithChangingWeights = "^("+setFormat+changeSeparator+")*"+setFormat+"$";
 
-    return singleSetRec;
+    let extraCharRemoved = record.replaceAll(RegExp(characterClass, "g"), "");
+    const n = RegExp(setWithChangingWeights).test(extraCharRemoved);
+    if (n!==true) 
+    {
+        alert("Sensible data could not be recovered from the set entry "+og+". Please reformat it and try again!");
+        return og;
+    }
+    const b = extraCharRemoved.split(changeSeparator).map(
+        weightXreps => {
+            const parts = weightXreps.split(repSeparator);
+            return Array(Number(parts[1])).fill(Number(parts[0]))
+        }
+    ).flat();
+    return b;
     //return extraCharRemoved;
 }
 
@@ -38,18 +90,41 @@ export default function App () {
     const [updatedVersionOfCompleteworkouts, updateCompleteWorkout] = useState({});
     const updatedWorkouts = useRef({});
 
+
+    const workoutcopy = useRef({});
+
     //receives the general notes from FullGeneralInfo and stores it in generalNotes
     function receiveGeneralNotes({notes})   {generalNotes.current = notes["n"];} 
     
     //receives the workout data from FullSpecificInfo and stores it dataWithoutGeneralComments
-    function receiveData({data})            {dataWithoutGeneralComments.current = data["n"]; 
+    function receiveData({data})            {dataWithoutGeneralComments.current = data["n"];
                                              completeWorkoutData.current = {"GeneralNotes":generalNotes.current, "Workout":dataWithoutGeneralComments.current};
-                                             console.log("Updated: ", completeWorkoutData.current);
                                              updateCompleteWorkout(completeWorkoutData.current);
-                                             updatedWorkouts.current = completeWorkoutData.current;
+                                             workoutcopy.current = JSON.parse(JSON.stringify(completeWorkoutData.current));
+                                             workoutcopy.current.Workout.map(
+                                                exercise => {
+                                                    if (Object.keys(exercise).length!==0)
+                                                    {
+                                                        let exCopy = exercise;
+                                                        exCopy["UnwrappedSetInfo"] = exCopy.SetInformation.map(x => 
+                                                            parseWorkoutString(x, false, "x", ",")
+                                                        )
+                                                        exCopy["SetLevelStats"] = exCopy["UnwrappedSetInfo"].map(x => calculateStats(x));
+
+                                                        exCopy["AllSetsTogether"] = exCopy.UnwrappedSetInfo.flat();
+                                                        exCopy["OverallStats"] = calculateStats(exCopy["AllSetsTogether"]);
+                                                        exCopy["OverallStats"]["Total Sets"] = exCopy["SetLevelStats"].length;
+                                                        return exCopy;
+                                                    }
+                                                    else return exercise; //handle the case when {} is the only thing in the record
+                                                }
+                                             );
+                                             
+                                             completeWorkoutData.current = workoutcopy.current;
+                                             console.log("Updated: ", completeWorkoutData.current);
+                                             //console.log(workoutcopy.current)
                                              //console.log("This: ", completeWorkoutData.current.Workout[0].SetInformation[0]);
-                                             //console.log(parseWorkoutString(completeWorkoutData.current.Workout[0].SetInformation[0],
-                                            //   "A", "B", "C"));
+                                             //console.log(parseWorkoutString("20x10", false, "x", ","));
                                             }
 
     return (
