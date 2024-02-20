@@ -36,6 +36,7 @@ export default function App () {
     const generalNotes = useRef("");
     const completeWorkoutData = useRef({});
     const [updatedVersionOfCompleteworkouts, updateCompleteWorkout] = useState({});
+    const updatedWorkouts = useRef({});
 
     //receives the general notes from FullGeneralInfo and stores it in generalNotes
     function receiveGeneralNotes({notes})   {generalNotes.current = notes["n"];} 
@@ -45,6 +46,7 @@ export default function App () {
                                              completeWorkoutData.current = {"GeneralNotes":generalNotes.current, "Workout":dataWithoutGeneralComments.current};
                                              console.log("Updated: ", completeWorkoutData.current);
                                              updateCompleteWorkout(completeWorkoutData.current);
+                                             updatedWorkouts.current = completeWorkoutData.current;
                                              //console.log("This: ", completeWorkoutData.current.Workout[0].SetInformation[0]);
                                              //console.log(parseWorkoutString(completeWorkoutData.current.Workout[0].SetInformation[0],
                                             //   "A", "B", "C"));
@@ -62,8 +64,7 @@ export default function App () {
 		<div style={{ backgroundColor: 'lightyellow' }}><FullSpecificInfoComponents 
                                                          SendValueUp={receiveData} 
                                                          exInfo={allExercises}
-                                                         summaryToDisplay={updatedVersionOfCompleteworkouts}
-                                                         
+                                                         summaryToDisplay={completeWorkoutData.current}
                                                          /></div>
         
         <div style={{ backgroundColor: 'lightblue' }}><FullHistoryComponents/></div>

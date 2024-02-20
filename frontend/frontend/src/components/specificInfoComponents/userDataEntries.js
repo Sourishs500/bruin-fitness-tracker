@@ -77,8 +77,9 @@ variables used:
         function TrackSpecificNotes({val}) {specificNotesText.current = val["n"]; displayExerciseRow({displayable:false});} //updates the note for the exercise
         
         function incSets() {
-            setCounter.current = setCounter.current + 1;
+            
             updateSets([...sets, <CreateSetBox key={setCounter.current} SendValueUp = {TrackSets} setNum={setCounter.current} />]);
+            setCounter.current = setCounter.current + 1;
             allSets.current = [...allSets.current, ""];
             displayExerciseRow({displayable:true});
         }
@@ -119,7 +120,6 @@ variables used:
     />]);
 
     function AddExercise(index){
-        
         changeExerciseList([...exerciseList, <ExerciseRow 
             Key={exCount.current}
             key={Math.random()}

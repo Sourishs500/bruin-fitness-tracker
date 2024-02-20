@@ -16,11 +16,12 @@ function processSetInformation__default(setINF) //This is just some random defau
 
 function getPrintable(x)
 {
-    if (Object.keys(x).length==0) return x.toString();
-    //console.log(x.Workout);
+    if (Object.keys(x).length==0) return "";
+    console.log("In the getPrintable function: ", x.Workout);
+    console.log("Number of rows: ", [...Array(x.Workout.length).keys()])
     return(
         <div>
-            <br/><b>Workout Details</b> <br/> <br/>
+            <br/><b>{"Workout Summary"}</b> <br/> <br/>
             <table style={{"border":"1px solid black", "borderCollapse":"collapse", "width":"90%"}}>
                 <thead>
                 <tr>
@@ -31,9 +32,7 @@ function getPrintable(x)
                 </tr>
                 </thead>
                 <tbody>
-                {
-                    //[...Array(x.Workout.length).keys()].map;
-                    //row = x.Workout[i]
+                {   
                     [...Array(x.Workout.length).keys()].map
                     ( rowIndex =>
                         {
@@ -50,10 +49,11 @@ function getPrintable(x)
                             {
                                 ex = row.Exercise;
                                 infs = funcs.map(i => i(row.SetInformation));
+                                console.log("Processing exercise #", rowIndex, ", which is ", x.Workout[rowIndex]);
                             }
                             return (
-                                <tr key={ex}>
-                                    <td key={-1*rowIndex} style={{"border":"1px solid black", "textAlign":"center"}}>{ex}</td>     
+                                <tr key={ex+String(Math.random())}>
+                                    <td style={{"border":"1px solid black", "textAlign":"center"}}>{ex}</td>     
                                     {
                                         [...Array(infs.length).keys()].map(i => (<td key={rowIndex*(infs.length)+i} style={{"border":"1px solid black", "textAlign":"center"}}>{infs[i]}</td>))
                                     }
@@ -75,8 +75,9 @@ export default function SummaryBox ({toShow})
     //const displayFull = useRef("");
     //displayFull = getPrintableVersion(toShow.current);
 
-    return (<div style={{"display":"inline-block",
-                        "width":"470px", "height":"250px", 
+    //{getPrintable(toShow)}
+    return (<div style={{"display":"inline-block", "backgroundColor":"#ffffaa",
+                        "width":"470px", "height":"300px", 
                         "border":"1px solid black", "overflow":"scroll",
-                        "paddingLeft":"10px"}}> {getPrintable(toShow)} </div>);
+                        "paddingLeft":"10px"}}> {getPrintable(toShow)}  </div>);
 }
