@@ -5,6 +5,15 @@ import FullHeaderComponents from './components/headerComponents/fullHeaderCompon
 import FullHistoryComponents from './components/historyComponents/fullHistoryComponents.js'; 
 import FullSpecificInfoComponents from './components/specificInfoComponents/fullSpecificInfoComponents.js'; 
 
+function uploadDataToBackendForPermanentStorage(newData)
+{
+    //THIS FUNCTION WILL BE FILLED IN BY ARUNAN ELAMARAN
+    //IT SHOULD CALL THE BACKEND FUNCTION CREATED BY SOURISH SASWADE
+}
+
+
+
+
 //Source: https://www.geeksforgeeks.org/how-to-get-the-standard-deviation-of-an-array-of-numbers-using-javascript/
 function StandardDeviation(arr) {
  
@@ -121,10 +130,8 @@ export default function App () {
                                              );
                                              
                                              completeWorkoutData.current = workoutcopy.current;
+                                             uploadDataToBackendForPermanentStorage(completeWorkoutData.current);
                                              console.log("Updated: ", completeWorkoutData.current);
-                                             //console.log(workoutcopy.current)
-                                             //console.log("This: ", completeWorkoutData.current.Workout[0].SetInformation[0]);
-                                             //console.log(parseWorkoutString("20x10", false, "x", ","));
                                             }
 
     return (
