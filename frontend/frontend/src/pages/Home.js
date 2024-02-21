@@ -4,73 +4,21 @@ import FullGeneralInfoComponents from '../components/generalInfoComponents/fullG
 import FullHistoryComponents from '../components/historyComponents/fullHistoryComponents.js'; 
 import FullSpecificInfoComponents from '../components/specificInfoComponents/fullSpecificInfoComponents.js'; 
 
-//Source: https://www.geeksforgeeks.org/how-to-get-the-standard-deviation-of-an-array-of-numbers-using-javascript/
-function StandardDeviation(arr) {
- 
-    // Creating the mean with Array.reduce
-    let mean = arr.reduce((acc, curr) => {
-        return acc + curr
-    }, 0) / arr.length;
- 
-    // Assigning (value - mean) ^ 2 to
-    // every array item
-    arr = arr.map((k) => {
-        return (k - mean) ** 2
-    });
- 
-    // Calculating the sum of updated array 
-    let sum = arr.reduce((acc, curr) => acc + curr, 0);
- 
-    // Calculating the variance
-    let variance = sum / arr.length
- 
-    // Returning the standard deviation
-    return Math.sqrt(sum / arr.length)
-}
-
-function calculateStats(listOfValues)
-{
-    const avg = listOfValues.reduce((a, b) => a + b) / listOfValues.length;
-    const max = listOfValues.reduce((a, b) => Math.max(a, b), -Infinity);
-    const min = listOfValues.reduce((a, b) => Math.min(a, b), Infinity);
-
-    return {"Mean":Number(avg.toFixed(2)), 
-            "Max":max, 
-            "Min":min, 
-            "Standard Deviation":Number(StandardDeviation(listOfValues).toFixed(2)),
-            "Total Reps":listOfValues.length};
-}
-
-function parseWorkoutString(singleSetRec, isCalisthenics, repSeparator, changeSeparator)
-{
-    let record = singleSetRec;
-    const og = singleSetRec;
-
-    const signs = "[-+]";
-    const characterClass = "[^,x0123456789]";
-    const digits = "[0123456789]";
-
-    const setFormat = digits+"{1,4}"+repSeparator+digits+"{1,3}";
-    const setWithChangingWeights = "^("+setFormat+changeSeparator+")*"+setFormat+"$";
-
-    let extraCharRemoved = record.replaceAll(RegExp(characterClass, "g"), "");
-    const n = RegExp(setWithChangingWeights).test(extraCharRemoved);
-    if (n!==true) 
-    {
-        alert("Sensible data could not be recovered from the set entry "+og+". Please reformat it and try again!");
-        return og;
-    }
-    const b = extraCharRemoved.split(changeSeparator).map(
-        weightXreps => {
-            const parts = weightXreps.split(repSeparator);
-            return Array(Number(parts[1])).fill(Number(parts[0]))
-        }
-    ).flat();
-    return b;
-    //return extraCharRemoved;
-}
-
 const Home = () => {
+    const [workouts, setWorkouts] = useState(null)
+
+    useEffect(() => {
+        const fetchWorkouts = async () => {
+            const response = await fetch('/api/workouts')
+            const json = await response.json()
+
+            if (response.ok){
+                setWorkouts(json)
+            }
+        }
+
+        fetchWorkouts();
+    }, [])
 
     let allExercisesOrganizedByTheme = {
         "Push":["Chest Press", "Bench Press"],
@@ -138,8 +86,80 @@ const Home = () => {
                                                         /></div>
         
         <div style={{ backgroundColor: 'lightblue' }}><FullHistoryComponents/></div>
+        
+        <div>
+            {workouts && workouts.map((workout) => (
+                <p key={workout._id}>{workout.name}</p>
+            ))}
+        </div>
         </>
     )
+}
+
+//Source: https://www.geeksforgeeks.org/how-to-get-the-standard-deviation-of-an-array-of-numbers-using-javascript/
+function StandardDeviation(arr) {
+ 
+    // Creating the mean with Array.reduce
+    let mean = arr.reduce((acc, curr) => {
+        return acc + curr
+    }, 0) / arr.length;
+ 
+    // Assigning (value - mean) ^ 2 to
+    // every array item
+    arr = arr.map((k) => {
+        return (k - mean) ** 2
+    });
+ 
+    // Calculating the sum of updated array 
+    let sum = arr.reduce((acc, curr) => acc + curr, 0);
+ 
+    // Calculating the variance
+    let variance = sum / arr.length
+ 
+    // Returning the standard deviation
+    return Math.sqrt(sum / arr.length)
+}
+
+function calculateStats(listOfValues)
+{
+    const avg = listOfValues.reduce((a, b) => a + b) / listOfValues.length;
+    const max = listOfValues.reduce((a, b) => Math.max(a, b), -Infinity);
+    const min = listOfValues.reduce((a, b) => Math.min(a, b), Infinity);
+
+    return {"Mean":Number(avg.toFixed(2)), 
+            "Max":max, 
+            "Min":min, 
+            "Standard Deviation":Number(StandardDeviation(listOfValues).toFixed(2)),
+            "Total Reps":listOfValues.length};
+}
+
+function parseWorkoutString(singleSetRec, isCalisthenics, repSeparator, changeSeparator)
+{
+    let record = singleSetRec;
+    const og = singleSetRec;
+
+    const signs = "[-+]";
+    const characterClass = "[^,x0123456789]";
+    const digits = "[0123456789]";
+
+    const setFormat = digits+"{1,4}"+repSeparator+digits+"{1,3}";
+    const setWithChangingWeights = "^("+setFormat+changeSeparator+")*"+setFormat+"$";
+
+    let extraCharRemoved = record.replaceAll(RegExp(characterClass, "g"), "");
+    const n = RegExp(setWithChangingWeights).test(extraCharRemoved);
+    if (n!==true) 
+    {
+        alert("Sensible data could not be recovered from the set entry "+og+". Please reformat it and try again!");
+        return og;
+    }
+    const b = extraCharRemoved.split(changeSeparator).map(
+        weightXreps => {
+            const parts = weightXreps.split(repSeparator);
+            return Array(Number(parts[1])).fill(Number(parts[0]))
+        }
+    ).flat();
+    return b;
+    //return extraCharRemoved;
 }
 
 export default Home;
