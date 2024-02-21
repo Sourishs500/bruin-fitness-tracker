@@ -5,6 +5,7 @@ Remaining Tasks
 */
 
 import { useEffect, useState, useRef } from 'react';
+import Button from 'react-bootstrap/Button';
 
 function CreateTextBox({SendValueUp})
 {
@@ -56,7 +57,7 @@ export default function GeneralInfo ({SendValueUp, exInfo}) //One text box for g
                 {possibleCategories.map( (category) =>   <option key={Math.random()} value={category}> {category} </option>)}
             </select>         
             
-            <button onClick={() => getCategoryForRandomEx(chosenCat)} style={{marginLeft:"10px", marginRight:"10px"}}>Generate Recommendation</button>
+            <Button variant="light" onClick={() => getCategoryForRandomEx(chosenCat)} style={{marginLeft:"10px", marginRight:"10px"}}>Generate Recommendation</Button>
             <span> <b>{recommendationGenerated}</b> </span>
        </div>
     );

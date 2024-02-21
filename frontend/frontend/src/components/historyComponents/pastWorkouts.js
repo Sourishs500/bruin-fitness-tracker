@@ -4,6 +4,7 @@ Remaining Tasks
 */
 
 import { useEffect, useState, useRef } from 'react';
+import Button from 'react-bootstrap/Button';
 
 function CreateDateBox({dateFunc})
 {
@@ -34,7 +35,7 @@ export default function PastWorkouts()
                 <input type="checkbox" style = {{"width":"150px", height:"20px", marginTop:"10px", marginRight:"-63px"}}/>
                 <span style={{marginTop:"10px"}}>SHOW DETAILED</span>
             </div>
-            <button onClick={() => submitButtonHandler()} style={{marginBottom:"15px"}}>Submit Date</button>
+            <Button size="sm" onClick={() => submitButtonHandler()} style={{marginBottom:"15px"}}>Submit Date</Button>
         </div>
     );
 }

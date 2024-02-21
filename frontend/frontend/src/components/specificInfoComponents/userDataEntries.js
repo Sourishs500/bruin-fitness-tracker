@@ -5,6 +5,7 @@ Remaining Tasks
 */
 
 import { useEffect, useState, useRef } from 'react';
+import Button from 'react-bootstrap/Button';
 
 function CreateTextBox({SendValueUp}) //pass in the text update function here
 {
@@ -96,8 +97,8 @@ variables used:
                 <CreateTextBox key={"specificNotes"} SendValueUp={TrackSpecificNotes}/>
                 <select onChange={TrackEx} style={{marginRight:"10px"} }>{exList.map(category => <option key={category} value={category}>{category}</option>)}</select> 
                 <div>{sets}</div>
-                <button onClick={incSets} style={{marginLeft:"10px", marginRight:"10px"}}>Add Set</button>
-                <button onClick={decSets} style={{marginLeft:"10px", marginRight:"10px"}}>Remove Set</button>
+                <Button size="sm" variant="success" onClick={incSets} style={{marginLeft:"10px", marginRight:"10px"}}>Add Set</Button>
+                <Button size="sm" variant="danger" onClick={decSets} style={{marginLeft:"10px", marginRight:"10px"}}>Remove Set</Button>
 
             </div>
         );
@@ -150,9 +151,9 @@ variables used:
     return (
         <div style={{marginTop:"20px"}}>
             <div style={{marginBottom:"15px"}}> {exerciseList} </div>
-            <div><button onClick={() => AddExercise(exCount.current)} style={{marginBottom:"15px"}}>Add Exercise</button></div>
-            <div><button onClick={() => specialRemoveExercise()} style={{marginBottom:"15px"}}>Remove Final Exercise</button></div>
-            <div><button onClick={() => getAllSetsForExercisesSubmitted()} style={{marginBottom:"15px"}}>Submit Workout</button></div>
+            <div><Button size="sm" variant="outline-success" onClick={() => AddExercise(exCount.current)} style={{marginBottom:"15px"}}>Add Exercise</Button></div>
+            <div><Button size="sm" variant="outline-danger" onClick={() => specialRemoveExercise()} style={{marginBottom:"15px"}}>Remove Final Exercise</Button></div>
+            <div><Button onClick={() => getAllSetsForExercisesSubmitted()} style={{marginBottom:"15px"}}>Submit Workout</Button></div>
         </div>
     );
 }
