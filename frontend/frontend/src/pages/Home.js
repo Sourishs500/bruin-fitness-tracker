@@ -31,6 +31,7 @@ const Home = () => {
 
     const dataWithoutGeneralComments = useRef([]);
     const generalNotes = useRef("");
+    const generalDate = useRef("");
     const completeWorkoutData = useRef({});
     const [updatedVersionOfCompleteworkouts, updateCompleteWorkout] = useState({});
     const updatedWorkouts = useRef({});
@@ -40,10 +41,17 @@ const Home = () => {
 
     //receives the general notes from FullGeneralInfo and stores it in generalNotes
     function receiveGeneralNotes({notes})   {generalNotes.current = notes["n"];} 
+
+    function receiveGeneralDate({date})  
+    {
+        console.log("HOME"); 
+        generalDate.current = date["n"]; 
+        console.log("HOME.JS: ", generalDate.current); 
+    }
     
     //receives the workout data from FullSpecificInfo and stores it dataWithoutGeneralComments
     function receiveData({data})            {dataWithoutGeneralComments.current = data["n"];
-                                             completeWorkoutData.current = {"GeneralNotes":generalNotes.current, "Workout":dataWithoutGeneralComments.current};
+                                             completeWorkoutData.current = {"Date":generalDate.current, "GeneralNotes":generalNotes.current, "Workout":dataWithoutGeneralComments.current};
                                              updateCompleteWorkout(completeWorkoutData.current);
                                              workoutcopy.current = JSON.parse(JSON.stringify(completeWorkoutData.current));
                                              workoutcopy.current.Workout.map(
@@ -76,6 +84,7 @@ const Home = () => {
 
         <div style={{ backgroundColor: 'lightgreen' }}><FullGeneralInfoComponents 
                                                         SendValueUp={receiveGeneralNotes}
+                                                        SendDateUp={receiveGeneralDate}
                                                         exInfo={allExercisesOrganizedByTheme}
                                                         /></div>
 
