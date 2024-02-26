@@ -15,7 +15,7 @@ import { useEffect, useState, useRef } from 'react';
                                 "Preacher Curls":kirby, 
                                 "Lat Pull-Downs":kirby, 
                                 "Wall-Sits":kirby, 
-                                "Calf-Raises":kirby}
+                                "Calf Raises":kirby}
 
 
 function imageForExercise(ex, oneToShow, place)
@@ -23,7 +23,7 @@ function imageForExercise(ex, oneToShow, place)
     if (place===oneToShow)
         return (
             <div style={{overflow:"scroll", "width":"400px", "height":"400px"}}>
-                <h3 style={{display:"block"}}>Muscles used for {ex}</h3>
+                <h3 style={{display:"block", fontSize:"25px"}}>Muscles used for {ex}</h3>
                 
                 <img style={{display:"block", overflow:"hidden"}} src={exercisesAndMuscles[ex]}/>
                 
