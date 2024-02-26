@@ -18,7 +18,7 @@ export default function FullSpecificInfoComponents({SendValueUp, summaryToDispla
     return (
         <div style={{display:"flex", alignItems:"flex-start"}}> 
             <span style={{marginRight:"50px", marginBottom:"20px", marginLeft:"20px", marginTop:"20px"}}> 
-                <SummaryBox toShow={summaryToDisplay}/> 
+                <SummaryBox toShow={summaryToDisplay}/>
             </span>
 
             <div><UserDataEntries SendValueUp={receiveData} allExercises={exInfo}/></div>

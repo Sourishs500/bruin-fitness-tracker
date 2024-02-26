@@ -5,8 +5,6 @@ import Directions from './directions.js';
 import MusclesWorkedOut from './musclesWorkedOut.js';
 
 
-//To-do: Actually implementing something for musclesWorkedOut.js
-
 export default function FullGeneralInfoComponents({SendValueUp, SendDateUp, exInfo, muscleGroupsToDisplay})
 {
     const generalNotes = useRef("");

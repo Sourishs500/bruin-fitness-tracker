@@ -31,7 +31,10 @@ const Home = () => {
 
     const dataWithoutGeneralComments = useRef([]);
     const generalNotes = useRef("");
-    const generalDate = useRef("");
+
+    const currentDateToday = new Date();
+    const initialDate = String(currentDateToday.getMonth()+1)+"/"+currentDateToday.getDate()+"/"+currentDateToday.getFullYear()
+    const generalDate = useRef(initialDate);
     const completeWorkoutData = useRef({});
     const [updatedVersionOfCompleteworkouts, updateCompleteWorkout] = useState({});
     const updatedWorkouts = useRef({});
@@ -51,6 +54,30 @@ const Home = () => {
         console.log("HOME.JS: ", generalDate.current); 
     }
     
+    function GetAllMeasures({completeWorkoutData2})
+    {
+        let workoutcopy = JSON.parse(JSON.stringify(completeWorkoutData2));
+        workoutcopy.Workout.map(
+                                        exercise => {
+                                                        if (Object.keys(exercise).length!==0)
+                                                        {
+                                                            let exCopy = exercise;
+                                                            exCopy["UnwrappedSetInfo"] = exCopy.SetInformation.map(x => 
+                                                                parseWorkoutString(x, false, "x", ",")
+                                                            )
+                                                            exCopy["SetLevelStats"] = exCopy["UnwrappedSetInfo"].map(x => calculateStats(x));
+
+                                                            exCopy["AllSetsTogether"] = exCopy.UnwrappedSetInfo.flat();
+                                                            exCopy["OverallStats"] = calculateStats(exCopy["AllSetsTogether"]);
+                                                            exCopy["OverallStats"]["Total Sets"] = exCopy["SetLevelStats"].length;
+                                                            return exCopy;
+                                                        }
+                                                        else return exercise; //handle the case when {} is the only thing in the record
+                                                    }
+                                );
+        return workoutcopy;
+    }
+
     //receives the workout data from FullSpecificInfo and stores it dataWithoutGeneralComments
     function receiveData({data})            {dataWithoutGeneralComments.current = data["n"];
                                              completeWorkoutData.current = {"Date":generalDate.current, "GeneralNotes":generalNotes.current, "Workout":dataWithoutGeneralComments.current};
@@ -58,31 +85,10 @@ const Home = () => {
                                              console.log("To send to backend: ", completeWorkoutData.current)
                                              updateExercisesAcrossWorkout(dataWithoutGeneralComments.current.map(i => (i["Exercise"])));
                                              console.log(allExercisesAcrossWorkout);
-                                             workoutcopy.current = JSON.parse(JSON.stringify(completeWorkoutData.current));
-                                             workoutcopy.current.Workout.map(
-                                                exercise => {
-                                                    if (Object.keys(exercise).length!==0)
-                                                    {
-                                                        let exCopy = exercise;
-                                                        exCopy["UnwrappedSetInfo"] = exCopy.SetInformation.map(x => 
-                                                            parseWorkoutString(x, false, "x", ",")
-                                                        )
-                                                        exCopy["SetLevelStats"] = exCopy["UnwrappedSetInfo"].map(x => calculateStats(x));
 
-                                                        exCopy["AllSetsTogether"] = exCopy.UnwrappedSetInfo.flat();
-                                                        exCopy["OverallStats"] = calculateStats(exCopy["AllSetsTogether"]);
-                                                        exCopy["OverallStats"]["Total Sets"] = exCopy["SetLevelStats"].length;
-                                                        return exCopy;
-                                                    }
-                                                    else return exercise; //handle the case when {} is the only thing in the record
-                                                }
-                                             );
-                                             
-                                             completeWorkoutData.current = workoutcopy.current;
+                                             let myCopy = completeWorkoutData.current;
+                                             completeWorkoutData.current = GetAllMeasures({completeWorkoutData2:myCopy});
                                              console.log("Updated: ", completeWorkoutData.current);
-                                             //console.log(workoutcopy.current)
-                                             //console.log("This: ", completeWorkoutData.current.Workout[0].SetInformation[0]);
-                                             //console.log(parseWorkoutString("20x10", false, "x", ","));
                                             }
     return (
         <>
@@ -100,7 +106,7 @@ const Home = () => {
                                                         summaryToDisplay={completeWorkoutData.current}
                                                         /></div>
         
-        <div style={{ backgroundColor: 'lightblue' }}><FullHistoryComponents/></div>
+        <div style={{ backgroundColor: 'lightblue' }}><FullHistoryComponents measureGetter={GetAllMeasures}/></div>
         
         <div>
             {workouts && workouts.map((workout) => (
@@ -145,7 +151,9 @@ function calculateStats(listOfValues)
             "Max":max, 
             "Min":min, 
             "Standard Deviation":Number(StandardDeviation(listOfValues).toFixed(2)),
-            "Total Reps":listOfValues.length};
+            "Total Reps":listOfValues.length,
+            "Sum":listOfValues.reduce((partialSum, a) => partialSum + a, 0)
+           };
 }
 
 function parseWorkoutString(singleSetRec, isCalisthenics, repSeparator, changeSeparator)

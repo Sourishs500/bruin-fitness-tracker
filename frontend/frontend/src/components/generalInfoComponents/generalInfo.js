@@ -7,9 +7,9 @@ Remaining Tasks
 import { useEffect, useState, useRef } from 'react';
 import Button from 'react-bootstrap/Button';
 
-function CreateTextBox({SendValueUp, x, y})
+function CreateTextBox({SendValueUp, defaultText, x, y})
 {
-    const [value, setValue] = useState('');
+    const [value, setValue] = useState(defaultText);
     const handleChange = (event) => 
     {
         setValue(event.target.value); 
@@ -17,7 +17,9 @@ function CreateTextBox({SendValueUp, x, y})
         SendValueUp({newNotes:{n}})
     };
     
-    return <textarea type="text" value={value} onChange={handleChange} placeholder="" style={{"width":x, "height":y, marginRight:"20px", overflowY:"scroll"}}/>;
+    return <textarea type="text" value={value} onChange={handleChange} placeholder="" style={{"width":x, "height":y, marginRight:"20px", overflowY:"scroll"}}>
+                
+           </textarea>;
 };
 
 export default function GeneralInfo ({SendValueUp, SendDateUp, exInfo}) //One text box for general notes, one selection for which type of exercises to recommend, a button (generates recommendations), an actual recommendation
@@ -57,13 +59,14 @@ export default function GeneralInfo ({SendValueUp, SendDateUp, exInfo}) //One te
         SendDateUp({newNotes:{n}});
     }
 
+    const currentDateToday = new Date();
     return (
         <div style={{ display: "flex", alignItems: "flex-start" }}>
             <div>
                 <b style={{marginRight:"20px"}}>
                     Date of Workout
                 </b>
-                <div style={{marginBottom:"15px"}}><CreateTextBox SendValueUp={updateDateOfWorkout} x = "130px" y = "20px" /></div>
+                <div style={{marginBottom:"15px"}}><CreateTextBox defaultText={String(currentDateToday.getMonth()+1)+"/"+currentDateToday.getDate()+"/"+currentDateToday.getFullYear()} SendValueUp={updateDateOfWorkout} x = "130px" y = "30px" /></div>
             </div>
             <div>
                 <b style={{textAlign:"center"}}>Workout Notes: General</b>

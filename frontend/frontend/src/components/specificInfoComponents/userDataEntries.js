@@ -15,7 +15,7 @@ function CreateTextBox({SendValueUp}) //pass in the text update function here
         const n = event.target.value;
         SendValueUp({val:{n}});
     };
-    return <textarea type="text" value={value} onChange={handleChange} placeholder="" style={{"width":"200px", "height":"25px", marginRight:"20px", overflowY:"scroll"}}/>;
+    return <textarea type="text" value={value} onChange={handleChange} placeholder="" style={{"width":"200px", "height":"30px", marginRight:"20px", overflowY:"scroll"}}/>;
 };
 
 function CreateSetBox({setNum, exLabel, SendValueUp} ) //pass in the text update function here
@@ -26,7 +26,7 @@ function CreateSetBox({setNum, exLabel, SendValueUp} ) //pass in the text update
         const n=event.target.value;
         SendValueUp({val:{n}, i:{setNum}});
     };
-    return <input type="text" label = {setNum} name = {exLabel} style = {{"width":"75px", height:"20px"}} onInput = {handleChange}/>;   
+    return <input type="text" label = {setNum} name = {exLabel} style = {{"width":"100px", height:"30px"}} onInput = {handleChange}/>;   
 }
 
 export default function UserDataEntries ({SendValueUp, allExercises}) //List of exercise rows, along with three buttons at the end (add exercise, remove exercise, and submit)
