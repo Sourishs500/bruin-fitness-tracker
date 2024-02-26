@@ -6,7 +6,7 @@ Remaining Tasks
 export default function Directions()
 {
     return (
-    <div style={{background:"aquamarine", maxWidth:"1275px"}}>
+    <div style={{background:"aquamarine", maxWidth:"1400px"}}>
         <div style={{marginLeft:"25px", marginRight:"25px"}}>
             <h3><br/> DIRECTIONS</h3>
             
