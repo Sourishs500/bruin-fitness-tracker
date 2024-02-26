@@ -24,10 +24,10 @@ export default function PastWorkouts()
         Date
 */
 {
-    const [Date, setDate] = useState(0);
+    const [Date, setDate] = useState("");
     function submitButtonHandler(){};
     
-    const dates = ["2/25/2024", "2/26/2024", "2/27/2024", "2/28/2024", "2/29/2024", "3/1/2024", "3/2/2024", "3/3/2024", "3/4/2024", "3/5/2024"]
+    const dates = ["2/25/2024", "2/26/2024", "2/27/2024", "2/28/2024", "2/29/2024", "3/1/2024", "3/2/2024", "3/3/2024", "3/4/2024", "3/5/2024"].filter(x => x.startsWith(Date));
     const colors = useRef(Array(dates.length).fill("black"));
 
     let colorMappingFromDate = {};
@@ -74,8 +74,7 @@ export default function PastWorkouts()
                                                 onClick={()=>{implementUpdateToColors(x); console.log(x);}} 
                                                 style={{color:colorMappingState[x], 
                                                         fontWeight:weight}}
-                                                    >
-                                            
+                                                    >                                        
                                                         {x}
                                                     </p>
                                             }
@@ -85,20 +84,21 @@ export default function PastWorkouts()
                 </div>
                 <div style={{"width":"300px", "height":"300px", "border":"1px solid black"}}><GetDataOfPastDate date={Date}/></div>
             </span>
-                <div style={{ display: "flex", alignItems: "flex-start" }}>
-                    <span>
-                        <CreateDateBox dateFunc={setDate}/>
-                        <br/>
-                        <Button size="sm" onClick={() => submitButtonHandler()} style={{marginBottom:"15px"}}>Submit Date</Button>
-                    </span>
-                    <span>
-                        <input type="checkbox" style = {{"width":"150px", height:"20px", marginTop:"10px", marginRight:"-63px"}}/>
-                        <span style={{marginTop:"10px"}}>SHOW DETAILED</span>
-                        <br/>
-                        <input type="checkbox" style = {{"width":"150px", height:"20px", marginTop:"10px", marginRight:"-63px"}}/>
-                        <span style={{marginTop:"10px"}}>EDIT PAST WORKOUT</span>
-                    </span>
-                </div>
+            
+            <div style={{ display: "flex", alignItems: "flex-start" }}>
+                <span>
+                    <CreateDateBox dateFunc={setDate}/>
+                    <br/>
+                    <Button size="sm" onClick={() => submitButtonHandler()} style={{marginBottom:"15px"}}>Submit Date</Button>
+                </span>
+                <span>
+                    <input type="checkbox" style = {{"width":"150px", height:"20px", marginTop:"10px", marginRight:"-63px"}}/>
+                    <span style={{marginTop:"10px"}}>SHOW DETAILED</span>
+                    <br/>
+                    <input type="checkbox" style = {{"width":"150px", height:"20px", marginTop:"10px", marginRight:"-63px"}}/>
+                    <span style={{marginTop:"10px"}}>EDIT PAST WORKOUT</span>
+                </span>
+            </div>
             
         </div>
     );
