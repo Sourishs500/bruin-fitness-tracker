@@ -7,7 +7,7 @@ import MusclesWorkedOut from './musclesWorkedOut.js';
 
 //To-do: Actually implementing something for musclesWorkedOut.js
 
-export default function FullGeneralInfoComponents({SendValueUp, SendDateUp, exInfo})
+export default function FullGeneralInfoComponents({SendValueUp, SendDateUp, exInfo, muscleGroupsToDisplay})
 {
     const generalNotes = useRef("");
     function updateNotes({newNotes})
@@ -28,7 +28,7 @@ export default function FullGeneralInfoComponents({SendValueUp, SendDateUp, exIn
 
     return (
         <div style={{display:"flex", alignItems:"flex-start"}}>
-            <div style={{marginBottom:"20px", marginLeft:"20px", marginTop:"20px"}}> <MusclesWorkedOut/> </div>
+            <div style={{marginBottom:"20px", marginLeft:"20px", marginTop:"20px"}}> <MusclesWorkedOut givenExercises={muscleGroupsToDisplay}/> </div>
             <div style={{marginLeft:"50px"}}>
                 <div> <Directions/>  </div>
                 <div> <GeneralInfo SendValueUp={updateNotes} SendDateUp = {updateDate} exInfo={exInfo}/> </div>

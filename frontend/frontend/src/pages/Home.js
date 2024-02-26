@@ -36,6 +36,8 @@ const Home = () => {
     const [updatedVersionOfCompleteworkouts, updateCompleteWorkout] = useState({});
     const updatedWorkouts = useRef({});
 
+    const [allExercisesAcrossWorkout, updateExercisesAcrossWorkout] = useState([]);
+
 
     const workoutcopy = useRef({});
 
@@ -53,6 +55,9 @@ const Home = () => {
     function receiveData({data})            {dataWithoutGeneralComments.current = data["n"];
                                              completeWorkoutData.current = {"Date":generalDate.current, "GeneralNotes":generalNotes.current, "Workout":dataWithoutGeneralComments.current};
                                              updateCompleteWorkout(completeWorkoutData.current);
+                                             console.log("To send to backend: ", completeWorkoutData.current)
+                                             updateExercisesAcrossWorkout(dataWithoutGeneralComments.current.map(i => (i["Exercise"])));
+                                             console.log(allExercisesAcrossWorkout);
                                              workoutcopy.current = JSON.parse(JSON.stringify(completeWorkoutData.current));
                                              workoutcopy.current.Workout.map(
                                                 exercise => {
@@ -86,6 +91,7 @@ const Home = () => {
                                                         SendValueUp={receiveGeneralNotes}
                                                         SendDateUp={receiveGeneralDate}
                                                         exInfo={allExercisesOrganizedByTheme}
+                                                        muscleGroupsToDisplay={allExercisesAcrossWorkout}
                                                         /></div>
 
         <div style={{ backgroundColor: 'lightyellow' }}><FullSpecificInfoComponents 
