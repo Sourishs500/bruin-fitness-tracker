@@ -1,18 +1,18 @@
 // this file makes the routes workouts.js file cleaner
 // includes the function that routes will call
 
-const Workout = require('../models/workoutModel')
+const Exercise = require('../models/exerciseModel')
 const mongoose = require('mongoose')
 
-// get all workouts
-const getWorkouts = async (req, res) => {
-    const workouts = await Workout.find({}).sort({createdAt: -1})
+// get all exercises
+const getAllExercises = async (req, res) => {
+    const exercises = await Exercise.find({}).sort({createdAt: -1})
 
-    res.status(200).json(workouts)
+    res.status(200).json(exercises)
 }
 
-// get a single workout
-const getWorkout = async (req, res) => {
+// get a single exercise
+const getExercise = async (req, res) => {
     const { id } = req.params
 
     // if id we passed in is not valid
@@ -20,39 +20,40 @@ const getWorkout = async (req, res) => {
         return res.status(404).json({error: 'No such workout'})
     }
 
-    const workout = await Workout.findById(id)
+    const exercise = await Exercise.findById(id)
 
-    if(!workout){
+    if(!exercise){
         return res.status(404).json({error: 'No such workout exists.'})
     }
 
-    res.status(200).json(workout)
+    res.status(200).json(exercise)
 }
 
-// create new workout
-const createWorkout = async (req, res) => {
-    const {name, reps, sets, notes} = req.body
+// create new exercise
+const createExercise = async (req, res) => {
+    const {name, sets, notes} = req.body
 
     // add a document
     try {
-        // workout object represents workout object that was just created in MongoDB
-        const workout = await Workout.create({name, reps, sets, notes})
-        res.status(200).json(workout)
+        // exercise object represents exercise object that was just created in MongoDB
+        const exercise = await Exercise.create({name, sets, notes})
+
+        res.status(200).json(exercise)
     } catch (error){
         // if creating the Workout document was not a success
         res.status(400).json({error: error.message})
     }
 }
 
-// delete a workout
-const deleteWorkout = async (req, res) => {
+// delete an exercise
+const deleteExercise = async (req, res) => {
     const {id} = req.params
 
     if(!mongoose.Types.ObjectId.isValid(id)){
         return res.status(404).json({error: 'No such workout'})
     }
 
-    const deletedExercise = await Workout.findOneAndDelete({_id: id})
+    const deletedExercise = await Exercise.findOneAndDelete({_id: id})
 
     if(!deletedExercise){
         return res.status(400).json({error: 'No such workout'})
@@ -62,30 +63,29 @@ const deleteWorkout = async (req, res) => {
 }
 
 
-// update a workout
-
-const updateWorkout = async (req, res) => {
+// update an exercise
+const updateExercise = async (req, res) => {
     const {id} = req.params
     
     if(!mongoose.Types.ObjectId.isValid(id)){
         return res.status(404).json({error: 'No such workout'})
     }
 
-    const updatedWorkout = await Workout.findOneAndUpdate({_id:id}, {
+    const updatedExercise = await Exercise.findOneAndUpdate({_id:id}, {
         ...req.body
     })
 
-    if(!updatedWorkout){
+    if(!updatedExercise){
         return res.status(400).json({error: 'No such workout'})
     }
 
-    res.status(200).json(updatedWorkout)
+    res.status(200).json(updatedExercise)
 }
 
 module.exports = {
-    getWorkouts,
-    getWorkout,
-    createWorkout,
-    deleteWorkout,
-    updateWorkout
+    getAllExercises,
+    getExercise,
+    createExercise,
+    deleteExercise,
+    updateExercise
 }

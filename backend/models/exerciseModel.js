@@ -3,8 +3,8 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 // Schema defines structure of a document in our database
-// what should a typical workout look like?
-const workoutSchema = new Schema({
+// what should a typical Exercise look like?
+const exerciseSchema = new Schema({
     name: {
         type: String,
         required: true
@@ -19,8 +19,9 @@ const workoutSchema = new Schema({
     }
 }, { timestamps: true})
 
-module.exports = mongoose.model('Workout', workoutSchema)
+const Exercise = mongoose.model('Exercise', exerciseSchema)
+module.exports = Exercise;
 
-// Returns all workouts within Workout collection
+// Returns all Exercises within Exercise collection
 // Schema defines structure of documents we save to this collection/model
-// Workout.find()
+// Exercise.find()

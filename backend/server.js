@@ -27,6 +27,8 @@ mongoose.connect(process.env.MONGO_URI)
     app.listen(process.env.PORT, () => {
         console.log('connected to db & listening on port 4000')
     })
+
+    db = mongoose.Connection.prototype.db;
 })
 .catch((error) => {
     console.log(error)
