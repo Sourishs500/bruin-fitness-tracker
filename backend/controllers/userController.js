@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
-const User = require('../models/userModel.js')
+const User = require('../models/userModel.js');
+const GeneralComment = require('../models/generalCommentModel.js');
 
 const createUser = async (req, res) => {
     const {username, password, gender} = req.body;
@@ -10,6 +11,7 @@ const createUser = async (req, res) => {
         return res.status(400).json({error: e.message})
     }
 }
+
 
 module.exports = {
     createUser

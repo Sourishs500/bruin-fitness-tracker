@@ -122,10 +122,32 @@ const updateExercise = async (req, res) => {
     res.status(200).json(updatedExercise)
 }
 
+// Gets all dates of exercises
+const getAllDates = async (req, res) => {
+    try{
+        const exercises = await Exercise.find('date').sort({createdAt: -1});
+        return res.status(200).json(exercises)
+    } catch(e){
+        return res.status(400).json({error: e})
+    }
+}
+
+// returns all workoutIDs
+const getAllWorkoutIDs = async (req, res) => {
+    try{
+        const workoutIDs = await GeneralComment.find({}).select('workoutId')
+        return res.status(200).json(workoutIDs)
+    } catch (e){
+        return res.status(400).json({error: e})
+    }
+}
+
 module.exports = {
     getAllExercises,
     getExercise,
     createExercise,
     deleteExercise,
-    updateExercise
+    updateExercise,
+    getAllDates,
+    getAllWorkoutIDs
 }

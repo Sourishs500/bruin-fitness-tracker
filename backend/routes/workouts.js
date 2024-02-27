@@ -6,11 +6,16 @@ const {
     getAllExercises,
     getExercise,
     deleteExercise,
-    updateExercise
+    updateExercise,
+    getAllDates,
+    getAllWorkoutIDs
 } = require('../controllers/exerciseController')
 
 // GET all workouts
 router.get('/', getAllExercises)
+
+// Get all dates of workouts
+router.get('/allDates', getAllWorkoutIDs)
 
 // GET one workout
 router.get('/:id', getExercise)
