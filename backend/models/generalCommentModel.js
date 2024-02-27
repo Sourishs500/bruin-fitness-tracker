@@ -1,12 +1,16 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const generalCommentSchema = ({
+const generalCommentSchema = new Schema({
     comment: {
         type: String,
-        required: false
+        required: true
+    },
+    workoutId: {
+        type: Number,
+        required: true
     }
 });
 
-const GeneralComment = mongoose.Model('GeneralComment', generalCommentSchema)
+const GeneralComment = mongoose.model('GeneralComment', generalCommentSchema)
 module.exports = GeneralComment;

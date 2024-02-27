@@ -2,7 +2,9 @@
 // includes the function that routes will call
 
 const Exercise = require('../models/exerciseModel')
+const GeneralComment = require('../models/generalCommentModel')
 const mongoose = require('mongoose')
+const { hash } = require('immutable')
 
 // get all exercises
 const getAllExercises = async (req, res) => {
@@ -31,18 +33,56 @@ const getExercise = async (req, res) => {
 
 // create new exercise
 const createExercise = async (req, res) => {
-    const {name, sets, notes} = req.body
 
-    // add a document
-    try {
-        // exercise object represents exercise object that was just created in MongoDB
-        const exercise = await Exercise.create({name, sets, notes})
+    const date = (req.body).Date;
+    const generalNotes = (req.body).GeneralNotes;
+    const workout = (req.body).Workout;
 
-        res.status(200).json(exercise)
-    } catch (error){
-        // if creating the Workout document was not a success
-        res.status(400).json({error: error.message})
+    let sameDayWorkoutCount = 0;
+
+    await (Exercise.countDocuments({date : date})).exec()
+        .then((value) => {
+            sameDayWorkoutCount = value;
+        })
+        .catch((e) => {
+            return res.status(400).json({error : error.message});
+        })
+
+    const dateString = date + sameDayWorkoutCount;
+    const workoutId = hash(dateString)
+
+    // Add General Comment document
+    try{
+        const generalNotesDocument = await GeneralComment.create({comment: generalNotes, workoutId});
+        // ret = res.status(200).json(generalNotesDocument);
+    } catch (e){
+        return res.status(400).json({error : error.message});
     }
+    
+    let exerciseDocument = null;
+    // Add documents for each of the Exercises done in the Workout
+    for(let i = 0; i < workout.length; i++){
+        const name = workout[i].Exercise;
+        const notes = workout[i].Notes;
+        const setArray = workout[i].SetInformation;
+
+        let setsInfo = "";
+        for(let j = 0; j < setArray.length; j++){
+            if(j === setArray.length - 1){
+                setsInfo += setArray[j];
+            } else {
+                setsInfo += setArray[j] + ", ";
+            }
+        }
+
+        try {
+            exerciseDocument = await Exercise.create({name, sets: setsInfo, notes, workoutId, date})
+            //ret = res.status(200).json(exerciseDocument)
+        } catch (error){
+            return res.status(400).json({error: error.message})
+        }
+    }
+    return res.status(200).json(exerciseDocument);
 }
 
 // delete an exercise

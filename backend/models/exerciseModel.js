@@ -16,6 +16,14 @@ const exerciseSchema = new Schema({
     notes: {
         type: String,
         required: false
+    },
+    workoutId: {
+        type: Number,
+        required: true
+    },
+    date: {
+        type: String,
+        required: true
     }
 }, { timestamps: true})
 

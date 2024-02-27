@@ -79,19 +79,44 @@ const Home = () => {
     }
 
     //receives the workout data from FullSpecificInfo and stores it dataWithoutGeneralComments
-    function receiveData({data})            {dataWithoutGeneralComments.current = data["n"];
-                                             completeWorkoutData.current = {"Date":generalDate.current, "GeneralNotes":generalNotes.current, "Workout":dataWithoutGeneralComments.current};
-                                             updateCompleteWorkout(completeWorkoutData.current);
-                                             console.log("To send to backend: ", completeWorkoutData.current)
-                                             updateExercisesAcrossWorkout(dataWithoutGeneralComments.current.map(i => (i["Exercise"])));
-                                             console.log(allExercisesAcrossWorkout);
+    // handleSubmitWorkoutButton()
+    function receiveData({data}){
+        dataWithoutGeneralComments.current = data["n"];
+        completeWorkoutData.current = {"Date":generalDate.current, "GeneralNotes":generalNotes.current, "Workout":dataWithoutGeneralComments.current};
+        updateCompleteWorkout(completeWorkoutData.current);
 
-                                             let myCopy = completeWorkoutData.current;
-                                             completeWorkoutData.current = GetAllMeasures({completeWorkoutData2:myCopy});
-                                             console.log("Updated: ", completeWorkoutData.current);
-                                            }
+        updateExercisesAcrossWorkout(dataWithoutGeneralComments.current.map(i => (i["Exercise"])));
+        console.log(allExercisesAcrossWorkout);
+
+        const handleSubmitWorkoutButton = async (e) => {
+            //e.preventDefault();
+
+            const response = await fetch('/api/workouts', {
+                method: 'POST',
+                body: JSON.stringify(completeWorkoutData.current),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+
+            const json = await response.json();
+
+            if(!response.ok){
+                console.log(json.error)
+            }else{
+                console.log('Workout added to the backend')
+            }
+
+        }
+
+        handleSubmitWorkoutButton();
+
+        let myCopy = completeWorkoutData.current;
+        completeWorkoutData.current = GetAllMeasures({completeWorkoutData2:myCopy});
+        console.log("Updated: ", completeWorkoutData.current);
+    }
     return (
-        <>
+        <> 
 
         <div style={{ backgroundColor: 'lightgreen' }}><FullGeneralInfoComponents 
                                                         SendValueUp={receiveGeneralNotes}
