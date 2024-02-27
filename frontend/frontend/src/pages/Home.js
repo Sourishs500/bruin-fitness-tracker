@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 
 import FullGeneralInfoComponents from '../components/generalInfoComponents/fullGeneralInfoComponents.js';
-import GeneralInformation from '../components/Information/generalInformation.js'; 
+import GeneralInformation from '../components/basicInformation/fullGeneralInformation.js'; 
 import FullHistoryComponents from '../components/historyComponents/fullHistoryComponents.js'; 
 import FullSpecificInfoComponents from '../components/specificInfoComponents/fullSpecificInfoComponents.js'; 
 
