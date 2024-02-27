@@ -1,11 +1,13 @@
 import ProfilePic from './profilePic.js';
 import {Link} from 'react-router-dom'
+import { useEffect, useState, useRef } from 'react';
 
 //To-Do: Implementing the profile pic feature
 
 export default function FullHeader()
 {
-    const name = "USERNAME" //to un-hardcode later
+    const [logInStatus, setLogInStatus] = useState(false);
+    const [username, setUsername] = useState(""); 
 
     return (
         <div style={{height: 90, display: "flex", justifyContent: "space-between", alignItems: "center"}}>
@@ -14,14 +16,14 @@ export default function FullHeader()
             </Link>
             <div className="topBarRight" >
                 <div style={{display: "flex", flexDirection: "column", alignItems: "end"}}>
-                    <div className="usernameText" style={{marginLeft:"15px"}}>{"Username: ???"}</div>
-                    <div className="usernameText" style={{marginLeft:"15px"}}>{"sign up/sign in"}</div>
+                    <div className="usernameText" style={{marginLeft:"15px"}}> username: Not Logged In</div>
+                    <Link to="/login"> 
+                        <div className="usernameText" style={{marginLeft:"15px"}}>{"sign in"}</div> 
+                    </Link>
                 </div>
-                <Link to="/login">
-                    <div>
-                        <ProfilePic/>
-                    </div>
-                </Link>
+                <div>
+                    <ProfilePic/>
+                </div>    
             </div>
         </div>
     )
