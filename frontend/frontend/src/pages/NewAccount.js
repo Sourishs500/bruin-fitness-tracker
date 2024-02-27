@@ -5,9 +5,12 @@ import {Link} from 'react-router-dom'
 const NewAccount = () => {
 
     const username = useRef();
+    const gender = useRef();
     const password = useRef();
     const password2 = useRef();
-    
+    const genderOptions = ["female", "male", "nonbinary", "prefer not to say"];
+    const genderCount = [...Array(genderOptions.length).keys()];
+
     function Box({val}) {
         return <input type="text" ref={val} style = {{"width":"240px", height:"40px", marginTop:"5px"}}
         onChange={(e) => ((val).current.value = e.target.value)}/>;   
@@ -15,8 +18,10 @@ const NewAccount = () => {
 
     const handleCreateAccount = async (e) => {
         console.log(username.current.value);
+        console.log(gender.current.value);
         console.log(password.current.value);
         console.log(password2.current.value);
+        
         /*
         const response = await fetch('/api/workouts', {
             method: 'POST',
@@ -44,6 +49,13 @@ const NewAccount = () => {
                 </div>
                 <div className="generalText" style = {{alignSelf:"self-start", marginTop:"10px"}} >{"username"}</div>
                 <div> <Box val={username}/> </div>
+                <div className="generalText" style = {{alignSelf:"self-start", marginTop:"10px"}} >{"gender"}</div>
+                <div> 
+                    <select ref={gender} style={{"width":"240px", height:"40px", marginTop:"10px"}}
+                        onClick={(e)=>{gender.current.value = e.target.value}}>  
+                        {genderCount.map(gen => <option key={gen} value={genderOptions[gen]}> {genderOptions[gen]} </option>)} 
+                    </select> 
+                </div>
                 <div className="generalText" style = {{alignSelf:"self-start", marginTop:"10px"}} >{"password"}</div>
                 <div> <Box val={password}/> </div>
                 <div className="generalText" style = {{alignSelf:"self-start", marginTop:"10px"}} >{"confirm password"}</div>
