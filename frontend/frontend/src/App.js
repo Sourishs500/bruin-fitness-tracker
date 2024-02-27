@@ -9,7 +9,7 @@ import NewAccount from './pages/NewAccount'
 export default function App () {
     return (
         <BrowserRouter>
-            <div style={{ backgroundColor: 'pink' }}><FullHeader/></div>
+            <div style={{ backgroundColor: '#6699ff' }}><FullHeader/></div>
             <Routes>
                 <Route 
                     path="/"

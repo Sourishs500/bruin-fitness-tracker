@@ -4,31 +4,54 @@ import {Link} from 'react-router-dom'
 
 const NewAccount = () => {
 
-    function Box(/*{dateFunc}*/)
-    {
-        const [value, setValue] = useState('');
-        const handleChange = (event) => {
-            setValue(event.target.value); /*dateFunc(event.target.value);*/
-            //console.log(value);
-        };
-        
-        return <input type="text" style = {{"width":"240px", height:"40px", marginTop:"5px"}} onInput = {handleChange}/>;   
+    const username = useRef();
+    const password = useRef();
+    const password2 = useRef();
+    
+    function Box({val}) {
+        return <input type="text" ref={val} style = {{"width":"240px", height:"40px", marginTop:"5px"}}
+        onChange={(e) => ((val).current.value = e.target.value)}/>;   
+    }
+
+    const handleCreateAccount = async (e) => {
+        console.log(username.current.value);
+        console.log(password.current.value);
+        console.log(password2.current.value);
+        /*
+        const response = await fetch('/api/workouts', {
+            method: 'POST',
+            body: JSON.stringify(email),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+
+        const json = await response.json();
+
+        if(!response.ok){
+            console.log(json.error)
+        }else{
+            console.log('Workout added to the backend')
+        }
+        */
     }
 
     return (
         <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}> 
             <div style={{"width":"250px", height:"200px", display: "flex", flexDirection: "column"}}>
                 <div className="generalText" style = {{alignSelf:"center", marginTop:"20px"}} >
-                    {"Have an account? "} <Link to="/login"> Sign in</Link>{"!"}
+                    {"Have an account? "} <Link to="/login" style = {{color: '#0000cc'}}> Sign in</Link>{"!"}
                 </div>
-                <div className="generalText" style = {{alignSelf:"self-start"}} >{"email"}</div>
-                <div> <Box /> </div> 
-                <div className="generalText" style = {{alignSelf:"self-start"}} >{"username"}</div>
-                <div> <Box /> </div>
-                <div className="generalText" style = {{alignSelf:"self-start"}} >{"password"}</div>
-                <div> <Box /> </div>
-                <div className="generalText" style = {{alignSelf:"self-start"}} >{"confirm password"}</div>
-                <div> <Box /> </div>
+                <div className="generalText" style = {{alignSelf:"self-start", marginTop:"10px"}} >{"username"}</div>
+                <div> <Box val={username}/> </div>
+                <div className="generalText" style = {{alignSelf:"self-start", marginTop:"10px"}} >{"password"}</div>
+                <div> <Box val={password}/> </div>
+                <div className="generalText" style = {{alignSelf:"self-start", marginTop:"10px"}} >{"confirm password"}</div>
+                <div> <Box val={password2}/> </div>
+                <div ><Button size="sm" variant="outline-primary" onClick={() => handleCreateAccount()} 
+                style={{"width": "120px", height:"40px", marginTop:"20px",
+                fontFamily: "Trebuchet MS", fontSize: "20px"}}> Submit</Button>
+            </div>
             </div>
         </div>
     )

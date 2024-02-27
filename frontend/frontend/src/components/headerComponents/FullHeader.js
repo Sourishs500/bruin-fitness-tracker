@@ -10,14 +10,14 @@ export default function FullHeader()
     const [username, setUsername] = useState(""); 
 
     return (
-        <div style={{height: 90, display: "flex", justifyContent: "space-between", alignItems: "center"}}>
-            <Link to="/">
+        <div style={{height: 80, display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+            <Link to="/" style = {{color: '#0000cc'}}>
                 <div className="titleText" >{"Bruin Fitness Tracker"}</div>
             </Link>
             <div className="topBarRight" >
                 <div style={{display: "flex", flexDirection: "column", alignItems: "end"}}>
-                    <div className="usernameText" style={{marginLeft:"15px"}}> username: Not Logged In</div>
-                    <Link to="/login"> 
+                    <div className="usernameText" style={{marginLeft:"15px"}}> username: not logged in</div>
+                    <Link to="/login" style = {{color: '#0000cc'}}> 
                         <div className="usernameText" style={{marginLeft:"15px"}}>{"sign in"}</div> 
                     </Link>
                 </div>
