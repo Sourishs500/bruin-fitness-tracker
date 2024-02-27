@@ -10,6 +10,7 @@ const NewAccount = () => {
     const password2 = useRef();
     const genderOptions = ["female", "male", "nonbinary", "prefer not to say"];
     const genderCount = [...Array(genderOptions.length).keys()];
+    const completeUser = useRef({});
 
     function Box({val}) {
         return <input type="text" ref={val} style = {{"width":"240px", height:"40px", marginTop:"5px"}}
@@ -17,28 +18,27 @@ const NewAccount = () => {
     }
 
     const handleCreateAccount = async (e) => {
-        console.log(username.current.value);
-        console.log(gender.current.value);
-        console.log(password.current.value);
-        console.log(password2.current.value);
+        // console.log(username.current.value);
+        // console.log(gender.current.value);
+        // console.log(password.current.value);
+        // console.log(password2.current.value);
         
-        /*
-        const response = await fetch('/api/workouts', {
-            method: 'POST',
-            body: JSON.stringify(email),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
+        // completeUser.current = {"username":username.current.value, "password":password.current.value, "gender":gender.current.value};
+        
+        // const response = await fetch('/api/user/createUser', {
+        //     method: 'POST',
+        //     body: JSON.stringify(completeUser.current),
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     }
+        // })
+        // const json = await response.json();
 
-        const json = await response.json();
-
-        if(!response.ok){
-            console.log(json.error)
-        }else{
-            console.log('Workout added to the backend')
-        }
-        */
+        // if(!response.ok) {
+        //     console.log(json.error)
+        // } else {
+        //     console.log('User added to the backend.')
+        // }
     }
 
     return (

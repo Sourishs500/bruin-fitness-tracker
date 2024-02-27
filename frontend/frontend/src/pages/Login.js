@@ -6,18 +6,29 @@ const Login = () => {
 
     const username = useRef();
     const password = useRef();
+    const users = useRef();
 
     function Box({val}) {
         return <input type="text" ref={val} style = {{"width":"240px", height:"40px", marginTop:"5px"}} 
         onChange={(e) => ((val).current.value = e.target.value)}/>;   
     }
 
+    useEffect(() => {
+        const fetchAccounts = async () => {
+            const response = await fetch('/api/user/getUser')
+            const json = await response.json()
+
+            if (response.ok){
+                users = json;
+            }
+        }
+        fetchAccounts();
+    }, [])
+        
     function VerifyAccount() {
         console.log(username.current.value);
         console.log(password.current.value);
-        /*
-         AUTHENTICATION!
-        */
+        //console.log(users); 
     }
 
     return (
