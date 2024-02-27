@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 
 import GeneralInfo from './generalInfo.js';
-import Directions from './directions.js';
 import MusclesWorkedOut from './musclesWorkedOut.js';
 
 
@@ -26,9 +25,8 @@ export default function FullGeneralInfoComponents({SendValueUp, SendDateUp, exIn
 
     return (
         <div style={{display:"flex", alignItems:"flex-start"}}>
-            <div style={{marginBottom:"20px", marginLeft:"20px", marginTop:"20px"}}> <MusclesWorkedOut givenExercises={muscleGroupsToDisplay}/> </div>
+            <div> <MusclesWorkedOut givenExercises={muscleGroupsToDisplay}/> </div>
             <div style={{marginLeft:"50px"}}>
-                <div> <Directions/>  </div>
                 <div> <GeneralInfo SendValueUp={updateNotes} SendDateUp = {updateDate} exInfo={exInfo}/> </div>
             </div>
         </div>

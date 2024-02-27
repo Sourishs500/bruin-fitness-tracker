@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 
-import FullGeneralInfoComponents from '../components/generalInfoComponents/fullGeneralInfoComponents.js'; 
+import FullGeneralInfoComponents from '../components/generalInfoComponents/fullGeneralInfoComponents.js';
+import GeneralInformation from '../components/Information/generalInformation.js'; 
 import FullHistoryComponents from '../components/historyComponents/fullHistoryComponents.js'; 
 import FullSpecificInfoComponents from '../components/specificInfoComponents/fullSpecificInfoComponents.js'; 
 
@@ -116,7 +117,8 @@ const Home = () => {
         console.log("Updated: ", completeWorkoutData.current);
     }
     return (
-        <> 
+        <>
+        <div style={{ backgroundColor: 'lightblue' }}><GeneralInformation/></div> 
 
         <div style={{ backgroundColor: 'lightgreen' }}><FullGeneralInfoComponents 
                                                         SendValueUp={receiveGeneralNotes}
