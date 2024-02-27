@@ -4,6 +4,7 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import Home from './pages/Home'
 import FullHeader from  './components/headerComponents/FullHeader.js'
 import Login from './pages/Login'
+import NewAccount from './pages/NewAccount'
 
 export default function App () {
     return (
@@ -17,6 +18,10 @@ export default function App () {
                 <Route 
                     path="/login"
                     element={<Login/>}
+                />
+                <Route 
+                    path="/create_new_account"
+                    element={<NewAccount/>}
                 />
             </Routes>
         </BrowserRouter>
