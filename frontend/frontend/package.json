@@ -1,9 +1,11 @@
 {
   "options": {
-    "allowedHosts": ["localhost", ".localhost"],
+    "allowedHosts": [
+      "localhost",
+      ".localhost"
+    ],
     "proxy": "https://localhost:3000/"
   },
-  
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
@@ -15,6 +17,7 @@
     "http-proxy-middleware": "^2.0.6",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.1",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.50.1",
     "react-native": "^0.73.4",

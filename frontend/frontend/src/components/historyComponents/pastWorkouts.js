@@ -5,6 +5,7 @@ Remaining Tasks
 
 import { useEffect, useState, useRef } from 'react';
 import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 function CreateDateBox({dateFunc})
 {
@@ -62,11 +63,30 @@ export default function PastWorkouts({getStats})
 {
     const [Date, setDate] = useState("");
     const [literalDateToGoWith, setTrueDate] = useState("");
-    function submitButtonHandler(){};
+    function  submitButtonHandler(){};
+
+    let dates = [];
+    console.log("bad")
+
+    const fetchDates = async () => {
+        const response = await fetch('/api/workouts/allDates')
+        const json = await response.json()
+        if (!response.ok){
+            //console.log("bad")
+            console.error("Something is wrong with getting dates")
+        }else{
+            for(let i = 0; i < json.length; i++){
+                const cur = json[i]
+                const date = cur.date
+                //console.log(date)
+                dates.push(date)
+            }
+        }
+    }
+    //console.log("bad")
+    //console.log(dates)
+    dates.filter(x => x.startsWith(Date));
     
-    const dates = ["2/15/2024", "2/16/2024", "2/17/2024", "2/18/2024", "2/19/2024", 
-    "2/20/2024", "2/21/2024", "2/22/2024", "2/23/2024", "2/25/2024", "2/26/2024", "2/27/2024", "2/28/2024", "2/29/2024", 
-    "3/1/2024", "3/2/2024", "3/3/2024", "3/4/2024", "3/5/2024"].filter(x => x.startsWith(Date));
     const colors = useRef(Array(dates.length).fill("black"));
 
     let colorMappingFromDate = {};
@@ -141,19 +161,16 @@ export default function PastWorkouts({getStats})
                 <span>
                     <CreateDateBox dateFunc={setDate}/>
                     <br/>
-                    {//<Button size="sm" onClick={() => submitButtonHandler()} style={{marginBottom:"15px"}}>Submit Date</Button>
-                    }
+                    <Button size="sm" onClick={() => submitButtonHandler()} style={{marginTop:"15px", marginBottom:"30px"}}>Submit Date</Button>
                 </span>
                 <span>
-                    <input type="checkbox" 
-                    style = {{"width":"150px", height:"20px", marginTop:"10px", marginRight:"-63px"}}
-                    onClick = {() => {setDetailed_yn(!(detailed_yn))}}/>
-                    <span style={{marginTop:"10px"}}>SHOW DETAILED</span>
+                    <Form>
+                    <Form.Check onClick = {() => {setDetailed_yn(!(detailed_yn))}} label="SHOW DETAILED"
+                    style = {{marginTop:"10px", marginLeft:"100px"}}/>
                     <br/>
-                    <input type="checkbox" 
-                    style = {{"width":"150px", height:"20px", marginTop:"10px", marginRight:"-63px"}}
-                    onClick = {() => {setEdited_yn(!(edit_yn))}}/>
-                    <span style={{marginTop:"10px"}}>EDIT PAST WORKOUT</span>
+                    <Form.Check onClick = {() => {setEdited_yn(!(edit_yn))}} label="EDIT PAST WORKOUT"
+                    style = {{marginTop:"-20px", marginLeft:"100px"}}/>
+                    </Form>
                 </span>
             </div>
             
