@@ -53,7 +53,7 @@ const createExercise = async (req, res) => {
 
     // Add General Comment document
     try{
-        const generalNotesDocument = await GeneralComment.create({comment: generalNotes, workoutId});
+        const generalNotesDocument = await GeneralComment.create({comment: generalNotes, workoutId, date});
         // ret = res.status(200).json(generalNotesDocument);
     } catch (e){
         return res.status(400).json({error : error.message});
@@ -122,6 +122,33 @@ const updateExercise = async (req, res) => {
     res.status(200).json(updatedExercise)
 }
 
+// Get all workouts that were on a given date
+const getAllWorkoutsOnDate = async (req, res) => {
+    const d = req.params.date
+    const finalDate = d.replaceAll('-', '/')
+
+    console.log(finalDate)
+
+    let generalComments = null;
+    try{
+        generalComments = await GeneralComment.find({ "date" : finalDate})
+    } catch (e) {
+        return res.status(400).json({error: e})
+    }
+
+    let workouts = null;
+
+    try {
+        workouts = await Exercise.find({ "date" : finalDate})
+    } catch (e) {
+        return res.status(400).json({error : e})
+    }
+
+    const ret = { "Date" : finalDate, "GeneralNotes" : generalComments, "Workout" : workouts}
+
+    return res.status(200).json(ret)
+}
+
 // Gets all dates of exercises
 const getAllDates = async (req, res) => {
     let workoutIds = [];
@@ -163,5 +190,6 @@ module.exports = {
     deleteExercise,
     updateExercise,
     getAllDates,
-    getAllWorkoutIDs
+    getAllWorkoutIDs,
+    getAllWorkoutsOnDate
 }

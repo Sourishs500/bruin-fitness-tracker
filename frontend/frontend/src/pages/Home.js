@@ -92,7 +92,7 @@ const Home = () => {
         const handleSubmitWorkoutButton = async (e) => {
             //e.preventDefault();
 
-            const response = await fetch('/api/workouts', {
+            const response = await fetch('/api/workouts/', {
                 method: 'POST',
                 body: JSON.stringify(completeWorkoutData.current),
                 headers: {

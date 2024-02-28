@@ -9,6 +9,10 @@ const generalCommentSchema = new Schema({
     workoutId: {
         type: Number,
         required: true
+    },
+    date: {
+        type: String,
+        required: true
     }
 });
 

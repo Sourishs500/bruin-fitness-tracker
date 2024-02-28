@@ -82,6 +82,7 @@ export default function PastWorkouts({getStats})
             }
         }
     }
+
     //console.log("bad")
     //console.log(dates)
     dates.filter(x => x.startsWith(Date));
