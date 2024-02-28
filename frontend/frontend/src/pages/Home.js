@@ -118,7 +118,7 @@ const Home = () => {
     }
     return (
         <>
-        <div style={{ backgroundColor: 'black' }}><GeneralInformation/></div> 
+        <div style={{ backgroundColor: 'pink' }}><GeneralInformation/></div> 
 
         <div style={{ backgroundColor: 'lightgreen' }}><FullGeneralInfoComponents 
                                                         SendValueUp={receiveGeneralNotes}
