@@ -7,9 +7,9 @@ import Accordion from 'react-bootstrap/Accordion';
 export default function Directions()
 {
     return (
-    <Accordion alwaysOpen>
+    <Accordion alwaysOpen style={{width:1000}}>
       <Accordion.Item eventKey="0">
-        <Accordion.Header>DIRECTIONS</Accordion.Header>
+        <Accordion.Header><div style={{textAlign:"center", fontFamily: "Helvetica-BoldOblique", fontSize: "20px"}}>Direction</div></Accordion.Header>
         <Accordion.Body>
             <p>
                 To create your workout, enter your workout data in the yellow section. Select the appropriate exercise from the drop-down menu. Then,
@@ -34,7 +34,7 @@ export default function Directions()
         </Accordion.Body>
       </Accordion.Item>
       <Accordion.Item eventKey="1">
-        <Accordion.Header>Additional Features</Accordion.Header>
+        <Accordion.Header style={{textAlign:"center", fontFamily: "Helvetica-BoldOblique", fontSize: "20px"}}>Additional Features</Accordion.Header>
         <Accordion.Body>
         <p>
             1) <b>Recommendation System:</b> Enter the theme for the day into the drop-down menu underneath these directions and then click "Generate Recommendation". <em>(80% Complete)</em>
