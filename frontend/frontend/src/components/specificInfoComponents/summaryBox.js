@@ -9,7 +9,7 @@ function getPrintable(x)
 {
     if (Object.keys(x).length==0) return "";
 
-    const widthList = ["12%", "10%", "10%", "20%", "13%", "13%"];
+    const widthList = ["10%", "10%", "8%", "8%", "13%", "13%", "14%"];
     const statTypeList = Object.keys(x.Workout[0].OverallStats);
     return(
         <div>
@@ -17,10 +17,10 @@ function getPrintable(x)
             <table style={{"border":"1px solid black", "borderCollapse":"collapse", "width":"97%"}}>
                 <thead>
                 <tr>
-                    <th style={{"border":"1px solid black", "width":"24%"}}>Exercise</th>
+                    <th style={{"border":"1px solid black", "width":"20%", textAlign:"center"}}>Exercise</th>
                     {[...Array(statTypeList.length).keys()].map(
                             (i => 
-                            <th style={{"border":"1px solid black", "width":widthList[i]}}>{statTypeList[i]}</th>)
+                            <th style={{"border":"1px solid black", "width":widthList[i], textAlign:"center"}}>{statTypeList[i]}</th>)
                         )
                     }
                 </tr>
@@ -56,7 +56,7 @@ export default function SummaryBox ({toShow})
 
     //{getPrintable(toShow)}
     return (<div style={{"display":"inline-block", "backgroundColor":"#ffffaa",
-                        "width":"470px", "height":"300px", 
+                        "width":"500px", "height":"300px", 
                         "border":"1px solid black", "overflow":"scroll",
                         "paddingLeft":"10px"}}> {getPrintable(toShow)}  </div>);
 }
