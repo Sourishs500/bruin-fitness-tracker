@@ -14,8 +14,10 @@ const {
 // GET all workouts
 router.get('/', getAllExercises)
 
+router.get('/allWorkoutIDs', getAllWorkoutIDs)
+
 // Get all dates of workouts
-router.get('/allDates', getAllWorkoutIDs)
+router.get('/allDates', getAllDates)
 
 // GET one workout
 router.get('/:id', getExercise)

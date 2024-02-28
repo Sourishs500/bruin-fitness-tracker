@@ -124,21 +124,35 @@ const updateExercise = async (req, res) => {
 
 // Gets all dates of exercises
 const getAllDates = async (req, res) => {
+    let workoutIds = [];
     try{
-        const exercises = await Exercise.find('date').sort({createdAt: -1});
-        return res.status(200).json(exercises)
-    } catch(e){
-        return res.status(400).json({error: e})
+        workoutIds = await getAllWorkoutIDs(req, res);
+    } catch (e){
+        return res.status(400).send({error: e.message})
     }
+    
+    let dates = [];
+    for(let i = 0; i < workoutIds.length; i++){
+        const d = await Exercise.findOne({'workoutId': workoutIds[i]}, 'date -_id');
+        dates.push(d);
+    }
+
+    return res.status(200).send(dates);
 }
 
 // returns all workoutIDs
 const getAllWorkoutIDs = async (req, res) => {
+    let allIds = []
     try{
         const workoutIDs = await GeneralComment.find({}).select('workoutId')
-        return res.status(200).json(workoutIDs)
+        
+        for(let i = 0; i < workoutIDs.length; i++){
+            allIds.push(workoutIDs[i].workoutId)
+        }
+
+        return allIds
     } catch (e){
-        return res.status(400).json({error: e})
+        return []
     }
 }
 
