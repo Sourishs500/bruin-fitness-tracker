@@ -22,8 +22,7 @@ function GetDataOfPastDate(date, det, statGetter)
 
 //USE THE INFORMATION FROM THE STATGETTER FUNCTION (its implementation is defined in Home.js as GetAllMeasures)
 
-
-
+// New comments by sourish:
 // change date format to 2-27-2024 rather than 2/27/2024 before putting it in the JSON string that's passed in the fetch request.
 // format json string as { "date" : "2-27-2024"}
 
