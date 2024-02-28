@@ -20,6 +20,13 @@ function GetDataOfPastDate(date, det, statGetter)
 //REPLACE THE FOLLOWING LINES WITH THE INFORMATION GLEANED FROM THE BACKEND
 
 //USE THE INFORMATION FROM THE STATGETTER FUNCTION (its implementation is defined in Home.js as GetAllMeasures)
+
+
+
+// change date format to 2-27-2024 rather than 2/27/2024 before putting it in the JSON string that's passed in the fetch request.
+// format json string as { "date" : "2-27-2024"}
+
+
     let text = " Cannot retrieve the workout for "+date+" at this time. We apologize for the inconvenience.";
     if (det!==false) text = "Full data requested. "+text;
     return text;
