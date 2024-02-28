@@ -6,13 +6,13 @@ Remaining Tasks
 */
 import React from 'react';
 import Button from 'react-bootstrap/Button';
-import { Line } from 'react-chartjs-2'; // corrected import
+import { Line } from 'react-chartjs-2'; 
 import {
-  Chart as ChartJS, LineElement, CategoryScale, LinearScale, PointElement
+  Chart as ChartJS, LineElement, CategoryScale, LinearScale, PointElement, Legend
 } from 'chart.js';
 
-ChartJS.register( // corrected typo from ChatJS to ChartJS
-    LineElement, CategoryScale, LinearScale, PointElement
+ChartJS.register( 
+    LineElement, CategoryScale, LinearScale, PointElement, Legend
 ); 
 
 
@@ -33,7 +33,7 @@ export default function GraphGeneration()
     const data = {
        labels : ["2/25/2024", "2/26/2024", "2/27/2024", "2/28/2024", "2/29/2024", "3/1/2024", "3/2/2024", "3/3/2024", "3/4/2024", "3/5/2024"], 
      datasets : [{ 
-        labels : "The average workout exercises",
+        label : "The average workout exercises",
          data: [100,150,200,250,300,350,400,450,500,550],
          backgroundColor: 'aqua',
          boderColor: 'black',
