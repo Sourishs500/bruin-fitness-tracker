@@ -5,7 +5,6 @@ Remaining Tasks
 
 import { useEffect, useState, useRef } from 'react';
 import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
 
 function CreateDateBox({dateFunc})
 {
@@ -20,19 +19,15 @@ function GetDataOfPastDate(date, det, statGetter)
 //YOU CAN CHANGE ANYTHING FROM THIS LINE TO THE LINE THAT SAYS "DO NOT CHANGE ANYTHING BELOW THIS LINE"
 //REPLACE THE FOLLOWING LINES WITH THE INFORMATION GLEANED FROM THE BACKEND
 
-//USE THE INFORMATION FROM THE STATGETTER FUNCTION (its implementation is defined in Home.js as GetAllMeasures)
-
-// New comments by sourish:
-// change date format to 2-27-2024 rather than 2/27/2024 before putting it in the JSON string that's passed in the fetch request.
-// format json string as { "date" : "2-27-2024"}
-
+//ONCE YOU GET THE DATA FROM THE BACKEND, MAKE SURE TO PASS IT THROUGH THE STATGETTER FUNCTION (the implementation is defined in Home.js under GetAllMeasures)
+//THIS WILL GIVE YOU THE STATISTICAL INFORMATION IN ADDITION TO THE RAW INFORMATION FROM THE BACKEND
 
     let text = " Cannot retrieve the workout for "+date+" at this time. We apologize for the inconvenience.";
     if (det!==false) text = "Full data requested. "+text;
     return text;
 
-//DO NOT CHANGE ANYTHING BELOW THIS LINE
-//UNLESS YOU ARE WORKING ON THE WHOLE EDIT-PAST-RECORDS THING
+//I DON'T THINK YOU WILL NEED TO EDIT BELOW THIS LINE UNLESS YOU ARE WORKING ON THE WHOLE EDIT-PAST-RECORDS THING
+//SIMPLY VIEWING PAST DATA SHOULDN'T REQUIRE ANY CHANGES ELSEWHERE, I THINK
 }
 
 function GetDataOfPastDate_element({date, ed, det, stg}) {
@@ -51,23 +46,6 @@ function GetDataOfPastDate_element({date, ed, det, stg}) {
     )
 };
 
-const fetchDates = async () => {
-    let dates = []
-    const response = await fetch('/api/workouts/allDates')
-    const json = await response.json()
-    if (!response.ok){
-        console.error("Something is wrong with getting dates")
-    }else{
-        for(let i = 0; i < json.length; i++){
-            const cur = json[i]
-            const date = cur.date
-            dates.push(date)
-        }
-    }
-
-    return dates;
-}
-
 export default function PastWorkouts({getStats}) 
 //One text box for the display of past data, [one text box for entering the date, one checkbox to show detailed version], one submit button
 /*
@@ -77,27 +55,16 @@ export default function PastWorkouts({getStats})
         Date
 */
 {
-    
     const [Date, setDate] = useState("");
     const [literalDateToGoWith, setTrueDate] = useState("");
-    const dates = useRef([])
-    function  submitButtonHandler(){};
-
-
-    // useEffect(() => {
-    //     const d = fetchDates();
-    //     dates.current = d;
-    // }, [])
-
-    const getThoseDates= async () => {
-        dates.current = await fetchDates();
-    }
+    function submitButtonHandler(){};
     
-    getThoseDates();
-    
+    //This dates array is hardcoded for now, but it won't be
+    const dates = ["2/15/2024", "2/16/2024", "2/17/2024", "2/18/2024", "2/19/2024", 
+    "2/20/2024", "2/21/2024", "2/22/2024", "2/23/2024", "2/25/2024", "2/26/2024", "2/27/2024", "2/28/2024", "2/29/2024", 
+    "3/1/2024", "3/2/2024", "3/3/2024", "3/4/2024", "3/5/2024"].filter(x => x.startsWith(Date));
 
-    //dates.filter(x => x.startsWith(Date));
-    
+
     const colors = useRef(Array(dates.length).fill("black"));
 
     let colorMappingFromDate = {};
@@ -137,8 +104,7 @@ export default function PastWorkouts({getStats})
             <span style={{ display: "flex", alignItems: "flex-start" }}>
                 <div style={{"width":"120px", "height":"300px", "border":"1px solid black", marginRight:"20px", overflowY:"scroll"}}>
 
-                        <
-                            p onClick={e=>{implementUpdateToColors(""); 
+                        <p onClick={e=>{implementUpdateToColors(""); 
                                            console.log(""); setReset("bold");}} 
                                        style={{color:colorMappingState[""], 
                                                fontWeight:resetClicked,
@@ -147,7 +113,7 @@ export default function PastWorkouts({getStats})
                             {clearTextShown.current}
                         </p>                       
                         {
-                            (dates.current).map(x => {
+                            dates.map(x => {
                                             let weight = "normal";
                                             if (colorMappingState[x]==="blue") weight = "bold";
                                             return  <p 
@@ -172,16 +138,19 @@ export default function PastWorkouts({getStats})
                 <span>
                     <CreateDateBox dateFunc={setDate}/>
                     <br/>
-                    <Button size="sm" onClick={() => submitButtonHandler()} style={{marginTop:"15px", marginBottom:"30px"}}>Submit Date</Button>
+                    {//<Button size="sm" onClick={() => submitButtonHandler()} style={{marginBottom:"15px"}}>Submit Date</Button>
+                    }
                 </span>
                 <span>
-                    <Form>
-                    <Form.Check onClick = {() => {setDetailed_yn(!(detailed_yn))}} label="SHOW DETAILED"
-                    style = {{marginTop:"10px", marginLeft:"100px"}}/>
+                    <input type="checkbox" 
+                    style = {{"width":"150px", height:"20px", marginTop:"10px", marginRight:"-63px"}}
+                    onClick = {() => {setDetailed_yn(!(detailed_yn))}}/>
+                    <span style={{marginTop:"10px"}}>SHOW DETAILED</span>
                     <br/>
-                    <Form.Check onClick = {() => {setEdited_yn(!(edit_yn))}} label="EDIT PAST WORKOUT"
-                    style = {{marginTop:"-20px", marginLeft:"100px"}}/>
-                    </Form>
+                    <input type="checkbox" 
+                    style = {{"width":"150px", height:"20px", marginTop:"10px", marginRight:"-63px"}}
+                    onClick = {() => {setEdited_yn(!(edit_yn))}}/>
+                    <span style={{marginTop:"10px"}}>EDIT PAST WORKOUT</span>
                 </span>
             </div>
             
