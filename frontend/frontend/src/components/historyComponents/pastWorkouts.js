@@ -144,7 +144,7 @@ export default function PastWorkouts({getStats})
                             {clearTextShown.current}
                         </p>                       
                         {
-                            dates.map(x => {
+                            (dates.current).map(x => {
                                             let weight = "normal";
                                             if (colorMappingState[x]==="blue") weight = "bold";
                                             return  <p 
