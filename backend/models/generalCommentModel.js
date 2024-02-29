@@ -13,10 +13,6 @@ const generalCommentSchema = new Schema({
     date: {
         type: String,
         required: true
-    },
-    user: {
-        type: String,
-        required: true
     }
 });
 
