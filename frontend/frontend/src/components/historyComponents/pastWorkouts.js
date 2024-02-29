@@ -57,6 +57,7 @@ export default function PastWorkouts({getStats})
 {
     const [Date, setDate] = useState("");
     const [literalDateToGoWith, setTrueDate] = useState("");
+<<<<<<< HEAD
     function submitButtonHandler(){};
     
     //This dates array is hardcoded for now, but it won't be
@@ -65,6 +66,33 @@ export default function PastWorkouts({getStats})
     "3/1/2024", "3/2/2024", "3/3/2024", "3/4/2024", "3/5/2024"].filter(x => x.startsWith(Date));
 
 
+=======
+    function  submitButtonHandler(){};
+
+    let dates = [];
+    console.log("bad")
+
+    const fetchDates = async () => {
+        const response = await fetch('/api/workouts/allDates')
+        const json = await response.json()
+        if (!response.ok){
+            //console.log("bad")
+            console.error("Something is wrong with getting dates")
+        }else{
+            for(let i = 0; i < json.length; i++){
+                const cur = json[i]
+                const date = cur.date
+                //console.log(date)
+                dates.push(date)
+            }
+        }
+    }
+
+    //console.log("bad")
+    //console.log(dates)
+    dates.filter(x => x.startsWith(Date));
+    
+>>>>>>> parent of 8003398 (Retrieving Dates From Backend Successfully)
     const colors = useRef(Array(dates.length).fill("black"));
 
     let colorMappingFromDate = {};
