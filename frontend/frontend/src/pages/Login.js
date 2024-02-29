@@ -46,9 +46,7 @@ const Login = () => {
                 fontFamily: "Trebuchet MS", fontSize: "20px"}}> Submit</Button>
             </div>
         </div>
-    </div>
-    
-        
+    </div>    
     )
 }
 
