@@ -6,29 +6,39 @@ const Login = () => {
 
     const username = useRef();
     const password = useRef();
-    const users = useRef();
+    const user = useRef();
 
     function Box({val}) {
         return <input type="text" ref={val} style = {{"width":"240px", height:"40px", marginTop:"5px"}} 
         onChange={(e) => ((val).current.value = e.target.value)}/>;   
     }
 
-    useEffect(() => {
-        const fetchAccount = async () => {
-            const response = await fetch('/api/user/getUser')
-            const json = await response.json()
+    const fetchAccount = async (name) => {
+        const path = '/api/user/getUser/'.concat("", name)
+        console.log(name)
+        const response = await fetch(path)
+        const json = await response.json()
 
-            if (response.ok){
-                users = json;
-            }
+        if (response.ok){
+            user.current = json;
         }
-        fetchAccount();
-    }, [])
+    }
         
-    function VerifyAccount() {
-        console.log(username.current.value);
-        console.log(password.current.value);
-        console.log(users); 
+    const VerifyAccount = async () => {
+        //console.log(username.current.value);
+        //console.log(password.current.value);
+        //console.log(user); 
+
+        const u = await fetchAccount(username.current.value);
+        console.log(user.current);
+        //console.log(user[0].password);
+        if ((user.current)[0].password != password.current.value) {
+            console.log("wrong password or username");
+        }
+        else {
+            console.log("hooray!");
+        }
+
     }
 
     return (

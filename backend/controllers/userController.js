@@ -14,13 +14,10 @@ const createUser = async (req, res) => {
 
 const getUser = async (req, res) => {
     const username = req.params.user
-
-    const user = await User.find({}).select({'username' : username})
-    
+    const user = await User.find({'username' : username})
     if(!user) {
         return res.status(404).json({error: 'No such user exists.'})
     }
-    
     return res.status(200).json(user)
 }
 
