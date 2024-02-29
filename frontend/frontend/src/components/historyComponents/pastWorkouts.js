@@ -51,6 +51,23 @@ function GetDataOfPastDate_element({date, ed, det, stg}) {
     )
 };
 
+const fetchDates = async () => {
+    let dates = []
+    const response = await fetch('/api/workouts/allDates')
+    const json = await response.json()
+    if (!response.ok){
+        console.error("Something is wrong with getting dates")
+    }else{
+        for(let i = 0; i < json.length; i++){
+            const cur = json[i]
+            const date = cur.date
+            dates.push(date)
+        }
+    }
+
+    return dates;
+}
+
 export default function PastWorkouts({getStats}) 
 //One text box for the display of past data, [one text box for entering the date, one checkbox to show detailed version], one submit button
 /*
@@ -60,32 +77,26 @@ export default function PastWorkouts({getStats})
         Date
 */
 {
+    
     const [Date, setDate] = useState("");
     const [literalDateToGoWith, setTrueDate] = useState("");
+    const dates = useRef([])
     function  submitButtonHandler(){};
 
-    let dates = [];
-    console.log("bad")
 
-    const fetchDates = async () => {
-        const response = await fetch('/api/workouts/allDates')
-        const json = await response.json()
-        if (!response.ok){
-            //console.log("bad")
-            console.error("Something is wrong with getting dates")
-        }else{
-            for(let i = 0; i < json.length; i++){
-                const cur = json[i]
-                const date = cur.date
-                //console.log(date)
-                dates.push(date)
-            }
-        }
+    // useEffect(() => {
+    //     const d = fetchDates();
+    //     dates.current = d;
+    // }, [])
+
+    const getThoseDates= async () => {
+        dates.current = await fetchDates();
     }
+    
+    getThoseDates();
+    
 
-    //console.log("bad")
-    //console.log(dates)
-    dates.filter(x => x.startsWith(Date));
+    //dates.filter(x => x.startsWith(Date));
     
     const colors = useRef(Array(dates.length).fill("black"));
 
@@ -136,7 +147,7 @@ export default function PastWorkouts({getStats})
                             {clearTextShown.current}
                         </p>                       
                         {
-                            dates.map(x => {
+                            (dates.current).map(x => {
                                             let weight = "normal";
                                             if (colorMappingState[x]==="blue") weight = "bold";
                                             return  <p 
