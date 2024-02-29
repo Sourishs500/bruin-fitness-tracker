@@ -14,7 +14,7 @@ const Login = () => {
     }
 
     useEffect(() => {
-        const fetchAccounts = async () => {
+        const fetchAccount = async () => {
             const response = await fetch('/api/user/getUser')
             const json = await response.json()
 
@@ -22,13 +22,13 @@ const Login = () => {
                 users = json;
             }
         }
-        fetchAccounts();
+        fetchAccount();
     }, [])
         
     function VerifyAccount() {
         console.log(username.current.value);
         console.log(password.current.value);
-        //console.log(users); 
+        console.log(users); 
     }
 
     return (

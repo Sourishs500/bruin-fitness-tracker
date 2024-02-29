@@ -8,6 +8,6 @@ const {
 
 router.post('/createUser', createUser)
 
-router.get('/getUser', getUser)
+router.get('/getUser/:user', getUser)
 
 module.exports = router
