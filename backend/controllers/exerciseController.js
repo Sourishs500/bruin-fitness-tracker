@@ -184,8 +184,22 @@ const getAllWorkoutIDs = async (req, res) => {
     }
 }
 
+// Need :group in the params
+// Need user in JSON request
 const getPastWorkoutsByMuscleGroup = async (req, res) => {
-    
+    const muscleWorkouts = {};
+
+    muscleWorkouts['Push'] = ['Chest Press', 'Bench Press']
+    muscleWorkouts['Pull'] = ['Preacher Curls', 'Lat Pull-Downs']
+    muscleWorkouts['Legs'] = ['Wall-Sits', 'Calf Raises']
+
+    const group = req.params.group
+    const user = req.body.User
+
+    const exerciseList = muscleWorkouts[group]
+
+    const workoutList = Exercise.find({})
+
 }
 
 module.exports = {
