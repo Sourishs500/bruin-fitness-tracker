@@ -81,12 +81,9 @@ const Home = () => {
 
     //receives the workout data from FullSpecificInfo and stores it dataWithoutGeneralComments
     // handleSubmitWorkoutButton()
-
-    // User is hardcoded to be lara currently 
-    // Change it to a currentuser state variable, 2/29/24 1:41 AM
     function receiveData({data}){
         dataWithoutGeneralComments.current = data["n"];
-        completeWorkoutData.current = {"Date":generalDate.current, "GeneralNotes":generalNotes.current, "Workout":dataWithoutGeneralComments.current, "User":"lara"};
+        completeWorkoutData.current = {"Date":generalDate.current, "GeneralNotes":generalNotes.current, "Workout":dataWithoutGeneralComments.current};
         updateCompleteWorkout(completeWorkoutData.current);
 
         updateExercisesAcrossWorkout(dataWithoutGeneralComments.current.map(i => (i["Exercise"])));

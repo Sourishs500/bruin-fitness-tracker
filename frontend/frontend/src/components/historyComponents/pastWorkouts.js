@@ -5,7 +5,6 @@ Remaining Tasks
 
 import { useEffect, useState, useRef } from 'react';
 import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
 
 function CreateDateBox({dateFunc})
 {
@@ -31,8 +30,8 @@ function GetDataOfPastDate(date, det, statGetter)
     if (det!==false) text = "Full data requested. "+text;
     return text;
 
-//DO NOT CHANGE ANYTHING BELOW THIS LINE
-//UNLESS YOU ARE WORKING ON THE WHOLE EDIT-PAST-RECORDS THING
+//I DON'T THINK YOU WILL NEED TO EDIT BELOW THIS LINE UNLESS YOU ARE WORKING ON THE WHOLE EDIT-PAST-RECORDS THING
+//SIMPLY VIEWING PAST DATA SHOULDN'T REQUIRE ANY CHANGES ELSEWHERE, I THINK
 }
 
 function GetDataOfPastDate_element({date, ed, det, stg}) {
@@ -77,7 +76,6 @@ export default function PastWorkouts({getStats})
         Date
 */
 {
-    
     const [Date, setDate] = useState("");
     const [literalDateToGoWith, setTrueDate] = useState("");
     const dates = useRef([])
@@ -137,8 +135,7 @@ export default function PastWorkouts({getStats})
             <span style={{ display: "flex", alignItems: "flex-start" }}>
                 <div style={{"width":"120px", "height":"300px", "border":"1px solid black", marginRight:"20px", overflowY:"scroll"}}>
 
-                        <
-                            p onClick={e=>{implementUpdateToColors(""); 
+                        <p onClick={e=>{implementUpdateToColors(""); 
                                            console.log(""); setReset("bold");}} 
                                        style={{color:colorMappingState[""], 
                                                fontWeight:resetClicked,
@@ -172,16 +169,19 @@ export default function PastWorkouts({getStats})
                 <span>
                     <CreateDateBox dateFunc={setDate}/>
                     <br/>
-                    <Button size="sm" onClick={() => submitButtonHandler()} style={{marginTop:"15px", marginBottom:"30px"}}>Submit Date</Button>
+                    {//<Button size="sm" onClick={() => submitButtonHandler()} style={{marginBottom:"15px"}}>Submit Date</Button>
+                    }
                 </span>
                 <span>
-                    <Form>
-                    <Form.Check onClick = {() => {setDetailed_yn(!(detailed_yn))}} label="SHOW DETAILED"
-                    style = {{marginTop:"10px", marginLeft:"100px"}}/>
+                    <input type="checkbox" 
+                    style = {{"width":"150px", height:"20px", marginTop:"10px", marginRight:"-63px"}}
+                    onClick = {() => {setDetailed_yn(!(detailed_yn))}}/>
+                    <span style={{marginTop:"10px"}}>SHOW DETAILED</span>
                     <br/>
-                    <Form.Check onClick = {() => {setEdited_yn(!(edit_yn))}} label="EDIT PAST WORKOUT"
-                    style = {{marginTop:"-20px", marginLeft:"100px"}}/>
-                    </Form>
+                    <input type="checkbox" 
+                    style = {{"width":"150px", height:"20px", marginTop:"10px", marginRight:"-63px"}}
+                    onClick = {() => {setEdited_yn(!(edit_yn))}}/>
+                    <span style={{marginTop:"10px"}}>EDIT PAST WORKOUT</span>
                 </span>
             </div>
             

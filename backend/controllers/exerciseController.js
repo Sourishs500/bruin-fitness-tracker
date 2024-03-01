@@ -37,7 +37,6 @@ const createExercise = async (req, res) => {
     const date = (req.body).Date;
     const generalNotes = (req.body).GeneralNotes;
     const workout = (req.body).Workout;
-    const user = (req.body).User;
 
     let sameDayWorkoutCount = 0;
 
@@ -54,7 +53,7 @@ const createExercise = async (req, res) => {
 
     // Add General Comment document
     try{
-        const generalNotesDocument = await GeneralComment.create({comment: generalNotes, workoutId, date, user});
+        const generalNotesDocument = await GeneralComment.create({comment: generalNotes, workoutId, date});
         // ret = res.status(200).json(generalNotesDocument);
     } catch (e){
         return res.status(400).json({error : error.message});
@@ -77,7 +76,7 @@ const createExercise = async (req, res) => {
         }
 
         try {
-            exerciseDocument = await Exercise.create({name, sets: setsInfo, notes, workoutId, date, user})
+            exerciseDocument = await Exercise.create({name, sets: setsInfo, notes, workoutId, date})
             //ret = res.status(200).json(exerciseDocument)
         } catch (error){
             return res.status(400).json({error: error.message})
