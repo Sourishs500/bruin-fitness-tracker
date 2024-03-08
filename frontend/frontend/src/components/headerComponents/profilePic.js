@@ -1,4 +1,5 @@
 import kirby from './kirby.png'
+<<<<<<< HEAD
 import defaultProfilePic from "./GrayBox.png"
 import { useEffect, useState, useRef } from 'react';
 
@@ -12,6 +13,10 @@ async function getPlatinumStars()
 {
     return 200; //replace this statement with the implementation of the backend call required to get the actual value
 }
+
+
+import chest from './chest.png'
+import bicep from './bicep.png'
 
 
 export default function ProfilePic()

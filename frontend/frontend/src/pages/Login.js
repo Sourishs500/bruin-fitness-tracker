@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import Button from 'react-bootstrap/Button';
 import {Link} from 'react-router-dom'
+import FullHeader from  '../components/headerComponents/FullHeader.js' 
 
 const Login = () => {
 
@@ -42,6 +43,8 @@ const Login = () => {
     }
 
     return (
+    <>
+    <div style={{ backgroundColor: '#6699ff' }}><FullHeader/></div>
     <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}> 
         <div style={{"width":"250px", height:"200px", display: "flex", flexDirection: "column"}}>
             <div className="generalText" style = {{alignSelf:"center", marginTop:"20px"}} >
@@ -56,7 +59,8 @@ const Login = () => {
                 fontFamily: "Trebuchet MS", fontSize: "20px"}}> Submit</Button>
             </div>
         </div>
-    </div>    
+    </div>  
+    </>  
     )
 }
 
