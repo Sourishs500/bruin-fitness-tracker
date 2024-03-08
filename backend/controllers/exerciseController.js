@@ -149,6 +149,17 @@ const getAllWorkoutsOnDate = async (req, res) => {
     return res.status(200).json(ret)
 }
 
+const getWorkoutsOfType = async (req, res) => {
+    const d = req.params.name
+    let workouts = null;
+    try {
+        workouts = await Exercise.find({ "name" : finalDate})
+    } catch (e) {
+        return res.status(400).json({error : e})
+    }
+    return res.status(200).json(workouts)
+}
+
 // Gets all dates of exercises
 const getAllDates = async (req, res) => {
 
@@ -203,5 +214,6 @@ module.exports = {
     updateExercise,
     getAllDates,
     getAllWorkoutIDs,
-    getAllWorkoutsOnDate
+    getAllWorkoutsOnDate,
+    getWorkoutsOfType
 }
