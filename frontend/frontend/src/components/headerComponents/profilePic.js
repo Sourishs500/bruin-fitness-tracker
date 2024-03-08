@@ -1,6 +1,6 @@
 import kirby from './kirby.png'
-import chest from './chest.png'
-import bicep from './bicep.png'
+//import chest from './chest.png'
+//import bicep from './bicep.png'
 
 import defaultProfilePic from "./GrayBox.png"
 import { useEffect, useState, useRef } from 'react';
@@ -26,7 +26,7 @@ export default function ProfilePic()
     const plats = async () => updatePlatStarCount(await getPlatinumStars());
     golds();
     plats();
-    const userLoggedIn = false;
+    const userLoggedIn = true;
     //const [userLoggedIn, updateUserLoggedIn] = useState(true);
     
     if (userLoggedIn)
