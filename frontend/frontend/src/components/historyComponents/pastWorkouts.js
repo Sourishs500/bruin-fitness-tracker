@@ -15,10 +15,6 @@ function CreateDateBox({dateFunc})
 
 function GetDataOfPastDate(date, det, statGetter)
 {
-//IF YOU ARE WORKING ON JUST SHOWING PAST DATA WITHIN THE TEXTBOX (WITHOUT THE WHOLE EDIT-PAST-RECORDS THING)
-//YOU CAN CHANGE ANYTHING FROM THIS LINE TO THE LINE THAT SAYS "DO NOT CHANGE ANYTHING BELOW THIS LINE"
-//REPLACE THE FOLLOWING LINES WITH THE INFORMATION GLEANED FROM THE BACKEND
-
 //USE THE INFORMATION FROM THE STATGETTER FUNCTION (its implementation is defined in Home.js as GetAllMeasures)
 
 // New comments by sourish:
@@ -26,12 +22,9 @@ function GetDataOfPastDate(date, det, statGetter)
 // format json string as { "date" : "2-27-2024"}
 
 
-    let text = " Cannot retrieve the workout for "+date+" at this time. We apologize for the inconvenience.";
-    if (det!==false) text = "Full data requested. "+text;
-    return text;
-
-//I DON'T THINK YOU WILL NEED TO EDIT BELOW THIS LINE UNLESS YOU ARE WORKING ON THE WHOLE EDIT-PAST-RECORDS THING
-//SIMPLY VIEWING PAST DATA SHOULDN'T REQUIRE ANY CHANGES ELSEWHERE, I THINK
+    let failure_text = " Cannot retrieve the workout for "+date+" at this time. We apologize for the inconvenience.";
+    if (det!==false) failure_text = "Full data requested. "+failure_text;
+    return failure_text;
 }
 
 function GetDataOfPastDate_element({date, ed, det, stg}) {
@@ -63,6 +56,27 @@ const fetchDates = async () => {
             dates.push(date)
         }
     }
+    if (dates.length == 0) { return dates }
+
+    // Properly name workouts occurred on same dates
+    let numberOfWorkouts = dates.length
+    let current_date = ""
+    let current_date_counter = 0
+    for (let i=0; i < numberOfWorkouts; i++)
+    {
+        // First instance of a new date
+        if(current_date != dates[i])  { current_date = dates[i]; current_date_counter = 1 }
+        else { current_date_counter += 1 }
+
+        // Next instance of a new date
+        if(current_date_counter > 1)
+        {
+            for(let j = 0; j < current_date_counter; j++)
+            {
+                dates[i-j] = current_date + " (" + (j+1) +")"
+            }
+        }
+    }
 
     return dates;
 }
@@ -78,23 +92,14 @@ export default function PastWorkouts({getStats})
 {
     const [Date, setDate] = useState("");
     const [literalDateToGoWith, setTrueDate] = useState("");
-    const dates = useRef([])
+    const [dates, updateDateList] = useState([])
     function  submitButtonHandler(){};
 
-
-    // useEffect(() => {
-    //     const d = fetchDates();
-    //     dates.current = d;
-    // }, [])
-
     const getThoseDates= async () => {
-        dates.current = await fetchDates();
+        updateDateList(await fetchDates());
     }
     
     getThoseDates();
-    
-
-    //dates.filter(x => x.startsWith(Date));
     
     const colors = useRef(Array(dates.length).fill("black"));
 
@@ -144,7 +149,7 @@ export default function PastWorkouts({getStats})
                             {clearTextShown.current}
                         </p>                       
                         {
-                            (dates.current).map(x => {
+                            (dates).map(x => {
                                             let weight = "normal";
                                             if (colorMappingState[x]==="blue") weight = "bold";
                                             return  <p 
