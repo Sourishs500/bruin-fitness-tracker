@@ -6,6 +6,7 @@ Remaining Tasks
 */
 import React from 'react';
 import { useState } from 'react';
+import { useRef } from 'react';
 import Button from 'react-bootstrap/Button';
 import { Line } from 'react-chartjs-2'; 
 import {
@@ -84,6 +85,20 @@ export default function GraphGeneration()
         ]    
     ]
 
+    const graphData= useRef()
+
+    const fetchData = async (name) => {
+        const path = '/api/workouts/name/'.concat("", name)
+        //console.log(name)
+        const response = await fetch(path)
+        const json = await response.json()
+
+        if (response.ok){
+            graphData.current = json;
+        }
+        console.log(json)
+    }
+
     const [exercise, setExercise] = useState(0);
     const [measurement, setMeasurement] = useState(0);
     const [data, changeData] = useState({
@@ -92,7 +107,7 @@ export default function GraphGeneration()
             label : measurements[measurement],
             data:  datas[exercise][measurement],
             backgroundColor: 'aqua',
-            boderColor: 'black',
+            borderColor: 'black',
             pointBorderColor: 'aqua',
             fill: true
             }],      
@@ -101,7 +116,7 @@ export default function GraphGeneration()
     // console.log(exercise);
     // console.log(measurement);
     // console.log(datas[exercise][measurement])
-    function ChangeGraph(event) {
+    const ChangeGraph = async () => {
         changeData(
             {
             labels : dates[exercise], 
@@ -115,6 +130,7 @@ export default function GraphGeneration()
                }],
             }
         )
+        const graphData = await fetchData(allExercises[exercise])
     }
     return (
         <div>
@@ -137,7 +153,7 @@ export default function GraphGeneration()
                     measCount.map(category => <option key={category} value={category}>{measurements[category]}</option>)
                 }</select>
                 <Button 
-                    onClick = {ChangeGraph}
+                    onClick = {()=>ChangeGraph()}
                     size="sm"
                     key={3} 
                     style={{ marginBottom: "40px", marginTop: "15px" }}
