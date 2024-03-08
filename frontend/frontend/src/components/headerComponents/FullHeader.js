@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from 'react';
 
 //To-Do: Implementing the profile pic feature
 
-export default function FullHeader()
+export default function FullHeader({SendValueUp})
 {
     const [logInStatus, setLogInStatus] = useState(false);
     const [username, setUsername] = useState(""); 

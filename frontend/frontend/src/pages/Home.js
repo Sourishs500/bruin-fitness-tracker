@@ -3,7 +3,8 @@ import { useEffect, useState, useRef } from 'react';
 import FullGeneralInfoComponents from '../components/generalInfoComponents/fullGeneralInfoComponents.js';
 import GeneralInformation from '../components/basicInformation/fullGeneralInformation.js'; 
 import FullHistoryComponents from '../components/historyComponents/fullHistoryComponents.js'; 
-import FullSpecificInfoComponents from '../components/specificInfoComponents/fullSpecificInfoComponents.js'; 
+import FullSpecificInfoComponents from '../components/specificInfoComponents/fullSpecificInfoComponents.js';
+import FullHeader from  '../components/headerComponents/FullHeader.js' 
 
 const Home = () => {
     const [workouts, setWorkouts] = useState(null)
@@ -79,11 +80,21 @@ const Home = () => {
         return workoutcopy;
     }
 
+    ////// Start of section for USERNAME-related variables/functions.
+    const currentUser = useRef("");
+    function receiveUser({username}) {
+        currentUser.current = username["n"];
+    } 
+
+    ////// End of section for USERNAME-related variables/functions.
+
+
     //receives the workout data from FullSpecificInfo and stores it dataWithoutGeneralComments
     // handleSubmitWorkoutButton()
     function receiveData({data}){
         dataWithoutGeneralComments.current = data["n"];
-        completeWorkoutData.current = {"Date":generalDate.current, "GeneralNotes":generalNotes.current, "Workout":dataWithoutGeneralComments.current};
+        completeWorkoutData.current = {"Date":generalDate.current, "GeneralNotes":generalNotes.current,
+                                        "Workout":dataWithoutGeneralComments.current, "User":"sourish"}; //sourish hardcoded for now
         updateCompleteWorkout(completeWorkoutData.current);
 
         updateExercisesAcrossWorkout(dataWithoutGeneralComments.current.map(i => (i["Exercise"])));
@@ -103,6 +114,7 @@ const Home = () => {
             const json = await response.json();
 
             if(!response.ok){
+                console.log("BITCH WWHA THE FUCK")
                 console.log(json.error)
             }else{
                 console.log('Workout added to the backend')
@@ -118,8 +130,10 @@ const Home = () => {
     }
     return (
         <>
+        <div style={{ backgroundColor: '#6699ff' }}><FullHeader
+                                                        SendValueUp={receiveUser}
+                                                        /></div>
         <div style={{ backgroundColor: 'pink' }}><GeneralInformation/></div> 
-
         <div style={{ backgroundColor: 'lightgreen' }}><FullGeneralInfoComponents 
                                                         SendValueUp={receiveGeneralNotes}
                                                         SendDateUp={receiveGeneralDate}
