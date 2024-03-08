@@ -56,28 +56,7 @@ const fetchDates = async () => {
             dates.push(date)
         }
     }
-    if (dates.length == 0) { return dates }
-
-    // Properly name workouts occurred on same dates
-    let numberOfWorkouts = dates.length
-    let current_date = ""
-    let current_date_counter = 0
-    for (let i=0; i < numberOfWorkouts; i++)
-    {
-        // First instance of a new date
-        if(current_date != dates[i])  { current_date = dates[i]; current_date_counter = 1 }
-        else { current_date_counter += 1 }
-
-        // Next instance of a new date
-        if(current_date_counter > 1)
-        {
-            for(let j = 0; j < current_date_counter; j++)
-            {
-                dates[i-j] = current_date + " (" + (j+1) +")"
-            }
-        }
-    }
-
+    
     return dates;
 }
 
@@ -100,6 +79,30 @@ export default function PastWorkouts({getStats})
     }
     
     getThoseDates();
+
+    if (dates.length > 0) {
+
+        // Properly name workouts occurred on same dates
+        let numberOfWorkouts = dates.length
+        let current_date = ""
+        let current_date_counter = 0
+        for (let i=0; i < numberOfWorkouts; i++)
+        {
+            // First instance of a new date
+            if(current_date != dates[i])  { current_date = dates[i]; current_date_counter = 1 }
+            else { current_date_counter += 1 }
+
+            // Next instance of a new date
+            if(current_date_counter > 1)
+            {
+                for(let j = 0; j < current_date_counter; j++)
+                {
+                    dates[i-j] = current_date + " (" + (j+1) +")"
+                }
+            }
+        }
+    }
+
     
     const colors = useRef(Array(dates.length).fill("black"));
 
