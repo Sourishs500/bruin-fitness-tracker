@@ -56,7 +56,7 @@ const createExercise = async (req, res) => {
         const generalNotesDocument = await GeneralComment.create({comment: generalNotes, workoutId, date});
         // ret = res.status(200).json(generalNotesDocument);
     } catch (e){
-        return res.status(400).json({error : error.message});
+        return res.status(400).json({error : "um no work"});
     }
     
     let exerciseDocument = null;
@@ -149,11 +149,11 @@ const getAllWorkoutsOnDate = async (req, res) => {
     return res.status(200).json(ret)
 }
 
-const getWorkoutsOfType = async (req, res) => {
-    const d = req.params.name
+const getWorkoutsOfName = async (req, res) => {
+    const name = req.params.name
     let workouts = null;
     try {
-        workouts = await Exercise.find({ "name" : finalDate})
+        workouts = await Exercise.find({"name" : 'bench press'})
     } catch (e) {
         return res.status(400).json({error : e})
     }
@@ -215,5 +215,5 @@ module.exports = {
     getAllDates,
     getAllWorkoutIDs,
     getAllWorkoutsOnDate,
-    getWorkoutsOfType
+    getWorkoutsOfName
 }
