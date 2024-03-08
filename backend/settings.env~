@@ -1,0 +1,2 @@
+PORT=4000
+MONGO_URI=mongodb+srv://lara:Jikji123@bruin-fitness-tracker-2.ybsv9m6.mongodb.net/fit-track?retryWrites=true&w=majority
