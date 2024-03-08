@@ -13,6 +13,17 @@ function CreateDateBox({dateFunc})
     return <input type="text" style = {{"width":"120px", height:"30px", marginTop:"10px"}} onInput = {handleChange}/>;   
 }
 
+const fetchWorkoutInfo = async () => {
+    let dates = []
+    const response = await fetch('/api/workouts/2-29-24')
+    const json = await response.json()
+    if (!response.ok){
+        console.error("Something is wrong with getting dates")
+    }
+    console.log(json)
+    return json;
+}
+
 function GetDataOfPastDate(date, det, statGetter)
 {
 //USE THE INFORMATION FROM THE STATGETTER FUNCTION (its implementation is defined in Home.js as GetAllMeasures)
@@ -20,11 +31,16 @@ function GetDataOfPastDate(date, det, statGetter)
 // New comments by sourish:
 // change date format to 2-27-2024 rather than 2/27/2024 before putting it in the JSON string that's passed in the fetch request.
 // format json string as { "date" : "2-27-2024"}
+    let text = ""
+    const getWorkoutInfo= async () => {
+        text = await fetchWorkoutInfo();
+    }
 
+    getWorkoutInfo();
 
     let failure_text = " Cannot retrieve the workout for "+date+" at this time. We apologize for the inconvenience.";
     if (det!==false) failure_text = "Full data requested. "+failure_text;
-    return failure_text;
+    return text;
 }
 
 function GetDataOfPastDate_element({date, ed, det, stg}) {
@@ -56,6 +72,25 @@ const fetchDates = async () => {
             dates.push(date)
         }
     }
+
+    let numberOfWorkouts = dates.length
+    let current_date = ""
+    let current_date_counter = 0
+    for (let i=0; i < numberOfWorkouts; i++)
+    {
+        // First instance of a new date
+        if(current_date != dates[i])  { current_date = dates[i]; current_date_counter = 1 }
+        else { current_date_counter += 1 }
+
+        // Next instance of a new date
+        if(current_date_counter > 1)
+        {
+            for(let j = 0; j < current_date_counter; j++)
+            {
+                dates[i-j] = current_date + " (" + (j+1) +")"
+            }
+        }
+    }
     
     return dates;
 }
@@ -78,30 +113,7 @@ export default function PastWorkouts({getStats})
         updateDateList(await fetchDates());
     }
     
-    getThoseDates();
-
-    if (dates.length > 0) {
-
-        // Properly name workouts occurred on same dates
-        let numberOfWorkouts = dates.length
-        let current_date = ""
-        let current_date_counter = 0
-        for (let i=0; i < numberOfWorkouts; i++)
-        {
-            // First instance of a new date
-            if(current_date != dates[i])  { current_date = dates[i]; current_date_counter = 1 }
-            else { current_date_counter += 1 }
-
-            // Next instance of a new date
-            if(current_date_counter > 1)
-            {
-                for(let j = 0; j < current_date_counter; j++)
-                {
-                    dates[i-j] = current_date + " (" + (j+1) +")"
-                }
-            }
-        }
-    }
+    //getThoseDates();
 
     
     const colors = useRef(Array(dates.length).fill("black"));
