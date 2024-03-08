@@ -151,20 +151,14 @@ const getAllWorkoutsOnDate = async (req, res) => {
 
 // Gets all dates of exercises
 const getAllDates = async (req, res) => {
-    let workoutIds = [];
-    try{
-        workoutIds = await getAllWorkoutIDs(req, res);
-    } catch (e){
-        return res.status(400).send({error: e.message})
-    }
-    
-    let dates = [];
-    for(let i = 0; i < workoutIds.length; i++){
-        const d = await Exercise.findOne({'workoutId': workoutIds[i]}, 'date -_id');
-        dates.push(d);
+
+    try{    
+        const dates = await GeneralComment.find({}).select('date -_id');
+        return res.status(200).json(dates)
+    } catch (e) {
+        return res.status(400).send({error : e.message})
     }
 
-    return res.status(200).send(dates);
 }
 
 // returns all workoutIDs
