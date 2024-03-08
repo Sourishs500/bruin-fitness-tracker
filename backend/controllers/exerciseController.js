@@ -37,6 +37,7 @@ const createExercise = async (req, res) => {
     const date = (req.body).Date;
     const generalNotes = (req.body).GeneralNotes;
     const workout = (req.body).Workout;
+    const user = (req.body).User;
 
     let sameDayWorkoutCount = 0;
 
@@ -56,7 +57,7 @@ const createExercise = async (req, res) => {
         const generalNotesDocument = await GeneralComment.create({comment: generalNotes, workoutId, date});
         // ret = res.status(200).json(generalNotesDocument);
     } catch (e){
-        return res.status(400).json({error : "um no work"});
+        return res.status(400).json({error : e.message});
     }
     
     let exerciseDocument = null;
@@ -76,7 +77,7 @@ const createExercise = async (req, res) => {
         }
 
         try {
-            exerciseDocument = await Exercise.create({name, sets: setsInfo, notes, workoutId, date})
+            exerciseDocument = await Exercise.create({name, sets: setsInfo, notes, workoutId, date, user})
             //ret = res.status(200).json(exerciseDocument)
         } catch (error){
             return res.status(400).json({error: error.message})
@@ -150,10 +151,10 @@ const getAllWorkoutsOnDate = async (req, res) => {
 }
 
 const getWorkoutsOfName = async (req, res) => {
-    const name = req.params.name
+    const d = req.params.name
     let workouts = null;
     try {
-        workouts = await Exercise.find({"name" : 'bench press'})
+        workouts = await Exercise.find({ "name" : finalDate})
     } catch (e) {
         return res.status(400).json({error : e})
     }
