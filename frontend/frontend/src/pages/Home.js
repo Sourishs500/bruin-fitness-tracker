@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import FullGeneralInfoComponents from '../components/generalInfoComponents/fullGeneralInfoComponents.js';
 import GeneralInformation from '../components/basicInformation/fullGeneralInformation.js'; 
@@ -6,7 +7,9 @@ import FullHistoryComponents from '../components/historyComponents/fullHistoryCo
 import FullSpecificInfoComponents from '../components/specificInfoComponents/fullSpecificInfoComponents.js';
 import FullHeader from  '../components/headerComponents/FullHeader.js' 
 
-const Home = () => {
+const Home = ({username}) => {
+    console.log("HELLO!", username)
+
     const [workouts, setWorkouts] = useState(null)
 
     useEffect(() => {
@@ -80,21 +83,12 @@ const Home = () => {
         return workoutcopy;
     }
 
-    ////// Start of section for USERNAME-related variables/functions.
-    const currentUser = useRef("");
-    function receiveUser({username}) {
-        currentUser.current = username["n"];
-    } 
-
-    ////// End of section for USERNAME-related variables/functions.
-
-
     //receives the workout data from FullSpecificInfo and stores it dataWithoutGeneralComments
     // handleSubmitWorkoutButton()
     function receiveData({data}){
         dataWithoutGeneralComments.current = data["n"];
         completeWorkoutData.current = {"Date":generalDate.current, "GeneralNotes":generalNotes.current,
-                                        "Workout":dataWithoutGeneralComments.current, "User":"sourish"}; //sourish hardcoded for now
+                                        "Workout":dataWithoutGeneralComments.current, "User":{username}};
         updateCompleteWorkout(completeWorkoutData.current);
 
         updateExercisesAcrossWorkout(dataWithoutGeneralComments.current.map(i => (i["Exercise"])));
@@ -114,7 +108,6 @@ const Home = () => {
             const json = await response.json();
 
             if(!response.ok){
-                console.log("BITCH WWHA THE FUCK")
                 console.log(json.error)
             }else{
                 console.log('Workout added to the backend')
@@ -128,11 +121,18 @@ const Home = () => {
         completeWorkoutData.current = GetAllMeasures({completeWorkoutData2:myCopy});
         console.log("Updated: ", completeWorkoutData.current);
     }
+
+    ////// Start of section for USERNAME-related variables/functions.
+    //const [currentUser, setCurrentUsername] = useState("");
+    const currentUser = useRef("");
+    function setCurrentUsername(username_data) {
+        currentUser.current = username_data;
+    } 
+
+    ////// End of section for USERNAME-related variables/functions.
+
     return (
         <>
-        <div style={{ backgroundColor: '#6699ff' }}><FullHeader
-                                                        SendValueUp={receiveUser}
-                                                        /></div>
         <div style={{ backgroundColor: 'pink' }}><GeneralInformation/></div> 
         <div style={{ backgroundColor: 'lightgreen' }}><FullGeneralInfoComponents 
                                                         SendValueUp={receiveGeneralNotes}

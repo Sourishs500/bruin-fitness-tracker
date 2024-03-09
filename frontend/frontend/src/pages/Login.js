@@ -1,11 +1,9 @@
 import { useEffect, useState, useRef } from 'react';
 import Button from 'react-bootstrap/Button';
 import {Link} from 'react-router-dom'
-import FullHeader from  '../components/headerComponents/FullHeader.js' 
 
-const Login = () => {
-
-    const username = useRef();
+const Login = ({username, setUsername}) => {
+    const username1 = useRef();
     const password = useRef();
     const user = useRef();
 
@@ -16,23 +14,19 @@ const Login = () => {
 
     const fetchAccount = async (name) => {
         const path = '/api/user/getUser/'.concat("", name)
-        console.log(name)
         const response = await fetch(path)
         const json = await response.json()
-
-        if (response.ok){
-            user.current = json;
-        }
+        if (response.ok) { user.current = json; } // can't catch invalid usernames rn...
     }
         
     const VerifyAccount = async () => {
-        //console.log(username.current.value);
-        //console.log(password.current.value);
-        //console.log(user); 
-
-        const u = await fetchAccount(username.current.value);
-        console.log(user.current);
-        //console.log(user[0].password);
+        const u = await fetchAccount(username1.current.value);
+        console.log("////RESET/////");
+        console.log(username1.current.value);
+        setUsername(username1.current.value);
+        //console.log("username:", user.current[0].username);
+        //console.log("correct password:", (user.current)[0].password);
+        //console.log("inputted password:", password.current.value);
         if ((user.current)[0].password != password.current.value) {
             console.log("wrong password or username");
         }
@@ -43,15 +37,13 @@ const Login = () => {
     }
 
     return (
-    <>
-    <div style={{ backgroundColor: '#6699ff' }}><FullHeader/></div>
-    <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}> 
+        <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}> 
         <div style={{"width":"250px", height:"200px", display: "flex", flexDirection: "column"}}>
             <div className="generalText" style = {{alignSelf:"center", marginTop:"20px"}} >
                 {"No account? "} <Link to="/create_new_account" style = {{color: '#0000cc'}} > Sign up</Link>{"!"}
             </div>
             <div className="generalText" style = {{alignSelf:"self-start", marginTop:"10px"}} >{"username/email"}</div>
-            <div> <Box val={username}/> </div> 
+            <div> <Box val={username1}/> </div> 
             <div className="generalText" style = {{alignSelf:"self-start", marginTop:"10px"}} >{"password"}</div>
             <div> <Box val={password}/> </div>
             <div ><Button size="sm" variant="outline-primary" onClick={() => VerifyAccount()} 
@@ -59,8 +51,7 @@ const Login = () => {
                 fontFamily: "Trebuchet MS", fontSize: "20px"}}> Submit</Button>
             </div>
         </div>
-    </div>  
-    </>  
+        </div> 
     )
 }
 
