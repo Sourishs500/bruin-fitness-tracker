@@ -6,58 +6,14 @@ Remaining Tasks
 import { useEffect, useState, useRef } from 'react';
 import Button from 'react-bootstrap/Button';
 
+// ------------- Date Fetching Functions ------------
+
 function CreateDateBox({dateFunc})
 {
     const [value, setValue] = useState('');
     const handleChange = (event) => {setValue(event.target.value); dateFunc(event.target.value);};
     return <input type="text" style = {{"width":"120px", height:"30px", marginTop:"10px"}} onInput = {handleChange}/>;   
 }
-
-const fetchWorkoutInfo = async () => {
-    let dates = []
-    const response = await fetch('/api/workouts/2-29-24')
-    const json = await response.json()
-    if (!response.ok){
-        console.error("Something is wrong with getting dates")
-    }
-    console.log(json)
-    return json;
-}
-
-function GetDataOfPastDate(date, det, statGetter)
-{
-//USE THE INFORMATION FROM THE STATGETTER FUNCTION (its implementation is defined in Home.js as GetAllMeasures)
-
-// New comments by sourish:
-// change date format to 2-27-2024 rather than 2/27/2024 before putting it in the JSON string that's passed in the fetch request.
-// format json string as { "date" : "2-27-2024"}
-    let text = ""
-    const getWorkoutInfo= async () => {
-        text = await fetchWorkoutInfo();
-    }
-
-    getWorkoutInfo();
-
-    let failure_text = " Cannot retrieve the workout for "+date+" at this time. We apologize for the inconvenience.";
-    if (det!==false) failure_text = "Full data requested. "+failure_text;
-    return text;
-}
-
-function GetDataOfPastDate_element({date, ed, det, stg}) {
-    let text = "";
-    if (date!==text)
-    {
-        if (ed!==false) text = "CANNOT PROVIDE EDITING ACCESS AT THIS TIME."
-        else text = GetDataOfPastDate(date, det, stg);
-    }
-    return (
-        <div>
-            <p style={{marginLeft:"10px"}}> <b> <em> 
-                {text}
-            </em> </b> </p>
-        </div>
-    )
-};
 
 const fetchDates = async () => {
     let dates = []
@@ -87,13 +43,66 @@ const fetchDates = async () => {
         {
             for(let j = 0; j < current_date_counter; j++)
             {
-                dates[i-j] = current_date + " (" + (j+1) +")"
+                dates[i-j] = current_date + " (" + (current_date_counter-j) +")"
             }
         }
     }
     
-    return dates;
+    return dates.reverse();
 }
+
+// ------------- Workout Detail Fetching Functions ------------
+
+
+const fetchWorkoutInfo = async (date) => {
+    let convertedDate = (date.replace("/", "-")).replace("/", "-")
+    let indexOfDescriptor = convertedDate.indexOf("(")
+    if(indexOfDescriptor != -1) { convertedDate = convertedDate.substring(0,indexOfDescriptor-1)}
+
+    let dates = []
+    const response = await fetch('/api/workouts/' + convertedDate)
+    const json = await response.json()
+    if (!response.ok){
+        console.error("Something is wrong with getting dates")
+    }
+    console.log(json)
+    return json;
+}
+
+function GetDataOfPastDate(date, det, statGetter)
+{
+//USE THE INFORMATION FROM THE STATGETTER FUNCTION (its implementation is defined in Home.js as GetAllMeasures)
+
+    if(date == "CLEAR") { return "" }
+
+    let text = ""
+    const getWorkoutInfo= async () => {
+        text = await fetchWorkoutInfo(date);
+    }
+    getWorkoutInfo();
+
+    let failure_text = " Cannot retrieve the workout for "+date+" at this time. We apologize for the inconvenience.";
+    if (det!==false) failure_text = "Full data requested. "+failure_text;
+    return date;
+}
+
+function GetDataOfPastDate_element({date, ed, det, stg}) {
+    let text = "";
+    if (date!==text)
+    {
+        if (ed!==false) text = "CANNOT PROVIDE EDITING ACCESS AT THIS TIME."
+        else text = GetDataOfPastDate(date, det, stg);
+    }
+    return (
+        <div>
+            <p style={{marginLeft:"10px"}}> <b> <em> 
+                {text}
+            </em> </b> </p>
+        </div>
+    )
+};
+
+// --------- MAIN FUNCTION --------
 
 export default function PastWorkouts({getStats}) 
 //One text box for the display of past data, [one text box for entering the date, one checkbox to show detailed version], one submit button
@@ -153,7 +162,7 @@ export default function PastWorkouts({getStats})
     return (
         <div style={{marginTop:"20px"}}>
             <span style={{ display: "flex", alignItems: "flex-start" }}>
-                <div style={{"width":"120px", "height":"300px", "border":"1px solid black", marginRight:"20px", overflowY:"scroll"}}>
+                <div style={{"width":"150px", "height":"300px", "border":"1px solid black", marginRight:"20px", overflowY:"scroll"}}>
 
                         <p onClick={e=>{implementUpdateToColors(""); 
                                            console.log(""); setReset("bold");}} 
