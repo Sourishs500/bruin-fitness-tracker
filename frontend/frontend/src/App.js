@@ -4,7 +4,8 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import NewAccount from './pages/NewAccount'
-import FullHeader from  './components/headerComponents/FullHeader.js' 
+import ProfilePage from  './pages/ProfilePage.js' 
+import FullHeader from  './components/headerComponents/FullHeader.js'
 
 export default function App () {
     const [username, setUsername] = useState("");
@@ -23,7 +24,11 @@ export default function App () {
                 />
                 <Route 
                     path="/create_new_account"
-                    element={<NewAccount/>}
+                    element={<NewAccount username={username}/> }
+                />
+                <Route 
+                    path="/profile_page"
+                    element={<ProfilePage/> }
                 />
             </Routes>
         </BrowserRouter>

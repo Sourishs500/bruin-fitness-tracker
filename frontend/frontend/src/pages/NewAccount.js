@@ -18,14 +18,20 @@ const NewAccount = () => {
         onChange={(e) => ((val).current.value = e.target.value)}/>;   
     }
 
+    const usernameExists = async (name) => {
+        const path = '/api/user/getUser/'.concat("", name)
+        const response = await fetch(path)
+        const json = await response.json()
+        if (json.length == 1) { 
+            return true;
+        } 
+        else {
+            return false;
+        }
+    }
+
     const handleCreateAccount = async (e) => {
-        // console.log(username.current.value);
-        // console.log(gender.current.value);
-        // console.log(password.current.value);
-        // console.log(password2.current.value);
-        
         completeUser.current = {"username":username.current.value, "password":password.current.value, "gender":gender.current.value};
-        
         const response = await fetch('/api/user/createUser', {
             method: 'POST',
             body: JSON.stringify(completeUser.current),
@@ -40,6 +46,20 @@ const NewAccount = () => {
         } else {
             console.log('User added to the backend.')
         }
+    }
+
+    const handleButton = () => {
+        if (username) {
+            console.log('Already signed in, no need to create an account.');
+        }
+        else if (usernameExists(username.current.value)) {
+            console.log('Username already taken. Please choose a different one.')
+        }
+        else if (password.current.value != password2.current.value) {
+            console.log('Passwords must match.')
+        }
+        else { handleCreateAccount(); }
+        
     }
 
     return (
@@ -62,7 +82,7 @@ const NewAccount = () => {
                 <div> <Box val={password}/> </div>
                 <div className="generalText" style = {{alignSelf:"self-start", marginTop:"10px"}} >{"confirm password"}</div>
                 <div> <Box val={password2}/> </div>
-                <div ><Button size="sm" variant="outline-primary" onClick={() => handleCreateAccount()} 
+                <div ><Button size="sm" variant="outline-primary" onClick={() => handleButton()} 
                 style={{"width": "120px", height:"40px", marginTop:"20px",
                 fontFamily: "Trebuchet MS", fontSize: "20px"}}> Submit</Button>
             </div>

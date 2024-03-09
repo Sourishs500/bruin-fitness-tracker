@@ -33,7 +33,7 @@ const FullHeader = ({username}) =>
                     </Link>
                 </div>
                 <div>
-                    <ProfilePic/>
+                    <ProfilePic username={username}/>
                 </div>    
             </div>
         </div>
