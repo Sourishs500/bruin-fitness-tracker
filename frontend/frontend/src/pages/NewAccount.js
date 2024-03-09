@@ -1,11 +1,9 @@
 import { useEffect, useState, useRef } from 'react';
 import Button from 'react-bootstrap/Button';
 import {Link} from 'react-router-dom'
-import FullHeader from  '../components/headerComponents/FullHeader.js' 
 
-const NewAccount = () => {
-
-    const username = useRef();
+const NewAccount = ({username}) => {
+    const new_username = useRef();
     const gender = useRef();
     const password = useRef();
     const password2 = useRef();
@@ -31,7 +29,7 @@ const NewAccount = () => {
     }
 
     const handleCreateAccount = async (e) => {
-        completeUser.current = {"username":username.current.value, "password":password.current.value, "gender":gender.current.value};
+        completeUser.current = {"username":new_username.current.value, "password":password.current.value, "gender":gender.current.value};
         const response = await fetch('/api/user/createUser', {
             method: 'POST',
             body: JSON.stringify(completeUser.current),
@@ -40,6 +38,7 @@ const NewAccount = () => {
             }
         })
         const json = await response.json();
+        console.log(json);
 
         if(!response.ok) {
             console.log(json.error)
@@ -52,7 +51,7 @@ const NewAccount = () => {
         if (username) {
             console.log('Already signed in, no need to create an account.');
         }
-        else if (usernameExists(username.current.value)) {
+        else if (usernameExists(new_username.current.value)) {
             console.log('Username already taken. Please choose a different one.')
         }
         else if (password.current.value != password2.current.value) {
@@ -70,7 +69,7 @@ const NewAccount = () => {
                     {"Have an account? "} <Link to="/login" style = {{color: '#0000cc'}}> Sign in</Link>{"!"}
                 </div>
                 <div className="generalText" style = {{alignSelf:"self-start", marginTop:"10px"}} >{"username"}</div>
-                <div> <Box val={username}/> </div>
+                <div> <Box val={new_username}/> </div>
                 <div className="generalText" style = {{alignSelf:"self-start", marginTop:"10px"}} >{"gender"}</div>
                 <div> 
                     <select ref={gender} style={{"width":"240px", height:"40px", marginTop:"10px"}}
@@ -85,7 +84,7 @@ const NewAccount = () => {
                 <div ><Button size="sm" variant="outline-primary" onClick={() => handleButton()} 
                 style={{"width": "120px", height:"40px", marginTop:"20px",
                 fontFamily: "Trebuchet MS", fontSize: "20px"}}> Submit</Button>
-            </div>
+                </div>
             </div>
         </div>
         </>

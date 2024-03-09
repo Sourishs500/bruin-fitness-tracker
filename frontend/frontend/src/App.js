@@ -28,7 +28,7 @@ export default function App () {
                 />
                 <Route 
                     path="/profile_page"
-                    element={<ProfilePage/> }
+                    element={<ProfilePage username={username}/> }
                 />
             </Routes>
         </BrowserRouter>
