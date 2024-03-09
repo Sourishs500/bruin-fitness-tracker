@@ -1,4 +1,8 @@
 import kirby from './kirby.png'
+import chest from './chest.png'
+import bicep from './bicep.png'
+
+
 
 export default function ProfilePic()
 {
