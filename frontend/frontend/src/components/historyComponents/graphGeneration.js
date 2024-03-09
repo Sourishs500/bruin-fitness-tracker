@@ -87,7 +87,7 @@ export default function GraphGeneration()
     const[allExercises, setAllExercises]=useState([])
     let graphData=useRef()
     const fetchExerciseNames = async () => {
-        const path = '/api/workouts/names/allExerciseNames'
+        const path = '/api/workouts/names/getAllExerciseNames'
         //console.log(name)
         const response = await fetch(path)
         const json = await response.json()
@@ -96,9 +96,8 @@ export default function GraphGeneration()
         }
    
     }
-    fetchExerciseNames()
     
-    console.log(allExercises)
+    //console.log(allExercises)
 
     const exCount = [...Array(allExercises.length).keys()]
     const measCount=[...Array(measurements.length).keys()]
@@ -112,8 +111,7 @@ export default function GraphGeneration()
         if (response.ok){
             graphData = json;
         }
-        console.log(json)
-   
+        //console.log(json)
     }
 
     const [exercise, setExercise] = useState(0);
@@ -157,6 +155,7 @@ export default function GraphGeneration()
             <div>
                 <select 
                     onChange={e => setExercise(e.target.value)} 
+                    onClick={() => fetchExerciseNames()}
                     key={1} 
                     style={{ marginRight: "10px" }}
                 >{
