@@ -41,65 +41,29 @@ export default function GraphGeneration()
         }
     }
 
-    const dates = [
-        ["2/25/2024", "2/26/2024", "2/27/2024", "2/28/2024", "2/29/2024", "3/1/2024", "3/2/2024", "3/3/2024", "3/4/2024", "3/5/2024"],
-        ["3/25/2024", "3/26/2024", "2/27/2024", "2/28/2024", "2/29/2024", "3/1/2024", "3/2/2024", "3/3/2024", "3/4/2024", "3/5/2024"],
-        ["2/25/2024", "4/26/2024", "2/27/2024", "2/28/2024", "2/29/2024", "3/1/2024", "3/2/2024", "3/3/2024", "3/4/2024", "3/5/2024"],
-        ["2/25/2024", "5/26/2024", "2/27/2024", "2/28/2024", "2/29/2024", "3/1/2024", "3/2/2024", "3/3/2024", "3/4/2024", "3/5/2024"],
-        ["2/25/2024", "6/26/2024", "2/27/2024", "2/28/2024", "2/29/2024", "3/1/2024", "3/2/2024", "3/3/2024", "3/4/2024", "3/5/2024"],
-        ["2/25/2024", "7/26/2024", "2/27/2024", "2/28/2024", "2/29/2024", "3/1/2024", "3/2/2024", "3/3/2024", "3/4/2024", "3/5/2024"]
-    ]
-    
-    const datas = 
-    [
-        [
-            [100,150,200,250,300,350,400,450,500,550],
-            [100,150,200,250,300,350,400,450,500,600],
-            [100,150,200,250,300,350,400,450,500,700],
-        ],
-        [
-            [100,150,200,250,300,100,150,200,250,300],
-            [100,150,200,250,300,100,150,200,250,400],
-            [100,150,200,250,300,100,150,200,250,500],
-        ],
-        [
-            [100,150,200,250,300,350,400,450,500,550],
-            [100,150,200,250,300,350,400,450,500,550],
-            [100,150,200,250,300,350,400,450,500,550],
-        ],
-        [
-            [100,150,200,250,300,350,400,450,500,550],
-            [100,150,200,250,300,350,400,450,500,550],
-            [100,150,200,250,300,350,400,450,500,550],
-        ],
-        [
-            [100,150,200,250,300,350,400,450,500,550],
-            [100,150,200,250,300,350,400,450,500,550],
-            [100,150,200,250,300,350,400,450,500,550],
-        ],
-        [
-            [100,150,200,250,300,350,400,450,500,550],
-            [100,150,200,250,300,350,400,450,500,550],
-            [100,150,200,250,300,350,400,450,500,550],
-        ]    
-    ]
-
-    const[allExercises, setAllExercises]=useState([])
-    let graphData=useRef()
+    let checkIfCalled=true;
+    const allExercises=useRef({})
+    const graphData=useRef({})
     const fetchExerciseNames = async () => {
         const path = '/api/workouts/names/getAllExerciseNames'
         //console.log(name)
         const response = await fetch(path)
         const json = await response.json()
         if (response.ok){
-            setAllExercises(json)
+            allExercises.current = json;
         }
    
+    }
+
+    if (checkIfCalled==true)
+    {
+        fetchExerciseNames();
+        checkIfCalled = false
     }
     
     //console.log(allExercises)
 
-    const exCount = [...Array(allExercises.length).keys()]
+    const exCount = [...Array(allExercises.current.length).keys()]
     const measCount=[...Array(measurements.length).keys()]
 
     const fetchData = async (name) => {
@@ -109,7 +73,7 @@ export default function GraphGeneration()
         const json = await response.json()
 
         if (response.ok){
-            graphData = json;
+            graphData.current = json;
         }
         //console.log(json)
     }
@@ -117,10 +81,10 @@ export default function GraphGeneration()
     const [exercise, setExercise] = useState(0);
     const [measurement, setMeasurement] = useState(0);
     const [data, changeData] = useState({
-        labels : dates[exercise], 
+        labels : [],
         datasets : [{ 
-            label : measurements[measurement],
-            data:  datas[exercise][measurement],
+            label : [],
+            data:  [],
             backgroundColor: 'aqua',
             borderColor: 'black',
             pointBorderColor: 'aqua',
@@ -131,14 +95,14 @@ export default function GraphGeneration()
     // console.log(measurement);
     // console.log(datas[exercise][measurement])
     const ChangeGraph = async () => {
-        const f = await fetchData(allExercises[exercise])
+        const f = await fetchData(allExercises.current[exercise])
         
         changeData(
             {
-            labels : graphData.map(x => x["date"]), 
+            labels : graphData.current.map(x => x["date"]), 
             datasets : [{ 
                label : measurements[measurement],
-                data:  graphData.map(x => x["sets"].split(',').map(y => y.split('x')[0])).flat(),
+                data:  graphData.current.map(x => x["sets"].split(',').map(y => y.split('x')[0])).flat(),
                 backgroundColor: 'aqua',
                 boderColor: 'black',
                 pointBorderColor: 'aqua',
@@ -159,7 +123,7 @@ export default function GraphGeneration()
                     key={1} 
                     style={{ marginRight: "10px" }}
                 >{
-                    exCount.map(category => <option key={category} value={category}>{allExercises[category]}</option>)
+                    exCount.map(category => <option key={category} value={category}>{allExercises.current[category]}</option>)
                 }</select>
                 <select 
                     onChange={e => setMeasurement(e.target.value)} 
