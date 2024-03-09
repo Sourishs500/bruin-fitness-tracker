@@ -150,15 +150,25 @@ const getAllWorkoutsOnDate = async (req, res) => {
     return res.status(200).json(ret)
 }
 
+//get sets and dates from name
 const getWorkoutsOfName = async (req, res) => {
     const d = req.params.name
+    console.log(d)
     let workouts = null;
     try {
-        workouts = await Exercise.find({ "name" : finalDate})
+        workouts = await Exercise.find({"name" : d}).select('sets date -_id')
     } catch (e) {
         return res.status(400).json({error : e})
     }
     return res.status(200).json(workouts)
+}
+
+// get all exercise names
+const getAllExerciseNames = async (req, res) => {
+    const exercises = await Exercise.find({}).select('name -_id')
+    const names = [...new Set(exercises.map(x => x['name']))]
+    console.log(exercises)
+    res.status(200).json(names)
 }
 
 // Gets all dates of exercises
@@ -216,5 +226,6 @@ module.exports = {
     getAllDates,
     getAllWorkoutIDs,
     getAllWorkoutsOnDate,
-    getWorkoutsOfName
+    getWorkoutsOfName,
+    getAllExerciseNames
 }

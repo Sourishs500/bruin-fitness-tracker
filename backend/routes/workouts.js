@@ -27,6 +27,8 @@ router.get('/:date', getAllWorkoutsOnDate)
 // Get all workouts corresponding to a workout type
 router.get('/name/:name', getWorkoutsOfName)
 
+router.get('/names/getAllExerciseNames', getAllWorkoutsOnDate)
+
 // GET one workout
 router.get('/:id', getExercise)
 

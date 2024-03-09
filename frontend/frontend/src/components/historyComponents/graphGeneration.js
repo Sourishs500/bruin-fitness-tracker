@@ -14,7 +14,7 @@ import {
 } from 'chart.js';
 
 ChartJS.register( 
-    LineElement, CategoryScale, LinearScale, PointElement, Legend
+    LineElement, CategoryScale, LinearScale, PointElement, Legend, Filler
 ); 
 
 
@@ -29,10 +29,9 @@ export default function GraphGeneration()
 
 { 
    
-    const allExercises = ["Chest Press", "Preacher Curls", "Wall-Sits", "Bench Press", "Lat Pull-Downs", "Calf Raises"] //hard-coded for now
+     //hard-coded for now
     const measurements = ["Average", "Maximum", "Minimum"] //this is hard-coded and should stay that way
-    const exCount = [...Array(allExercises.length).keys()]
-    const measCount=[...Array(measurements.length).keys()]
+   
     const options = {
         plugins: {
             legend: true
@@ -54,38 +53,55 @@ export default function GraphGeneration()
     const datas = 
     [
         [
-            [25,50,75,100,125,150,175,200,250,300,350],
-            [25,50,75,100,125,150,175,200,250,300,350],
-            [25,50,75,100,125,150,175,200,250,300,350],
+            [100,150,200,250,300,350,400,450,500,550],
+            [100,150,200,250,300,350,400,450,500,600],
+            [100,150,200,250,300,350,400,450,500,700],
         ],
         [
-            [25,50,75,100,125,150,175,200,250,300,350],
-            [25,50,75,100,125,150,175,200,250,300,350],
-            [25,50,75,100,125,150,175,200,250,300,350],
+            [100,150,200,250,300,100,150,200,250,300],
+            [100,150,200,250,300,100,150,200,250,400],
+            [100,150,200,250,300,100,150,200,250,500],
         ],
         [
-            [25,50,75,100,125,150,175,200,250,300,350],
-            [25,50,75,100,125,150,175,200,250,300,350],
-            [25,50,75,100,125,150,175,200,250,300,350],
+            [100,150,200,250,300,350,400,450,500,550],
+            [100,150,200,250,300,350,400,450,500,550],
+            [100,150,200,250,300,350,400,450,500,550],
         ],
         [
-            [25,50,75,100,125,150,175,200,250,300,350],
-            [25,50,75,100,125,150,175,200,250,300,350],
-            [25,50,75,100,125,150,175,200,250,300,350],
+            [100,150,200,250,300,350,400,450,500,550],
+            [100,150,200,250,300,350,400,450,500,550],
+            [100,150,200,250,300,350,400,450,500,550],
         ],
         [
-            [25,50,75,100,125,150,175,200,250,300,350],
-            [25,50,75,100,125,150,175,200,250,300,350],
-            [25,50,75,100,125,150,175,200,250,300,350],
+            [100,150,200,250,300,350,400,450,500,550],
+            [100,150,200,250,300,350,400,450,500,550],
+            [100,150,200,250,300,350,400,450,500,550],
         ],
         [
-            [25,50,75,100,125,150,175,200,250,300,350],
-            [25,50,75,100,125,150,175,200,250,300,350],
-            [25,50,75,100,125,150,175,200,250,300,350],
+            [100,150,200,250,300,350,400,450,500,550],
+            [100,150,200,250,300,350,400,450,500,550],
+            [100,150,200,250,300,350,400,450,500,550],
         ]    
     ]
 
-    const graphData= useRef()
+    const[allExercises, setAllExercises]=useState([])
+    let graphData=useRef()
+    const fetchExerciseNames = async () => {
+        const path = '/api/workouts/names/allExerciseNames'
+        //console.log(name)
+        const response = await fetch(path)
+        const json = await response.json()
+        if (response.ok){
+            setAllExercises(json)
+        }
+   
+    }
+    fetchExerciseNames()
+    
+    console.log(allExercises)
+
+    const exCount = [...Array(allExercises.length).keys()]
+    const measCount=[...Array(measurements.length).keys()]
 
     const fetchData = async (name) => {
         const path = '/api/workouts/name/'.concat("", name)
@@ -94,9 +110,10 @@ export default function GraphGeneration()
         const json = await response.json()
 
         if (response.ok){
-            graphData.current = json;
+            graphData = json;
         }
         console.log(json)
+   
     }
 
     const [exercise, setExercise] = useState(0);
@@ -109,28 +126,28 @@ export default function GraphGeneration()
             backgroundColor: 'aqua',
             borderColor: 'black',
             pointBorderColor: 'aqua',
-            fill: true
-            }],      
+            }]      
         });
     
     // console.log(exercise);
     // console.log(measurement);
     // console.log(datas[exercise][measurement])
     const ChangeGraph = async () => {
+        const f = await fetchData(allExercises[exercise])
+        
         changeData(
             {
-            labels : dates[exercise], 
+            labels : graphData.map(x => x["date"]), 
             datasets : [{ 
                label : measurements[measurement],
-                data:  datas[exercise][measurement],
+                data:  graphData.map(x => x["sets"].split(',').map(y => y.split('x')[0])).flat(),
                 backgroundColor: 'aqua',
                 boderColor: 'black',
                 pointBorderColor: 'aqua',
-                fill: true
                }],
             }
         )
-        // const graphData = await fetchData(allExercises[exercise])
+       
     }
     return (
         <div>
@@ -152,10 +169,9 @@ export default function GraphGeneration()
                 >{
                     measCount.map(category => <option key={category} value={category}>{measurements[category]}</option>)
                 }</select>
-                
                 <Button 
                     onClick = {()=>ChangeGraph()}
-                    size="md"
+                    size="sm"
                     key={3} 
                     style={{ marginBottom: "40px", marginTop: "15px" }}
                 >Submit Request</Button>
@@ -163,3 +179,4 @@ export default function GraphGeneration()
         </div>
     );
 }
+
