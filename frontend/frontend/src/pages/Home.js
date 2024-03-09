@@ -5,10 +5,9 @@ import FullGeneralInfoComponents from '../components/generalInfoComponents/fullG
 import GeneralInformation from '../components/basicInformation/fullGeneralInformation.js'; 
 import FullHistoryComponents from '../components/historyComponents/fullHistoryComponents.js'; 
 import FullSpecificInfoComponents from '../components/specificInfoComponents/fullSpecificInfoComponents.js';
-import FullHeader from  '../components/headerComponents/FullHeader.js' 
 
 const Home = ({username}) => {
-    console.log("HELLO!", username)
+    //console.log("HELLO!", username)
 
     const [workouts, setWorkouts] = useState(null)
 
@@ -88,11 +87,11 @@ const Home = ({username}) => {
     function receiveData({data}){
         dataWithoutGeneralComments.current = data["n"];
         completeWorkoutData.current = {"Date":generalDate.current, "GeneralNotes":generalNotes.current,
-                                        "Workout":dataWithoutGeneralComments.current, "User":{username}};
+                                        "Workout":dataWithoutGeneralComments.current, "User":username};
         updateCompleteWorkout(completeWorkoutData.current);
 
         updateExercisesAcrossWorkout(dataWithoutGeneralComments.current.map(i => (i["Exercise"])));
-        console.log(allExercisesAcrossWorkout);
+        //console.log(allExercisesAcrossWorkout);
 
         const handleSubmitWorkoutButton = async (e) => {
             //e.preventDefault();
@@ -115,21 +114,13 @@ const Home = ({username}) => {
 
         }
 
+        console.log(completeWorkoutData.current);
         handleSubmitWorkoutButton();
 
         let myCopy = completeWorkoutData.current;
         completeWorkoutData.current = GetAllMeasures({completeWorkoutData2:myCopy});
         console.log("Updated: ", completeWorkoutData.current);
     }
-
-    ////// Start of section for USERNAME-related variables/functions.
-    //const [currentUser, setCurrentUsername] = useState("");
-    const currentUser = useRef("");
-    function setCurrentUsername(username_data) {
-        currentUser.current = username_data;
-    } 
-
-    ////// End of section for USERNAME-related variables/functions.
 
     return (
         <>
