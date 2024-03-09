@@ -54,7 +54,7 @@ const createExercise = async (req, res) => {
 
     // Add General Comment document
     try{
-        const generalNotesDocument = await GeneralComment.create({comment: generalNotes, workoutId, date});
+        const generalNotesDocument = await GeneralComment.create({comment: generalNotes, workoutId, date, user});
         // ret = res.status(200).json(generalNotesDocument);
     } catch (e){
         return res.status(400).json({error : e.message});
