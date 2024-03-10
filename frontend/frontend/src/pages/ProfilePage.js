@@ -2,59 +2,58 @@ import { useEffect, useState, useRef } from 'react';
 import Button from 'react-bootstrap/Button';
 import {Link} from 'react-router-dom'
 import kirby from '../components/headerComponents/kirby.png'
+import Popup from 'reactjs-popup';
+
 
 const ProfilePage = ({username}) => {
-    
-    const [file, setFile] = useState();
-    function handleChange(e) {
-        console.log(e.target.files);
-        setFile(URL.createObjectURL(e.target.files[0]));
-    }
-
     function Box({val}) {
         return <input type="text" ref={val} style = {{"width":"240px", height:"40px", marginTop:"5px"}}
         onChange={(e) => ((val).current.value = e.target.value)}/>;   
     }
 
-    const um = useRef();
     const user = useRef();
     const current_username = useRef();
     const gender = useRef();
     const password = useRef();
 
-    const fetchAccount = async (name) => {
-        const path = '/api/user/getUser/'.concat("", name)
-        const response = await fetch(path)
-        const json = await response.json()
-        if (json.length == 1) { 
-            user.current = json; 
-        } 
-        else {
-            user.current = [];
-            console.log("Username doesn't exist.");
+    async function fetchAccount(name) {
+        try {
+            const path = '/api/user/getUser/'.concat("", name)
+            const response = await fetch(path)
+            const json = await response.json()
+            if (json.length == 1) { 
+                //console.log("JSON[0]:",json[0]); 
+                user.current = json[0];
+            } 
+            else {
+                user.current = [];
+                console.log("Username doesn't exist.");
+            }
+        } catch (err) {
+            console.log(err);
         }
     }
-    if (username) {
-        //console.log("fetching...");
-        fetchAccount(username);
-        //console.log(user.current[0]);
-        current_username.current = (user.current)[0].username;
-        gender.current = (user.current)[0].gender;
-        password.current = (user.current)[0].password;
+    const VerifyAccount = async () => {
+        if (username) {
+            //console.log("USERNAME:", username);
+            const u = await fetchAccount(username, user);
+            console.log("???:", user.current);
+            if (user.current) {
+                current_username.current = (user.current).username;
+                gender.current = (user.current).gender;
+                password.current = (user.current).password;
+                console.log("YAY");
+            }
+            else {
+                console.log("HHU?g!");
+            }
+        }
+        else {
+            console.log("Something went wrong!");
+        }
     }
-    else {
-        console.log("GUH");
-    }
-    
-    //(user.current)[0].password;
- 
-    // return (
-    //     <div>
-    //         <div className="generalText"> Add Image:</div>
-    //         <input type="file" onChange={handleChange} />
-    //         <img style={{width: "200px", height: "200px", objectFit: "scale-down"}} src={file} />
-    //     </div>
-    // );
+
+    VerifyAccount();
 
     return (
         <div style={{display: "flex", flexDirection: "row", justifyContent: "center", marginTop:"20px"}}>
@@ -75,6 +74,19 @@ const ProfilePage = ({username}) => {
                 <div className="generalText" style = {{alignSelf:"self-start", marginTop:"7px"}} >{"idk profile picture"}</div>
                 <img className="largeProfilePicture" style = {{marginTop:"10px"}} src={kirby}/>
             </div>
+            {/* <Popup trigger=
+                {<button> Change Profile Picture </button>} 
+                modal nested> {
+                    close => (
+                        <div className='modal'>
+                            <div className="biggerText"> Welcome! </div>
+                            <div>
+                                <button onClick= {() => close()}> Close modal </button>
+                            </div>
+                        </div>
+                    )
+                }
+            </Popup> */}
         </div>
         </div>
     )

@@ -10,17 +10,18 @@ const NewAccount = ({username}) => {
     const genderOptions = ["female", "male", "nonbinary", "prefer not to say"];
     const genderCount = [...Array(genderOptions.length).keys()];
     const completeUser = useRef({});
+    const [message, setMessage] = useState("");
 
     function Box({val}) {
         return <input type="text" ref={val} style = {{"width":"240px", height:"40px", marginTop:"5px"}}
         onChange={(e) => ((val).current.value = e.target.value)}/>;   
     }
 
-    const usernameExists = async (name) => {
+    async function usernameExists(name) {
         const path = '/api/user/getUser/'.concat("", name)
         const response = await fetch(path)
         const json = await response.json()
-        if (json.length == 1) { 
+        if (json.length > 0) { 
             return true;
         } 
         else {
@@ -44,18 +45,18 @@ const NewAccount = ({username}) => {
             console.log(json.error)
         } else {
             console.log('User added to the backend.')
+            setMessage("Successfully created a new account!");
         }
     }
 
-    const handleButton = () => {
+    const handleButton = async () => {
+        //console.log("return value of usernameExists:", await usernameExists(new_username.current.value));
         if (username) {
-            console.log('Already signed in, no need to create an account.');
-        }
-        else if (usernameExists(new_username.current.value)) {
-            console.log('Username already taken. Please choose a different one.')
-        }
-        else if (password.current.value != password2.current.value) {
-            console.log('Passwords must match.')
+            setMessage("Already signed in, no need to create an account.");
+        } else if (await usernameExists(new_username.current.value)) {
+            setMessage("Username already taken. Please choose a different one.");
+        } else if (password.current.value != password2.current.value) {
+            setMessage("Passwords must match.");
         }
         else { handleCreateAccount(); }
         
@@ -85,6 +86,7 @@ const NewAccount = ({username}) => {
                 style={{"width": "120px", height:"40px", marginTop:"20px",
                 fontFamily: "Trebuchet MS", fontSize: "20px"}}> Submit</Button>
                 </div>
+                <div className="generalText" style = {{alignSelf:"self-start", marginTop:"10px"}} >{message}</div>
             </div>
         </div>
         </>
