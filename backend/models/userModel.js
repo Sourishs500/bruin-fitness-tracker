@@ -13,6 +13,11 @@ const userSchema = new Schema({
     gender: {
         type: String,
         required: false
+    },
+    picture: {
+        type: String,
+        required: false,
+        default: "DefaultProfilePic.png"
     }
 }, { timestamps: true })
 

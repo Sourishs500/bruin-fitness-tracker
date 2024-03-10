@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import Button from 'react-bootstrap/Button';
 import {Link} from 'react-router-dom'
 
-const Login = ({username, setUsername}) => {
+const Login = ({username, setUsername, setPhoto}) => {
     const new_username = useRef();
     const password = useRef();
     const user = useRef();
@@ -39,6 +39,8 @@ const Login = ({username, setUsername}) => {
             }
             else {
                 setUsername(new_username.current.value);
+                setPhoto((user.current)[0].picture);
+                //console.log((user.current)[0].picture);
                 console.log("hooray!");
                 const s = "Successfully logged in. Welcome " + new_username.current.value + "!";
                 setMessage(s);

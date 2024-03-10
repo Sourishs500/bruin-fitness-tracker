@@ -5,7 +5,7 @@ const GeneralComment = require('../models/generalCommentModel.js');
 const createUser = async (req, res) => {
     const {username, password, gender} = req.body;
     try {
-        const user = await User.create({username, password, gender});
+        const user = await User.create({username, password, gender, "picture": "DefaultProfilePic.png"});
         return res.status(200).json(user);
     } catch(e) {
         return res.status(400).json({error: e.message})

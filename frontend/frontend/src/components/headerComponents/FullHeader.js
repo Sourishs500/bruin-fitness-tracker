@@ -4,7 +4,7 @@ import { useState, useRef } from 'react';
 
 //To-Do: Implementing the profile pic feature
 
-const FullHeader = ({username}) =>
+const FullHeader = ({username, photo}) =>
 { 
     console.log("from FullHeader:", username)
     
@@ -33,7 +33,7 @@ const FullHeader = ({username}) =>
                     </Link>
                 </div>
                 <div>
-                    <ProfilePic username={username}/>
+                    <ProfilePic username={username}  photo={photo}/>
                 </div>    
             </div>
         </div>
