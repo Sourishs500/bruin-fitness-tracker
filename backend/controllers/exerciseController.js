@@ -8,12 +8,12 @@ const { hash } = require('immutable')
 
 // get all exercises
 const getAllExercises = async (req, res) => {
-    const exercises = await Exercise.find({}).sort({createdAt: -1})
+    const exercises = await Exercise.find({"user" : (req.body).User}).sort({createdAt: -1})
 
     res.status(200).json(exercises)
 }
 
-// get a single exercise
+// get a single exercise, [not useful]
 const getExercise = async (req, res) => {
     const { id } = req.params
 
@@ -127,12 +127,13 @@ const updateExercise = async (req, res) => {
 const getAllWorkoutsOnDate = async (req, res) => {
     const d = req.params.date
     const finalDate = d.replaceAll('-', '/')
+    const user = (req.body).User;
 
     console.log(finalDate)
 
     let generalComments = null;
     try{
-        generalComments = await GeneralComment.find({ "date" : finalDate})
+        generalComments = await GeneralComment.find({ "date" : finalDate, "user" : user})
     } catch (e) {
         return res.status(400).json({error: e})
     }
@@ -140,7 +141,7 @@ const getAllWorkoutsOnDate = async (req, res) => {
     let workouts = null;
 
     try {
-        workouts = await Exercise.find({ "date" : finalDate})
+        workouts = await Exercise.find({ "date" : finalDate, "user":user})
     } catch (e) {
         return res.status(400).json({error : e})
     }
@@ -165,7 +166,7 @@ const getWorkoutsOfName = async (req, res) => {
 
 // get all exercise names
 const getAllExerciseNames = async (req, res) => {
-    const exercises = await Exercise.find({}).select('name -_id')
+    const exercises = await Exercise.find({"user" : req.body.User}).select('name -_id')
     const names = [...new Set(exercises.map(x => x['name']))]
     //console.log(exercises)
     res.status(200).json(names)
@@ -175,7 +176,7 @@ const getAllExerciseNames = async (req, res) => {
 const getAllDates = async (req, res) => {
 
     try{    
-        const dates = await GeneralComment.find({}).select('date -_id');
+        const dates = await GeneralComment.find({"user" : req.body.User}).select('date -_id');
         return res.status(200).json(dates)
     } catch (e) {
         return res.status(400).send({error : e.message})
@@ -187,7 +188,7 @@ const getAllDates = async (req, res) => {
 const getAllWorkoutIDs = async (req, res) => {
     let allIds = []
     try{
-        const workoutIDs = await GeneralComment.find({}).select('workoutId')
+        const workoutIDs = await GeneralComment.find({"user" : req.body.User}).select('workoutId')
         
         for(let i = 0; i < workoutIDs.length; i++){
             allIds.push(workoutIDs[i].workoutId)
