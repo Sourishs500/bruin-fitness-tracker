@@ -13,22 +13,15 @@ import { useEffect, useState, useRef } from 'react';
     import legs from "../headerComponents/legs.png";
     import chesspress from "../headerComponents/chestpress.png";
     import calfraises from "../headerComponents/calfraises.png"
-    import lats from "../headerComponents/lat.png"
-    import hip_thrust from "../headerComponents/hip_thrust.png"
-    import lateralraises from "../headerComponents/lateralraises.png"
     
     //add more import statements here: import chestPressImage from ./chestPressImage is an example
 
     const exercisesAndMuscles = {"Chest Press":chesspress, //change "kirby" to the variable representing the path for this exercise's image
                                 "Bench Press":chest, 
                                 "Preacher Curls":bicep, 
-                                "Lat Pull-Downs":lats, 
+                                "Lat Pull-Downs":bicep, 
                                 "Wall-Sits":legs, 
-                                "Calf Raises":calfraises,
-                                "Dumbell Curls": bicep,
-                                "Lateral Raises": lateralraises,
-                                "Hip Thrusts": hip_thrust,
-                            }
+                                "Calf Raises":calfraises}
 
 
 function imageForExercise(ex, oneToShow, place)
