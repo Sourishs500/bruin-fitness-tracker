@@ -65,28 +65,48 @@ const fetchWorkoutInfo = async (date) => {
     if (!response.ok){
         console.error("Something is wrong with getting dates")
     }
-    console.log(json)
-    return json;
+
+    let workoutNumber
+    if(indexOfDescriptor == -1) { workoutNumber = 0}
+    else{ workoutNumber = Math.floor(date.substring(indexOfDescriptor+1, date.indexOf(")")))}
+
+    let workoutId = (json.GeneralNotes[workoutNumber-1]).workoutId
+    let desiredWorkouts = []
+    for(let elem=0; elem < json.Workout.length; elem++)
+    {
+        let currElem = json.Workout[elem]
+        if(currElem.workoutId == workoutId) { desiredWorkouts.push(currElem) }
+    }
+    console.log(desiredWorkouts)
+    return desiredWorkouts;
 }
 
 function GetDataOfPastDate(date, det, statGetter)
 {
 //USE THE INFORMATION FROM THE STATGETTER FUNCTION (its implementation is defined in Home.js as GetAllMeasures)
-
+    const [information, getActualInfo] = useState([])
     if(date == "CLEAR") { return "" }
 
-    let text = ""
+
     const getWorkoutInfo= async () => {
-        text = await fetchWorkoutInfo(date);
+        getActualInfo(await fetchWorkoutInfo(date));
     }
+    
     getWorkoutInfo();
+
+    let text_to_display = ""
+    for(let i=0; i<information.length; i++)
+    {
+        let curr_workout_object = information[i]
+        text_to_display += curr_workout_object.name + ": " + curr_workout_object.sets + "  -  Notes: " + curr_workout_object.notes + "\n"
+    }
 
     let failure_text = " Cannot retrieve the workout for "+date+" at this time. We apologize for the inconvenience.";
     if (det!==false) failure_text = "Full data requested. "+failure_text;
-    return date;
+    return text_to_display;
 }
 
-function GetDataOfPastDate_element({date, ed, det, stg}) {
+function GetDataOfPastDate_element({date, ed, det, stg, mkCall}) {
     let text = "";
     if (date!==text)
     {
@@ -115,20 +135,22 @@ export default function PastWorkouts({getStats})
 {
     const [Date, setDate] = useState("");
     const [literalDateToGoWith, setTrueDate] = useState("");
-    const [dates, updateDateList] = useState([])
+    const dates = useRef([])
+    let makeCallToBackendNow = false;
+
     function  submitButtonHandler(){};
 
-    const getThoseDates= async () => {
-        updateDateList(await fetchDates());
+    const getThoseDates = async () => {
+        dates.current = (await fetchDates());
     }
     
-    //getThoseDates();
-
+    getThoseDates();
+    dates.current = dates.current.filter(x => x.startsWith(Date))
     
-    const colors = useRef(Array(dates.length).fill("black"));
+    const colors = useRef(Array(dates.current.length).fill("black"));
 
     let colorMappingFromDate = {};
-    for (let i = 0; i < dates.length; i++) {
+    for (let i = 0; i < dates.current.length; i++) {
         colorMappingFromDate[dates[i]] = "black";
     }
 
@@ -136,6 +158,7 @@ export default function PastWorkouts({getStats})
 
     function implementUpdateToColors(newDate)
     {
+        makeCallToBackendNow = true;
         setTrueDate(newDate);
         let colorMappingFromDate = {};
         for (let i = 0; i < dates.length; i++) {
@@ -173,7 +196,7 @@ export default function PastWorkouts({getStats})
                             {clearTextShown.current}
                         </p>                       
                         {
-                            (dates).map(x => {
+                            (dates.current).map(x => {
                                             let weight = "normal";
                                             if (colorMappingState[x]==="blue") weight = "bold";
                                             return  <p 
@@ -190,7 +213,7 @@ export default function PastWorkouts({getStats})
                     
                 </div>
                 <div style={{"width":"300px", "height":"300px", "border":"1px solid black"}}>
-                    <GetDataOfPastDate_element date={literalDateToGoWith} ed={edit_yn} det={detailed_yn} std={getStats}/>
+                    <GetDataOfPastDate_element date={literalDateToGoWith} ed={edit_yn} det={detailed_yn} std={getStats} mkCall={makeCallToBackendNow}/>
                 </div>
             </span>
             
