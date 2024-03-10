@@ -25,9 +25,9 @@ const Home = ({username}) => {
     }, [])
 
     let allExercisesOrganizedByTheme = {
-        "Push":["Chest Press", "Bench Press"],
-        "Pull":["Preacher Curls", "Lat Pull-Downs"],
-        "Legs":["Wall-Sits", "Calf Raises"]   
+        "Push":["Chest Press", "Bench Press", "Lateral Raises", "Incline Press"],
+        "Pull":["Preacher Curls", "Lat Pull-Downs","Seated Cable Row"],
+        "Legs":["Wall-Sits", "Calf Raises", "Hip Thrusts", "Deadlift"]   
     }; //to be un-hardcoded once we figure out the API stuff
 
     const allThemes = Object.keys(allExercisesOrganizedByTheme); //Push, pull, legs
