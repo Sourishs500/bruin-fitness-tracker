@@ -9,10 +9,11 @@ import FullHeader from  './components/headerComponents/FullHeader.js'
 
 export default function App () {
     const [username, setUsername] = useState("");
+    const [photo, setPhoto] = useState("");
 
     return (
         <BrowserRouter>
-            <div style={{ backgroundColor: '#6699ff' }}><FullHeader username={username}/></div>
+            <div style={{ backgroundColor: '#6699ff' }}><FullHeader username={username}  photo={photo}/></div>
             <Routes>
                 <Route 
                     path="/"
@@ -20,7 +21,7 @@ export default function App () {
                 />
                 <Route 
                     path="/login"
-                    element={<Login username={username} setUsername={setUsername} />}
+                    element={<Login username={username} setUsername={setUsername} setPhoto={setPhoto} />}
                 />
                 <Route 
                     path="/create_new_account"
@@ -28,7 +29,7 @@ export default function App () {
                 />
                 <Route 
                     path="/profile_page"
-                    element={<ProfilePage username={username}/> }
+                    element={<ProfilePage username={username} /> }
                 />
             </Routes>
         </BrowserRouter>

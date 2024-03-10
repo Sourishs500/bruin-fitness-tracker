@@ -15,8 +15,8 @@ a:active { text-decoration: none; }
 
 .largeProfilePicture
 {
-    width: 150px;
-    height: 150px;
+    width: 200px;
+    height: 200px;
     border: 3px solid #000000;
     border-radius: 15px;
 }
@@ -53,4 +53,26 @@ a:active { text-decoration: none; }
     font-family: 'Trebuchet MS';
     font-size: 25px;
     font-weight: bold;
+}
+
+.rectangle
+{
+    width: 300px;
+    height: 300px;
+    border: 2px solid #263969;
+    border-radius: 20px;
+    background-color: rgb(218, 234, 234);
+}
+
+.modal {
+    width: 800px;
+    height: 550px;
+    position: initial;
+    display: block;
+    padding: 15px 15px;
+    line-height: 20px;
+    font-size: 24px;
+    background: #ffffff;
+    border-radius: 25px;
+    border: 2px solid #000000;
 }
