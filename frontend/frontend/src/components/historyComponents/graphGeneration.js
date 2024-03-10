@@ -18,7 +18,7 @@ ChartJS.register(
 ); 
 
 
-export default function GraphGeneration()
+export default function GraphGeneration({username})
 //One div box where the graph will go, [a selection for exercises, a selection for the type of statistic to display, a submit button]
 /*
     functions defined:
@@ -29,7 +29,6 @@ export default function GraphGeneration()
 
 { 
    
-     //hard-coded for now
     const measurements = ["Average", "Maximum", "Minimum"] //this is hard-coded and should stay that way
    
     const options = {
@@ -42,8 +41,10 @@ export default function GraphGeneration()
     }
 
     let checkIfCalled=true;
-    const allExercises=useRef({})
-    const graphData=useRef({})
+
+    
+    const allExercises=useRef(["No Excercises Yet"])
+    
     const fetchExerciseNames = async () => {
         const path = '/api/workouts/names/getAllExerciseNames'
         //console.log(name)
@@ -61,11 +62,7 @@ export default function GraphGeneration()
         checkIfCalled = false
     }
     
-    //console.log(allExercises)
-
-    const exCount = [...Array(allExercises.current.length).keys()]
-    const measCount=[...Array(measurements.length).keys()]
-
+    const graphData=useRef({})
     const fetchData = async (name) => {
         const path = '/api/workouts/name/'.concat("", name)
         //console.log(name)
@@ -75,25 +72,45 @@ export default function GraphGeneration()
         if (response.ok){
             graphData.current = json;
         }
-        //console.log(json)
+        console.log(json)
     }
+    //console.log(allExercises)
 
-    const [exercise, setExercise] = useState(0);
-    const [measurement, setMeasurement] = useState(0);
-    const [data, changeData] = useState({
+    const exCount = [...Array(allExercises.current.length).keys()]
+    const measCount=[...Array(measurements.length).keys()]
+
+    
+
+    const [exercise, setExercise] = useState(0); //keeps track of exercise to display
+    const [measurement, setMeasurement] = useState(0); //keeps track of measurement to display
+    //data of graph
+    const [data, changeData] = useState({ 
         labels : [],
         datasets : [{ 
-            label : [],
+            label : ["Please Choose an Exercise"],
             data:  [],
             backgroundColor: 'aqua',
             borderColor: 'black',
             pointBorderColor: 'aqua',
             }]      
         });
-    
-    // console.log(exercise);
-    // console.log(measurement);
-    // console.log(datas[exercise][measurement])
+
+    const fetchStatistics = async () => {
+        const path = '/api/workouts/name/'.concat("")
+        //console.log(name)
+        const response = await fetch(path)
+        const json = await response.json()
+
+        if (response.ok){
+            graphData.current = json;
+        }
+        console.log(json)
+    }
+
+    const getStats = async () => {
+        const f = await fetchStatistics()
+    }
+
     const ChangeGraph = async () => {
         const f = await fetchData(allExercises.current[exercise])
         

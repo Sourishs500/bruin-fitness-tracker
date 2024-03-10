@@ -138,7 +138,8 @@ const Home = ({username}) => {
                                                         summaryToDisplay={completeWorkoutData.current}
                                                         /></div>
         
-        <div style={{ backgroundColor: 'lightblue' }}><FullHistoryComponents measureGetter={GetAllMeasures}/></div>
+        <div style={{ backgroundColor: 'lightblue' }}><FullHistoryComponents username={username} 
+                                                        measureGetter={GetAllMeasures}/></div>
         
         <div>
             {workouts && workouts.map((workout) => (
