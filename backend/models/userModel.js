@@ -18,7 +18,7 @@ const userSchema = new Schema({
         type: String,
         required: false,
         default: "DefaultProfilePic.png"
-    }
+    },
     stars: {
         type: Int,
         required: true,
