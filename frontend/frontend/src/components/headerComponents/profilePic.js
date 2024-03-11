@@ -8,7 +8,7 @@ import { useEffect, useState, useRef } from 'react';
 
 async function GetGoldStars() 
 {
-    const [name, updateName] = useState("lara2")
+    /*const [name, updateName] = useState("lara2")
     const [userInfo, updateUserInfo] = useState({});
     //return 400; //replace this statement with the implementation of the backend call required to get the actual value
     const fetchAccount = async (myName) => {
@@ -23,7 +23,8 @@ async function GetGoldStars()
         }
     }
     const u = await fetchAccount(name);
-    return userInfo[0].gold_stars;
+    return userInfo[0].gold_stars;*/
+    return 400;
 
 }
 
