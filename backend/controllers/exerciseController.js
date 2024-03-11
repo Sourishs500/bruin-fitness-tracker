@@ -8,7 +8,7 @@ const { hash } = require('immutable')
 
 // get all exercises
 const getAllExercises = async (req, res) => {
-    const exercises = await Exercise.find({"user" : (req.body).User}).sort({createdAt: -1})
+    const exercises = await Exercise.find({"user" : req.params.user}).sort({createdAt: -1})
 
     res.status(200).json(exercises)
 }
@@ -127,7 +127,7 @@ const updateExercise = async (req, res) => {
 const getAllWorkoutsOnDate = async (req, res) => {
     const d = req.params.date
     const finalDate = d.replaceAll('-', '/')
-    const user = (req.body).User;
+    const user = req.params.user;
 
     console.log(finalDate)
 
@@ -176,7 +176,7 @@ const getAllExerciseNames = async (req, res) => {
 const getAllDates = async (req, res) => {
 
     try{    
-        const dates = await GeneralComment.find({"user" : req.body.User}).select('date -_id');
+        const dates = await GeneralComment.find({"user" : req.params.user}).select('date -_id');
         return res.status(200).json(dates)
     } catch (e) {
         return res.status(400).send({error : e.message})
