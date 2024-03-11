@@ -19,6 +19,11 @@ const userSchema = new Schema({
         required: false,
         default: "DefaultProfilePic.png"
     }
+    stars: {
+        type: Int,
+        required: true,
+        default: 0
+    }
 }, { timestamps: true })
 
 const User = mongoose.model('User', userSchema);
