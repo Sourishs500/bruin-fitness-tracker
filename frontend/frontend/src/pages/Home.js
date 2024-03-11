@@ -13,13 +13,20 @@ const Home = ({username}) => {
 
     useEffect(() => {
         const fetchWorkouts = async () => {
-            const path = '/api/workouts'.concat("", username)
-            const response = await fetch(path)
-            const json = await response.json()
+            if (username != "")
+            {
+                const path = '/api/workouts'.concat("", username)
+                const response = await fetch(path)
+                const json = await response.json()
 
-            if (response.ok){
-                setWorkouts(json)
-            }
+                if (response.ok){
+                    setWorkouts(json)
+                }
+            } 
+            else
+            {
+                setWorkouts([])
+            }      
         }
 
         fetchWorkouts();
