@@ -166,7 +166,7 @@ const getWorkoutsOfName = async (req, res) => {
 
 // get all exercise names
 const getAllExerciseNames = async (req, res) => {
-    const exercises = await Exercise.find({"user" : req.body.User}).select('name -_id')
+    const exercises = await Exercise.find({"user" : req.params.user}).select('name -_id')
     const names = [...new Set(exercises.map(x => x['name']))]
     //console.log(exercises)
     res.status(200).json(names)

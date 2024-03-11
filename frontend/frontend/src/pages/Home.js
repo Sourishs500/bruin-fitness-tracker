@@ -13,7 +13,8 @@ const Home = ({username}) => {
 
     useEffect(() => {
         const fetchWorkouts = async () => {
-            const response = await fetch('/api/workouts')
+            const path = '/api/workouts'.concat("", username)
+            const response = await fetch(path)
             const json = await response.json()
 
             if (response.ok){
@@ -130,12 +131,14 @@ const Home = ({username}) => {
                                                         SendDateUp={receiveGeneralDate}
                                                         exInfo={allExercisesOrganizedByTheme}
                                                         muscleGroupsToDisplay={allExercisesAcrossWorkout}
+                                                        username={username}
                                                         /></div>
 
         <div style={{ backgroundColor: 'lightyellow' }}><FullSpecificInfoComponents 
                                                         SendValueUp={receiveData} 
                                                         exInfo={allExercises}
                                                         summaryToDisplay={completeWorkoutData.current}
+                                                        username={username}
                                                         /></div>
         
         <div style={{ backgroundColor: 'lightblue' }}><FullHistoryComponents username={username} 

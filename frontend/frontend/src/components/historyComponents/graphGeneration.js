@@ -46,13 +46,16 @@ export default function GraphGeneration({username})
     const allExercises=useRef(["No Excercises Yet"])
     
     const fetchExerciseNames = async () => {
-        const path = '/api/workouts/names/getAllExerciseNames'
-        //console.log(name)
+        const path = '/api/workouts/names/getAllExerciseNames/'.concat("", username)
+
+        console.log(path)
+        console.log(allExercises.current)
         const response = await fetch(path)
         const json = await response.json()
         if (response.ok){
             allExercises.current = json;
         }
+       
    
     }
 
@@ -64,16 +67,24 @@ export default function GraphGeneration({username})
     
     const graphData=useRef({})
     const fetchData = async (name) => {
-        const path = '/api/workouts/name/'.concat("", name)
-        //console.log(name)
-        const response = await fetch(path)
-        const json = await response.json()
+        if (!username)
+        {
+            const path = '/api/workouts/name/'.concat("", name)
+            console.log(path)
+            const response = await fetch(path)
+            const json = await response.json()
 
-        if (response.ok){
-            graphData.current = json;
+            if (response.ok){
+                graphData.current = json;
+            }
+            console.log(json)
+        } 
+        else 
+        {
+            graphData.current = {};
         }
-        console.log(json)
     }
+    console.log(graphData)
     //console.log(allExercises)
 
     const exCount = [...Array(allExercises.current.length).keys()]

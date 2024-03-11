@@ -30,7 +30,7 @@ router.get('/:date/:user', getAllWorkoutsOnDate)
 router.get('/name/:name', getWorkoutsOfName)
 
 // Helper
-router.get('/names/getAllExerciseNames', getAllExerciseNames)
+router.get('/names/getAllExerciseNames/:user', getAllExerciseNames)
 
 // GET one workout
 router.get('/:id', getExercise)

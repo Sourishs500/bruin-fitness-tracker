@@ -15,9 +15,10 @@ function CreateDateBox({dateFunc})
     return <input type="text" style = {{"width":"120px", height:"30px", marginTop:"10px"}} onInput = {handleChange}/>;   
 }
 
-const fetchDates = async () => {
+const fetchDates = async (username) => {
     let dates = []
-    const response = await fetch('/api/workouts/allDates')
+    const path = '/api/workouts/allDates'.concat("", username)
+    const response = await fetch(path)
     const json = await response.json()
     if (!response.ok){
         console.error("Something is wrong with getting dates")
@@ -124,7 +125,7 @@ function GetDataOfPastDate_element({date, ed, det, stg, mkCall}) {
 
 // --------- MAIN FUNCTION --------
 
-export default function PastWorkouts({getStats}) 
+export default function PastWorkouts({getStats, username}) 
 //One text box for the display of past data, [one text box for entering the date, one checkbox to show detailed version], one submit button
 /*
     functions defined:
@@ -141,7 +142,7 @@ export default function PastWorkouts({getStats})
     function  submitButtonHandler(){};
 
     const getThoseDates = async () => {
-        dates.current = (await fetchDates());
+        dates.current = (await fetchDates(username));
     }
     
     getThoseDates();
