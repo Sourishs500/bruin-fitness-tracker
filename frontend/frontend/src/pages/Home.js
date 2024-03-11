@@ -15,7 +15,7 @@ const Home = ({username}) => {
         const fetchWorkouts = async () => {
             if (username != "")
             {
-                const path = '/api/workouts'.concat("", username)
+                const path = '/api/workouts/' + username
                 const response = await fetch(path)
                 const json = await response.json()
 
