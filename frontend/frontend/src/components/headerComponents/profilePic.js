@@ -4,13 +4,7 @@ import DefaultProfilePic from '../profilePics/DefaultProfilePic.png'
 import {Link} from 'react-router-dom'
 import { useEffect, useState, useRef } from 'react';
 
-<<<<<<< HEAD
-
-
 async function GetGoldStars() 
-=======
-async function getGoldStars() 
->>>>>>> 51548fb88aa370f4b69da5a903a92372e441fa01
 {
     const [name, updateName] = useState("lara2")
     const [userInfo, updateUserInfo] = useState({});
