@@ -14,21 +14,23 @@ const {
     getAllExerciseNames
 } = require('../controllers/exerciseController')
 
-// GET all workouts
-router.get('/', getAllExercises)
+// GET all workouts (changed)
+router.get('/:user', getAllExercises)
 
+// Helper
 router.get('/allWorkoutIDs', getAllWorkoutIDs)
 
-// Get all dates of workouts
-router.get('/allDates', getAllDates)
+// Get all dates of workouts (changed)
+router.get('/allDates/:user', getAllDates)
 
-// Get all workouts corresponding to a date
-router.get('/:date', getAllWorkoutsOnDate)
+// Get all workouts corresponding to a date (changed)
+router.get('/:date/:user', getAllWorkoutsOnDate)
 
-// Get all workouts corresponding to a workout type
+// Get all workouts corresponding to a workout type, Helper
 router.get('/name/:name', getWorkoutsOfName)
 
-router.get('/names/getAllExerciseNames', getAllExerciseNames)
+// Helper
+router.get('/names/getAllExerciseNames/:user', getAllExerciseNames)
 
 // GET one workout
 router.get('/:id', getExercise)

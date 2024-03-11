@@ -13,7 +13,25 @@ const userSchema = new Schema({
     gender: {
         type: String,
         required: false
+    },
+    gold_stars: {
+        type: Number,
+        required: false
+    },
+    platinum_stars: {
+        type: Number,
+        required: false
+    },
+    picture: {
+        type: String,
+        required: false,
+        default: "DefaultProfilePic.png"
+    },
+    image: {
+        data: Buffer,
+        type: String
     }
+    
 }, { timestamps: true })
 
 const User = mongoose.model('User', userSchema);

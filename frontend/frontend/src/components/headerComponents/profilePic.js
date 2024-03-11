@@ -8,6 +8,8 @@ import {Link} from 'react-router-dom'
 //import defaultProfilePic from "./DefaultProfilePic.png"
 import { useEffect, useState, useRef } from 'react';
 
+
+
 async function getGoldStars()
 {
     return 400; //replace this statement with the implementation of the backend call required to get the actual value

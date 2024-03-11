@@ -16,6 +16,9 @@ import { useEffect, useState, useRef } from 'react';
     import hipthrust from "../headerComponents/hipthrust.png"
     import lateralraises from "../headerComponents/lateralraises.png"
     import lats from "../headerComponents/lats.png"
+    import inclinepress from "../headerComponents/inclinepress.png"
+    import deadlift from "../headerComponents/deadlift.png"
+    import cablerows from "../headerComponents/cablerows.png"
     
     //add more import statements here: import chestPressImage from ./chestPressImage is an example
 
@@ -28,6 +31,9 @@ import { useEffect, useState, useRef } from 'react';
                                 "Hip Thrust":hipthrust,
                                 "Lateral Raises": lateralraises,
                                 "Bicep Curls": bicep,
+                                "Incline Press": inclinepress,
+                                "Deadlift": deadlift,
+                                "Cable Rows": cablerows
                             }
 
 

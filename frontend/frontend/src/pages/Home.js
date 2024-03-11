@@ -13,21 +13,29 @@ const Home = ({username}) => {
 
     useEffect(() => {
         const fetchWorkouts = async () => {
-            const response = await fetch('/api/workouts')
-            const json = await response.json()
+            if (username != "")
+            {
+                const path = '/api/workouts/' + username
+                const response = await fetch(path)
+                const json = await response.json()
 
-            if (response.ok){
-                setWorkouts(json)
-            }
+                if (response.ok){
+                    setWorkouts(json)
+                }
+            } 
+            else
+            {
+                setWorkouts([])
+            }      
         }
 
         fetchWorkouts();
     }, [])
 
     let allExercisesOrganizedByTheme = {
-        "Push":["Chest Press", "Bench Press"],
-        "Pull":["Preacher Curls", "Lat Pull-Downs"],
-        "Legs":["Wall-Sits", "Calf Raises"]   
+        "Push":["Chest Press", "Bench Press", "Lateral Raises", "Incline Press"],
+        "Pull":["Preacher Curls", "Lat Pull-Downs","Seated Cable Row"],
+        "Legs":["Wall-Sits", "Calf Raises", "Hip Thrusts", "Deadlift"]   
     }; //to be un-hardcoded once we figure out the API stuff
 
     const allThemes = Object.keys(allExercisesOrganizedByTheme); //Push, pull, legs
@@ -130,15 +138,18 @@ const Home = ({username}) => {
                                                         SendDateUp={receiveGeneralDate}
                                                         exInfo={allExercisesOrganizedByTheme}
                                                         muscleGroupsToDisplay={allExercisesAcrossWorkout}
+                                                        username={username}
                                                         /></div>
 
         <div style={{ backgroundColor: 'lightyellow' }}><FullSpecificInfoComponents 
                                                         SendValueUp={receiveData} 
                                                         exInfo={allExercises}
                                                         summaryToDisplay={completeWorkoutData.current}
+                                                        username={username}
                                                         /></div>
         
-        <div style={{ backgroundColor: 'lightblue' }}><FullHistoryComponents measureGetter={GetAllMeasures}/></div>
+        <div style={{ backgroundColor: 'lightblue' }}><FullHistoryComponents username={username} 
+                                                        measureGetter={GetAllMeasures}/></div>
         
         <div>
             {workouts && workouts.map((workout) => (
