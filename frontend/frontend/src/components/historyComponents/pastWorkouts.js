@@ -15,9 +15,10 @@ function CreateDateBox({dateFunc})
     return <input type="text" style = {{"width":"120px", height:"30px", marginTop:"10px"}} onInput = {handleChange}/>;   
 }
 
-const fetchDates = async () => {
+const fetchDates = async (username) => {
     let dates = []
-    const response = await fetch('/api/workouts/allDates')
+    const path = '/api/workouts/allDates/' + username
+    const response = await fetch(path)
     const json = await response.json()
     if (!response.ok){
         console.error("Something is wrong with getting dates")
@@ -54,13 +55,16 @@ const fetchDates = async () => {
 // ------------- Workout Detail Fetching Functions ------------
 
 
-const fetchWorkoutInfo = async (date) => {
+const fetchWorkoutInfo = async (username, date) => {
+    if(date == "" || date == "CLEAR") { return []}
+
     let convertedDate = (date.replace("/", "-")).replace("/", "-")
     let indexOfDescriptor = convertedDate.indexOf("(")
     if(indexOfDescriptor != -1) { convertedDate = convertedDate.substring(0,indexOfDescriptor-1)}
 
     let dates = []
-    const response = await fetch('/api/workouts/' + convertedDate)
+    const path = '/api/workouts/' + convertedDate +"/" +username
+    const response = await fetch(path)
     const json = await response.json()
     if (!response.ok){
         console.error("Something is wrong with getting dates")
@@ -81,7 +85,7 @@ const fetchWorkoutInfo = async (date) => {
     return desiredWorkouts;
 }
 
-function GetDataOfPastDate(date, det, statGetter)
+function GetDataOfPastDate(username, date, det, statGetter)
 {
 //USE THE INFORMATION FROM THE STATGETTER FUNCTION (its implementation is defined in Home.js as GetAllMeasures)
     const [information, getActualInfo] = useState([])
@@ -89,7 +93,7 @@ function GetDataOfPastDate(date, det, statGetter)
 
 
     const getWorkoutInfo= async () => {
-        getActualInfo(await fetchWorkoutInfo(date));
+        getActualInfo(await fetchWorkoutInfo(username, date));
     }
     
     getWorkoutInfo();
@@ -106,12 +110,12 @@ function GetDataOfPastDate(date, det, statGetter)
     return text_to_display;
 }
 
-function GetDataOfPastDate_element({date, ed, det, stg, mkCall}) {
+function GetDataOfPastDate_element({user,date, ed, det, stg, mkCall}) {
     let text = "";
     if (date!==text)
     {
         if (ed!==false) text = "CANNOT PROVIDE EDITING ACCESS AT THIS TIME."
-        else text = GetDataOfPastDate(date, det, stg);
+        else text = GetDataOfPastDate(user, date, det, stg);
     }
     return (
         <div>
@@ -124,7 +128,7 @@ function GetDataOfPastDate_element({date, ed, det, stg, mkCall}) {
 
 // --------- MAIN FUNCTION --------
 
-export default function PastWorkouts({getStats}) 
+export default function PastWorkouts({getStats, username}) 
 //One text box for the display of past data, [one text box for entering the date, one checkbox to show detailed version], one submit button
 /*
     functions defined:
@@ -141,7 +145,7 @@ export default function PastWorkouts({getStats})
     function  submitButtonHandler(){};
 
     const getThoseDates = async () => {
-        dates.current = (await fetchDates());
+        dates.current = (await fetchDates(username));
     }
     
     getThoseDates();
@@ -213,7 +217,7 @@ export default function PastWorkouts({getStats})
                     
                 </div>
                 <div style={{"width":"300px", "height":"300px", "border":"1px solid black"}}>
-                    <GetDataOfPastDate_element date={literalDateToGoWith} ed={edit_yn} det={detailed_yn} std={getStats} mkCall={makeCallToBackendNow}/>
+                    <GetDataOfPastDate_element user={username} date={literalDateToGoWith} ed={edit_yn} det={detailed_yn} std={getStats} mkCall={makeCallToBackendNow}/>
                 </div>
             </span>
             

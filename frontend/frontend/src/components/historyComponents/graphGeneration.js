@@ -43,40 +43,56 @@ export default function GraphGeneration({username})
     let checkIfCalled=true;
 
     
-    const allExercises=useRef(["No Excercises Yet"])
+    const [allExercises, setAllExercises] = useState(["Choose An Exercise"])
     
     const fetchExerciseNames = async () => {
-        const path = '/api/workouts/names/getAllExerciseNames'
-        //console.log(name)
-        const response = await fetch(path)
-        const json = await response.json()
-        if (response.ok){
-            allExercises.current = json;
-        }
-   
-    }
-
-    if (checkIfCalled==true)
-    {
-        fetchExerciseNames();
-        checkIfCalled = false
+        const path = '/api/workouts/names/getAllExerciseNames/'.concat("", username)
+        if (username != "")
+        {
+            console.log(path)
+            const response = await fetch(path)
+            const json = await response.json()
+            console.log(json)
+            if (response.ok){
+                if(json.length != 0)
+                {
+                    setAllExercises(json);
+                }
+                else
+                {
+                    setAllExercises(["No Exercises Yet"]);
+                } 
+            }
+        } 
+        else
+        {
+            setAllExercises(["No Exercises Yet"]);
+        }    
     }
     
     const graphData=useRef({})
     const fetchData = async (name) => {
-        const path = '/api/workouts/name/'.concat("", name)
-        //console.log(name)
-        const response = await fetch(path)
-        const json = await response.json()
-
-        if (response.ok){
-            graphData.current = json;
+        if (username != "")
+        {
+            const path = '/api/workouts/name/'.concat("", name)
+            //console.log(path)
+            const response = await fetch(path)
+            const json = await response.json()
+            //console.log(json)
+            if (response.ok){
+                graphData.current = json;
+            }
+            
+        } 
+        else 
+        {
+            graphData.current = [];
         }
-        console.log(json)
     }
+    //console.log(graphData)
     //console.log(allExercises)
 
-    const exCount = [...Array(allExercises.current.length).keys()]
+    const exCount = [...Array(allExercises.length).keys()]
     const measCount=[...Array(measurements.length).keys()]
 
     
@@ -112,7 +128,7 @@ export default function GraphGeneration({username})
     }
 
     const ChangeGraph = async () => {
-        const f = await fetchData(allExercises.current[exercise])
+        const f = await fetchData(allExercises[exercise])
         
         changeData(
             {
@@ -140,7 +156,7 @@ export default function GraphGeneration({username})
                     key={1} 
                     style={{ marginRight: "10px" }}
                 >{
-                    exCount.map(category => <option key={category} value={category}>{allExercises.current[category]}</option>)
+                    exCount.map(category => <option key={category} value={category}>{allExercises[category]}</option>)
                 }</select>
                 <select 
                     onChange={e => setMeasurement(e.target.value)} 
