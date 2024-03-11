@@ -29,6 +29,30 @@ const NewAccount = ({username}) => {
         }
     }
 
+    const [selectedImage, setSelectedImage] = useState(null);
+    const hiddenFileInput = useRef(null);
+
+    const handleClick = event => {
+        hiddenFileInput.current.click();
+    };
+
+    async function handlePictureUpload (event) {
+        const file = event.target.files[0];
+        console.log(event.target.files[0]);
+        //setSelectedImage(event.target.files[0]);
+
+        function reader(file, callback) {
+            const fr = new FileReader();
+            fr.onload = () => callback(null, fr.result);
+            fr.onerror = (err) => callback(err);
+            fr.readAsBinaryString(file);
+        }
+        reader(event.target.files[0], (err, res) => {
+            console.log(res);
+        });
+
+    }
+
     const handleCreateAccount = async (e) => {
         completeUser.current = {"username":new_username.current.value, "password":password.current.value, "gender":gender.current.value};
         const response = await fetch('/api/user/createUser', {
@@ -62,10 +86,12 @@ const NewAccount = ({username}) => {
         
     }
 
+    
+
     return (
         <>
-        <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}> 
-            <div style={{"width":"250px", height:"200px", display: "flex", flexDirection: "column"}}>
+        <div style={{display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "row"}}> 
+            <div style={{"width":"250px", height:"200px", display: "flex", flexDirection: "column", marginRight:"25px"}}>
                 <div className="generalText" style = {{alignSelf:"center", marginTop:"20px"}} >
                     {"Have an account? "} <Link to="/login" style = {{color: '#0000cc'}}> Sign in</Link>{"!"}
                 </div>
@@ -87,6 +113,30 @@ const NewAccount = ({username}) => {
                 fontFamily: "Trebuchet MS", fontSize: "20px"}}> Submit</Button>
                 </div>
                 <div className="generalText" style = {{alignSelf:"self-start", marginTop:"10px"}} >{message}</div>
+            </div>
+            <div>
+                <Button size="sm" variant="outline-primary" onClick={() => handleClick()} 
+                style={{"width": "120px", height:"40px", marginTop:"20px",
+                fontFamily: "Trebuchet MS", fontSize: "20px"}}>Upload Picture</Button>
+                <input
+                    type="file"
+                    name="myImage"
+                    ref={hiddenFileInput}
+                    style={{display: 'none'}}
+                    onChange={async (e) => handlePictureUpload(e)}
+                />
+                {selectedImage && (
+                    <div>
+                    <img
+                        alt="not found"
+                        width={"250px"}
+                        src={URL.createObjectURL(selectedImage)}
+                    />
+                    <br />
+                    <button onClick={() => setSelectedImage(null)}>Remove</button>
+                    </div>
+                )}
+                {/* <div className="generalText" style = {{alignSelf:"self-start", marginTop:"10px"}} >{"HII"}</div> */}
             </div>
         </div>
         </>
