@@ -5,23 +5,22 @@ import UserDataEntries from './userDataEntries.js';
 
 //To-do: Actually implementing statistical analysis
 
-export default function FullSpecificInfoComponents({SendValueUp, summaryToDisplay, exInfo})
+export default function FullSpecificInfoComponents({SendValueUpSpec, summaryToDisplay, exInfoSpec})
 {
     const dataForWorkout_layer2 = useRef([]);
-    function receiveData({data})
+    function receiveDataSpec({data})
     {
         dataForWorkout_layer2.current = data["n"];
         const n = dataForWorkout_layer2.current;
-        SendValueUp({data:{n}});
+        SendValueUpSpec({data:{n}});
     }
 
     return (
-        <div style={{display:"flex", alignItems:"flex-start"}}> 
-            <span style={{marginRight:"50px", marginBottom:"20px", marginLeft:"20px", marginTop:"20px"}}> 
+        <div style={{display:"flex", justifyContent:"flex-start"}}> 
+            <div style={{flexGrow:3}}><UserDataEntries SendValueUp={receiveDataSpec} allExercises={exInfoSpec}/></div>
+            <span style={{marginLeft:"auto"}}> 
                 <SummaryBox toShow={summaryToDisplay}/>
             </span>
-
-            <div><UserDataEntries SendValueUp={receiveData} allExercises={exInfo}/></div>
         </div>
     );
 }
