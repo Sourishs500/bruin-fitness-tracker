@@ -79,7 +79,7 @@ export default function GeneralInfo ({SendValueUp, SendDateUp, exInfo}) //One te
                 </div>
                 <br/>
                 <span>
-                    <select onClick={ (event)=>{updateCat(event.target.value);} }>
+                    <select onClick={ (event)=>{updateCat(event.target.value); console.log(chosenCat);} }>
                         {possibleCategories.map( (category) =>   <option key={Math.random()} value={category}> {category} </option>)}
                     </select>         
                     

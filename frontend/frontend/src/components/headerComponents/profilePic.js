@@ -10,7 +10,7 @@ import { useEffect, useState, useRef } from 'react';
 
 
 
-async function getGoldStars() 
+async function GetGoldStars() 
 {
     const [name, updateName] = useState("lara2")
     const [userInfo, updateUserInfo] = useState({});
@@ -31,7 +31,7 @@ async function getGoldStars()
 
 }
 
-async function getPlatinumStars()
+async function GetPlatinumStars()
 {
     return 200; //replace this statement with the implementation of the backend call required to get the actual value
 }
@@ -42,8 +42,8 @@ export default function ProfilePic({username, photo})
     const [goldStarCount, updateGoldStarCount] = useState(100)
     const [platinumStarCount, updatePlatStarCount] = useState(100)
 
-    const golds = async () => updateGoldStarCount(await getGoldStars());
-    const plats = async () => updatePlatStarCount(await getPlatinumStars());
+    const golds = async () => updateGoldStarCount(await GetGoldStars());
+    const plats = async () => updatePlatStarCount(await GetPlatinumStars());
     golds();
     plats();
     const userLoggedIn = true;
