@@ -40,7 +40,7 @@ export default function FullGeneralInfoComponents({SendValueUpGen, SendDateUpGen
                 <UserDataEntries SendValueUp={receiveDataSpec} allExercises={exInfoSpec}/>      
                 <div style={{marginLeft:"auto", marginTop:20}}> <MusclesWorkedOut givenExercises={muscleGroupsToDisplay}/> </div>
             </div>
-            <div> <SummaryBox toShow={summaryToDisplay}/></div>
+            <div style={{marginLeft:"auto", marginRight:"auto"}}  > <SummaryBox toShow={summaryToDisplay}/></div>
             
         </div>
     );
