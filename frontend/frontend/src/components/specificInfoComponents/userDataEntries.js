@@ -15,7 +15,7 @@ function CreateTextBox({SendValueUp}) //pass in the text update function here
         const n = event.target.value;
         SendValueUp({val:{n}});
     };
-    return <textarea type="text" value={value} onChange={handleChange} placeholder="" style={{"width":"200px", "height":"30px", marginRight:"20px", overflowY:"scroll"}}/>;
+    return <textarea type="text" value={value} onChange={handleChange} placeholder="Exercise Notes" style={{ marginRight:"20px", rows: 5, width:200, resize: "none"}}/>
 };
 
 function CreateSetBox({setNum, exLabel, SendValueUp} ) //pass in the text update function here
@@ -26,7 +26,7 @@ function CreateSetBox({setNum, exLabel, SendValueUp} ) //pass in the text update
         const n=event.target.value;
         SendValueUp({val:{n}, i:{setNum}});
     };
-    return <input type="text" label = {setNum} name = {exLabel} style = {{"width":"100px", height:"30px"}} onInput = {handleChange}/>;   
+    return <div style = {{padding:2.5}}><input type="text" label = {setNum} name = {exLabel} style = {{"width":"100px", height:"30px"}} onInput = {handleChange}/></div>;   
 }
 
 export default function UserDataEntries ({SendValueUp, allExercises}) //List of exercise rows, along with three buttons at the end (add exercise, remove exercise, and submit)
@@ -93,12 +93,17 @@ variables used:
         }
 
         return(
-            <div style={{display:"flex"}}>
-                <CreateTextBox key={"specificNotes"} SendValueUp={TrackSpecificNotes}/>
-                <select onChange={TrackEx} style={{marginRight:"10px"} }>{exList.map(category => <option key={category} value={category}>{category}</option>)}</select> 
-                <div>{sets}</div>
-                <Button size="sm" variant="success" onClick={incSets} style={{marginLeft:"10px", marginRight:"10px"}}>Add Set</Button>
-                <Button size="sm" variant="danger" onClick={decSets} style={{marginLeft:"10px", marginRight:"10px"}}>Remove Set</Button>
+            <div style={{display:"flex", flexDirection:"row", justifyContent:"flex-start"}}>
+                <div style={{display:"flex", flexDirection:"column", justifyContent:"flex-start"}}>
+                    <div><select onChange={TrackEx} style={{marginBottom:5, width:200}}>{exList.map(category => <option key={category} value={category}>{category}</option>)}</select></div>
+                    <div><CreateTextBox key={"specificNotes"} SendValueUp={TrackSpecificNotes} style = {{}}/></div>
+                </div>
+                <div style = {{marginBottom:"auto", marginTop: "auto", display:"flex", flexFlow: "row wrap"}}>{sets}</div>
+                <div style = {{marginLeft:"auto"}}>
+                    <div style = {{marginBottom:2.5, marginLeft: "auto", marginTop:2.5}}><Button size="sm" variant="success" onClick={incSets} style={{marginLeft:"10px", marginRight:"10px", minHeight:30, minWidth: 95}}>Add Set</Button></div>
+                    <div style = {{marginBottom:2.5, marginLeft: "auto", marginTop:2.5}}><Button size="sm" variant="danger" onClick={decSets} style={{marginLeft:"10px", marginRight:"10px",  minHeight:30, minWidth: 95}}>Remove Set</Button></div>
+                </div>
+                
 
             </div>
         );
@@ -151,9 +156,11 @@ variables used:
     return (
         <div style={{marginTop:"20px"}}>
             <div style={{marginBottom:"15px"}}> {exerciseList} </div>
-            <div><Button size="sm" variant="outline-success" onClick={() => AddExercise(exCount.current)} style={{marginBottom:"15px"}}>Add Exercise</Button></div>
-            <div><Button size="sm" variant="outline-danger" onClick={() => specialRemoveExercise()} style={{marginBottom:"15px"}}>Remove Final Exercise</Button></div>
-            <div><Button onClick={() => getAllSetsForExercisesSubmitted()} style={{marginBottom:"15px"}}>Submit Workout</Button></div>
+            <div style={{display:"flex", flexDirection:"row"}}>
+                <div style={{margin:10}}><Button size="sm" variant="outline-success" onClick={() => AddExercise(exCount.current)} style={{marginBottom:"15px"}}>Add Exercise</Button></div>
+                <div style={{margin:10}}><Button size="sm" variant="outline-danger" onClick={() => specialRemoveExercise()} style={{marginBottom:"15px"}}>Remove Final Exercise</Button></div>
+            </div>
+            <div style={{margin:10}}><Button onClick={() => getAllSetsForExercisesSubmitted()} style={{marginBottom:"15px"}}>Submit Workout</Button></div>
         </div>
     );
 }

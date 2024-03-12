@@ -24,11 +24,11 @@ export default function FullGeneralInfoComponents({SendValueUp, SendDateUp, exIn
     }
 
     return (
-        <div style={{display:"flex", alignItems:"flex-start"}}>
-            <div style={{marginLeft:"25px"}}> <MusclesWorkedOut givenExercises={muscleGroupsToDisplay}/> </div>
-            <div style={{marginLeft:"50px"}}>
+        <div style={{display:"flex", justifyContent:"flex-start"}}>
+            <div style={{}}>
                 <div> <GeneralInfo SendValueUp={updateNotes} SendDateUp = {updateDate} exInfo={exInfo}/> </div>
             </div>
+            <div style={{marginLeft:"auto"}}> <MusclesWorkedOut givenExercises={muscleGroupsToDisplay}/> </div>
         </div>
     );
 };

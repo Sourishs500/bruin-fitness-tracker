@@ -175,8 +175,7 @@ const Home = ({username}) => {
 
     return (
         <>
-        <div style={{ backgroundColor: 'pink' }}><GeneralInformation/></div> 
-        <div style={{ backgroundColor: 'lightgreen' }}><FullGeneralInfoComponents 
+        <div style={{ backgroundColor: 'lightgreen', padding:20 }}><FullGeneralInfoComponents 
                                                         SendValueUp={receiveGeneralNotes}
                                                         SendDateUp={receiveGeneralDate}
                                                         exInfo={allExercisesOrganizedByTheme}
@@ -184,21 +183,13 @@ const Home = ({username}) => {
                                                         username={username}
                                                         /></div>
 
-        <div style={{ backgroundColor: 'lightyellow' }}><FullSpecificInfoComponents 
+        <div style={{ backgroundColor: 'lightyellow', padding:20 }}><FullSpecificInfoComponents 
                                                         SendValueUp={receiveData} 
                                                         exInfo={allExercises}
                                                         summaryToDisplay={completeWorkoutData.current}
                                                         username={username}
                                                         /></div>
-        
-        <div style={{ backgroundColor: 'lightblue' }}><FullHistoryComponents username={username} 
-                                                        measureGetter={GetAllMeasures}/></div>
-        
-        <div>
-            {workouts && workouts.map((workout) => (
-                <p key={workout._id}>{workout.name}</p>
-            ))}
-        </div>
+           
         </>
     )
 }
