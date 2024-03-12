@@ -6,7 +6,8 @@ import Login from './pages/Login'
 import NewAccount from './pages/NewAccount'
 import ProfilePage from  './pages/ProfilePage.js' 
 import FullHeader from  './components/headerComponents/FullHeader.js'
-
+import DirectionsPage from './pages/DirectionsPage.js'
+import HistoryPage  from './pages/HistoryPage.js';
 export default function App () {
     const [username, setUsername] = useState("");
     const [photo, setPhoto] = useState("");
@@ -18,6 +19,14 @@ export default function App () {
                 <Route 
                     path="/"
                     element={<Home username={username}/>}
+                />
+                <Route 
+                    path="/directions"
+                    element={<DirectionsPage username={username}/>}
+                />
+                <Route 
+                    path="/history"
+                    element={<HistoryPage username={username}/>}
                 />
                 <Route 
                     path="/login"

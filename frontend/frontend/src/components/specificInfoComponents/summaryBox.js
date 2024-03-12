@@ -8,6 +8,12 @@ import { useEffect, useState, useRef } from 'react';
 function getPrintable(x)
 {
     if (Object.keys(x).length==0) return "";
+    if (x==="ERROR") return (
+        <div style={{color:"red", fontSize:"25px",}}>
+            <b><em>Error parsing workouts. Please review your formatting to make sure you have entered things correctly.</em></b>
+        </div>
+    );
+    console.log(Object.keys(x["Workout"][0]), Object.keys(x["Workout"][0]).length);
 
     const widthList = ["10%", "10%", "8%", "8%", "13%", "13%", "14%"];
     const statTypeList = Object.keys(x.Workout[0].OverallStats);

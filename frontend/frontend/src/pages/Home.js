@@ -69,14 +69,30 @@ const Home = ({username}) => {
     function GetAllMeasures({completeWorkoutData2})
     {
         let workoutcopy = JSON.parse(JSON.stringify(completeWorkoutData2));
+        console.log("ABLE TO PARSE WORKOUT", workoutcopy.Workout.length)
+
+        //console.log("GET ALL MEASURES: ", workoutcopy, workoutcopy.Workout[0], " | ", workoutcopy.Workout[0].length)
+        //if (workoutcopy.Workout.length==0) return "ERROR";
+        if (workoutcopy.Workout.length==0) return "ERROR";
+        if (Object.keys(workoutcopy.Workout[0]).length==0) return "ERROR";
         workoutcopy.Workout.map(
                                         exercise => {
                                                         if (Object.keys(exercise).length!==0)
                                                         {
                                                             let exCopy = exercise;
+
+                                                            //console.log("Processing ", exCopy);
                                                             exCopy["UnwrappedSetInfo"] = exCopy.SetInformation.map(x => 
                                                                 parseWorkoutString(x, false, "x", ",")
-                                                            )
+                                                            );
+
+                                                            //console.log("Parsed it into  ", exCopy["UnwrappedSetInfo"]);
+
+                                                            if (exCopy["UnwrappedSetInfo"].includes("ERROR") || exCopy["UnwrappedSetInfo"].length===0)
+                                                            {
+                                                                return "ERROR";
+                                                            }
+
                                                             exCopy["SetLevelStats"] = exCopy["UnwrappedSetInfo"].map(x => calculateStats(x));
 
                                                             exCopy["AllSetsTogether"] = exCopy.UnwrappedSetInfo.flat();
@@ -87,6 +103,8 @@ const Home = ({username}) => {
                                                         else return exercise; //handle the case when {} is the only thing in the record
                                                     }
                                 );
+        //if (workoutcopy.Workout.UnwrappedSetInfo.includes("ERROR")) workoutcopy = "ERROR";
+        if(workoutcopy.Workout[0].UnwrappedSetInfo.includes("ERROR")) return "ERROR";
         return workoutcopy;
     }
 
@@ -122,11 +140,36 @@ const Home = ({username}) => {
 
         }
 
-        console.log(completeWorkoutData.current);
-        handleSubmitWorkoutButton();
+        const handleSubmitStatistics = async (e) => {
+            const response = await fetch('/api/workouts/statistics', {
+                method: 'POST',
+                body: JSON.stringify(completeWorkoutData.current),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
 
+            const json = await response.json();
+
+            if(!response.ok){
+                console.log(json.error)
+            }else{
+                console.log('Statistics added to the backend')
+            }
+        }
+
+        console.log(completeWorkoutData.current);
         let myCopy = completeWorkoutData.current;
-        completeWorkoutData.current = GetAllMeasures({completeWorkoutData2:myCopy});
+        console.log("HERE!")
+        myCopy = GetAllMeasures({completeWorkoutData2:myCopy});
+        if (myCopy!=="ERROR")
+        // Still sending workout data without statistics
+            handleSubmitWorkoutButton();
+        else
+            alert("Errors prevented this workout from being uploaded.");
+        // Now workout data includes statistics
+        completeWorkoutData.current = myCopy;
+        handleSubmitStatistics();
         console.log("Updated: ", completeWorkoutData.current);
     }
 
@@ -216,7 +259,7 @@ function parseWorkoutString(singleSetRec, isCalisthenics, repSeparator, changeSe
     if (n!==true) 
     {
         alert("Sensible data could not be recovered from the set entry "+og+". Please reformat it and try again!");
-        return og;
+        return "ERROR";
     }
     const b = extraCharRemoved.split(changeSeparator).map(
         weightXreps => {

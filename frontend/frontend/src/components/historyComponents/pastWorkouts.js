@@ -4,7 +4,6 @@ Remaining Tasks
 */
 
 import { useEffect, useState, useRef } from 'react';
-import Button from 'react-bootstrap/Button';
 
 // ------------- Date Fetching Functions ------------
 
@@ -54,15 +53,13 @@ const fetchDates = async (username) => {
 
 // ------------- Workout Detail Fetching Functions ------------
 
-
 const fetchWorkoutInfo = async (username, date) => {
-    if(date == "" || date == "CLEAR") { return []}
+    if(date == "" || date == "CLEAR") { return [] }
 
     let convertedDate = (date.replace("/", "-")).replace("/", "-")
     let indexOfDescriptor = convertedDate.indexOf("(")
     if(indexOfDescriptor != -1) { convertedDate = convertedDate.substring(0,indexOfDescriptor-1)}
 
-    let dates = []
     const path = '/api/workouts/' + convertedDate +"/" +username
     const response = await fetch(path)
     const json = await response.json()
@@ -74,54 +71,53 @@ const fetchWorkoutInfo = async (username, date) => {
     if(indexOfDescriptor == -1) { workoutNumber = 0}
     else{ workoutNumber = Math.floor(date.substring(indexOfDescriptor+1, date.indexOf(")")))}
 
-    let workoutId = (json.GeneralNotes[workoutNumber-1]).workoutId
+    let workoutId = (json.GeneralNotes[workoutNumber-1]).workoutId; console.log("WID: ", workoutId)
     let desiredWorkouts = []
     for(let elem=0; elem < json.Workout.length; elem++)
     {
         let currElem = json.Workout[elem]
         if(currElem.workoutId == workoutId) { desiredWorkouts.push(currElem) }
     }
-    console.log(desiredWorkouts)
     return desiredWorkouts;
 }
 
-function GetDataOfPastDate(username, date, det, statGetter)
+function GetDataOfPastDate(username, date, detail, statGetter)
 {
-//USE THE INFORMATION FROM THE STATGETTER FUNCTION (its implementation is defined in Home.js as GetAllMeasures)
-    const [information, getActualInfo] = useState([])
+    const information = useRef([])
     if(date == "CLEAR") { return "" }
 
-
-    const getWorkoutInfo= async () => {
-        getActualInfo(await fetchWorkoutInfo(username, date));
+    const getWorkoutInfo = async () => {
+        information.current = (await fetchWorkoutInfo(username, date));
     }
-    
     getWorkoutInfo();
 
-    let text_to_display = ""
-    for(let i=0; i<information.length; i++)
+    let text_to_display = "\n"
+    for(let i=0; i<information.current.length; i++)
     {
-        let curr_workout_object = information[i]
-        text_to_display += curr_workout_object.name + ": " + curr_workout_object.sets + "  -  Notes: " + curr_workout_object.notes + "\n"
+        let curr_workout_object = (information.current)[i]
+        text_to_display += curr_workout_object.name + ": " + curr_workout_object.sets
+        if (detail == true) { text_to_display += "  -  Notes: " + curr_workout_object.notes}
+        text_to_display +=  "\n\n"
     }
 
-    let failure_text = " Cannot retrieve the workout for "+date+" at this time. We apologize for the inconvenience.";
-    if (det!==false) failure_text = "Full data requested. "+failure_text;
+    // let failure_text = " Cannot retrieve the workout for "+date+" at this time. We apologize for the inconvenience.";
+    // if (detail!==false) failure_text = "Full data requested. "+failure_text;
     return text_to_display;
 }
 
-function GetDataOfPastDate_element({user,date, ed, det, stg, mkCall}) {
-    let text = "";
-    if (date!==text)
+function GetDataOfPastDate_element({user,date, edit, detail, stg}) {
+    let displayText = ""
+
+    if (date!="")
     {
-        if (ed!==false) text = "CANNOT PROVIDE EDITING ACCESS AT THIS TIME."
-        else text = GetDataOfPastDate(user, date, det, stg);
+        if (edit==true) { displayText = "CANNOT PROVIDE EDITING ACCESS AT THIS TIME."}
+        else { displayText =  GetDataOfPastDate(user, date, detail, stg);}
     }
     return (
         <div>
-            <p style={{marginLeft:"10px"}}> <b> <em> 
-                {text}
-            </em> </b> </p>
+            <pre style={{marginLeft:"10px", fontFamily: "Helvetica", fontSize: "16px"}}> <b> <em> 
+                {displayText}
+            </em> </b> </pre>
         </div>
     )
 };
@@ -130,29 +126,18 @@ function GetDataOfPastDate_element({user,date, ed, det, stg, mkCall}) {
 
 export default function PastWorkouts({getStats, username}) 
 //One text box for the display of past data, [one text box for entering the date, one checkbox to show detailed version], one submit button
-/*
-    functions defined:
-        submitButtonHandler
-    variables used:
-        Date
-*/
 {
-    const [Date, setDate] = useState("");
-    const [literalDateToGoWith, setTrueDate] = useState("");
+    // -------------------- Date Display Handling ------------------------------
+    const [enteredDate, setDate] = useState("");
+    const [selectedDate, setTrueDate] = useState("");
     const dates = useRef([])
-    let makeCallToBackendNow = false;
-
-    function  submitButtonHandler(){};
 
     const getThoseDates = async () => {
         dates.current = (await fetchDates(username));
     }
-    
     getThoseDates();
-    dates.current = dates.current.filter(x => x.startsWith(Date))
+    dates.current = dates.current.filter(x => x.startsWith(enteredDate))
     
-    const colors = useRef(Array(dates.current.length).fill("black"));
-
     let colorMappingFromDate = {};
     for (let i = 0; i < dates.current.length; i++) {
         colorMappingFromDate[dates[i]] = "black";
@@ -162,8 +147,8 @@ export default function PastWorkouts({getStats, username})
 
     function implementUpdateToColors(newDate)
     {
-        makeCallToBackendNow = true;
-        setTrueDate(newDate);
+        console.log("UPDATED")
+        if(newDate != selectedDate) { setTrueDate(newDate); }
         let colorMappingFromDate = {};
         for (let i = 0; i < dates.length; i++) {
             colorMappingFromDate[dates[i]] = "black";
@@ -172,42 +157,40 @@ export default function PastWorkouts({getStats, username})
         updateColorMappingState(colorMappingFromDate);   
     }
 
-    const dateWanted = useRef("");
+    // -------------------- Workout Display Handling ------------------------------
+    const [detailed_yn, setDetailed_yn] = useState(false); //setting for details
+    const [edit_yn, setEdited_yn] = useState(false); //setting for edits
 
-
-
-    const [detailed_yn, setDetailed_yn] = useState(false);
-    const [edit_yn, setEdited_yn] = useState(false);
-    const [activate_yn, setActivate_yn] = useState(false);
-
-    const [resetClicked, setReset] = useState("normal");
     const clearTextShown = useRef("CLEAR");
 
-    if (Date!=="") clearTextShown.current = "";
+    if (enteredDate!=="") clearTextShown.current = "";
     else clearTextShown.current = "CLEAR";
 
     return (
-        <div style={{marginTop:"20px"}}>
+        <div style={{marginTop:"10px"}}>
+            <p style={{marginLeft:"8px", fontWeight: "bold"}}>Submitted Dates</p>
             <span style={{ display: "flex", alignItems: "flex-start" }}>
-                <div style={{"width":"150px", "height":"300px", "border":"1px solid black", marginRight:"20px", overflowY:"scroll"}}>
+                <div style={{"width":"150px", "height":"300px", "border":"3px solid black", marginRight:"20px", overflowY:"scroll"}}>
 
                         <p onClick={e=>{implementUpdateToColors(""); 
-                                           console.log(""); setReset("bold");}} 
+                                           console.log("called"); }} 
                                        style={{color:colorMappingState[""], 
-                                               fontWeight:resetClicked,
-                                               marginLeft:"5px"}}
+                                               marginLeft:"5px", 
+                                               textAlign: "center"}}
                         >
                             {clearTextShown.current}
                         </p>                       
                         {
                             (dates.current).map(x => {
                                             let weight = "normal";
+                                            console.log("JUST CLICKED");
                                             if (colorMappingState[x]==="blue") weight = "bold";
                                             return  <p 
-                                                onClick={()=>{implementUpdateToColors(x); console.log(x); setReset("normal")}} 
+                                                onClick={()=>{implementUpdateToColors(x); console.log(x);}} 
                                                 style={{color:colorMappingState[x], 
                                                         fontWeight:weight,
-                                                        marginLeft:"5px"}}
+                                                        marginLeft:"5px", 
+                                                        textAlign: "center"}}
                                                     >                                        
                                                         {x}
                                                     </p>
@@ -216,8 +199,8 @@ export default function PastWorkouts({getStats, username})
                         }
                     
                 </div>
-                <div style={{"width":"300px", "height":"300px", "border":"1px solid black"}}>
-                    <GetDataOfPastDate_element user={username} date={literalDateToGoWith} ed={edit_yn} det={detailed_yn} std={getStats} mkCall={makeCallToBackendNow}/>
+                <div style={{"width":"400px", "height":"300px", "border":"3px solid black"}}>
+                    <GetDataOfPastDate_element user={username} date={selectedDate} edit={edit_yn} detail={detailed_yn} std={getStats}/>
                 </div>
             </span>
             
@@ -225,8 +208,6 @@ export default function PastWorkouts({getStats, username})
                 <span>
                     <CreateDateBox dateFunc={setDate}/>
                     <br/>
-                    {//<Button size="sm" onClick={() => submitButtonHandler()} style={{marginBottom:"15px"}}>Submit Date</Button>
-                    }
                 </span>
                 <span>
                     <input type="checkbox" 

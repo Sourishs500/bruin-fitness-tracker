@@ -24,10 +24,36 @@ a:active { text-decoration: none; }
 }
 
 .topBarRight
-{
+{   
+    margin-left:auto;
     display: flex;
     align-items: center;
     justify-content: "flex-end"
+}
+
+.headerText
+{
+    font-family: 'Trebuchet MS';
+    font-size: 40px;
+    align-self: "self-start";
+    margin-top:"10px";
+}
+
+.directionText
+{
+    font-family: 'Trebuchet MS';
+    font-size: 20px;
+    align-self: "self-start";
+    margin-top:"10px";
+}
+
+.headerPageText
+{
+    font-family: verdana, sans-serif black;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: "flex-start"
 }
 
 .titleText

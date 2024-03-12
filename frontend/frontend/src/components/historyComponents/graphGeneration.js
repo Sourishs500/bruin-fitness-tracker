@@ -9,12 +9,14 @@ import { useState } from 'react';
 import { useRef } from 'react';
 import Button from 'react-bootstrap/Button';
 import { Line } from 'react-chartjs-2'; 
+import 'chartjs-adapter-date-fns';
+
 import {
-  Chart as ChartJS, LineElement, CategoryScale, LinearScale, PointElement, Legend, Filler
+  Chart as ChartJS, TimeScale, LineElement, CategoryScale, LinearScale, PointElement, Legend, Filler
 } from 'chart.js';
 
 ChartJS.register( 
-    LineElement, CategoryScale, LinearScale, PointElement, Legend, Filler
+    LineElement, CategoryScale, LinearScale, TimeScale, PointElement, Legend, Filler
 ); 
 
 
@@ -29,53 +31,63 @@ export default function GraphGeneration({username})
 
 { 
    
-    const measurements = ["Average", "Maximum", "Minimum"] //this is hard-coded and should stay that way
-   
+    const measurements = ["Maximum", "Minimum", "Mean", "Standard Deviation", "Sum", "Total Reps", "Total Sets"] //this is hard-coded and should stay that way
+    const measurementsMap = {
+                                "Maximum": 'max',
+                                "Minimum": 'min',
+                                "Mean": 'mean', 
+                                "Standard Deviation": 'stddev',
+                                "Sum": 'sum',
+                                "Total Reps": 'totalreps',
+                                "Total Sets": 'totalsets'
+                            }
     const options = {
-        plugins: {
-            legend: true
-        },
         scales: {
-            y: {}
+            x: {
+                type: 'time',
+                time: {
+                    unit:'day'    
+                }, 
+              },
         }
     }
-
-    let checkIfCalled=true;
 
     
     const [allExercises, setAllExercises] = useState(["Choose An Exercise"])
     
     const fetchExerciseNames = async () => {
         const path = '/api/workouts/names/getAllExerciseNames/'.concat("", username)
-        if (username != "")
+        
+        if (username !== "")
         {
-            console.log(path)
+            // console.log(path)
             const response = await fetch(path)
             const json = await response.json()
-            console.log(json)
+            // console.log(json)
             if (response.ok){
-                if(json.length != 0)
+                if(json.length !== 0)
                 {
                     setAllExercises(json);
                 }
                 else
                 {
-                    setAllExercises(["No Exercises Yet"]);
+                    setAllExercises(["Choose An Exercise"]);
                 } 
             }
         } 
         else
         {
-            setAllExercises(["No Exercises Yet"]);
+            setAllExercises(["Choose An Exercise"]);
         }    
     }
     
     const graphData=useRef({})
-    const fetchData = async (name) => {
-        if (username != "")
+    const fetchData = async (exerciseName, statistic) => {
+        if (username !== "" && exerciseName !== "Choose An Exercise")
         {
-            const path = '/api/workouts/name/'.concat("", name)
-            //console.log(path)
+
+            const path = '/api/workouts/statistics/'.concat("", username, "/", exerciseName, "/", statistic);
+            //const path = '/api/workouts/statistics/sourish/Calf Raises/max'
             const response = await fetch(path)
             const json = await response.json()
             //console.log(json)
@@ -111,33 +123,19 @@ export default function GraphGeneration({username})
             }]      
         });
 
-    const fetchStatistics = async () => {
-        const path = '/api/workouts/name/'.concat("")
-        //console.log(name)
-        const response = await fetch(path)
-        const json = await response.json()
-
-        if (response.ok){
-            graphData.current = json;
-        }
-        console.log(json)
-    }
-
-    const getStats = async () => {
-        const f = await fetchStatistics()
-    }
-
     const ChangeGraph = async () => {
-        const f = await fetchData(allExercises[exercise])
-        
+        const f = await fetchData(allExercises[exercise], measurementsMap[measurements[measurement]])
+        graphData.current.sort((a, b) => a["date"] < b["date"]);
+
+
         changeData(
             {
-            labels : graphData.current.map(x => x["date"]), 
+            labels : graphData.current.map(x => new Date (x["date"])), 
             datasets : [{ 
                label : measurements[measurement],
-                data:  graphData.current.map(x => x["sets"].split(',').map(y => y.split('x')[0])).flat(),
+                data:  graphData.current.map( x => x[measurementsMap[measurements[measurement]]]),
                 backgroundColor: 'aqua',
-                boderColor: 'black',
+                borderColor: 'black',
                 pointBorderColor: 'aqua',
                }],
             }
@@ -146,30 +144,31 @@ export default function GraphGeneration({username})
     }
     return (
         <div>
-            <div style={{ width: '600px', height: '300px', padding: '20px' }}> 
+            <div style={{ width: '600px', height: '300px', padding: '20px', alignContent:"center"}}> 
                 <Line data={data} options={options}></Line>
             </div>
-            <div>
-                <select 
+            <div style = {{display:"flex", flexDirection:"row", justifyContent: "center", alignContent:"center"}}>
+                <div>
+                <select
                     onChange={e => setExercise(e.target.value)} 
                     onClick={() => fetchExerciseNames()}
                     key={1} 
-                    style={{ marginRight: "10px" }}
+                    style={{ margin: 5}}
                 >{
                     exCount.map(category => <option key={category} value={category}>{allExercises[category]}</option>)
-                }</select>
-                <select 
+                }</select></div>
+                <div><select 
                     onChange={e => setMeasurement(e.target.value)} 
                     key={2} 
-                    style={{ marginRight: "10px" }}
+                    style={{ margin: 5 }}
                 >{
                     measCount.map(category => <option key={category} value={category}>{measurements[category]}</option>)
-                }</select>
+                }</select></div>
                 <Button 
                     onClick = {()=>ChangeGraph()}
                     size="sm"
                     key={3} 
-                    style={{ marginBottom: "40px", marginTop: "15px" }}
+                    style={{ margin: 5}}
                 >Submit Request</Button>
             </div>
         </div>
