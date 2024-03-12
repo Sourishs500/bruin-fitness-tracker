@@ -78,7 +78,6 @@ const fetchWorkoutInfo = async (username, date) => {
         let currElem = json.Workout[elem]
         if(currElem.workoutId == workoutId) { desiredWorkouts.push(currElem) }
     }
-    console.log(desiredWorkouts)
     return desiredWorkouts;
 }
 
@@ -93,31 +92,30 @@ function GetDataOfPastDate(username, date, det, statGetter)
     getWorkoutInfo();
 
     let text_to_display = ""
-    for(let i=0; i<information.length; i++)
+    for(let i=0; i<information.current.length; i++)
     {
-        let curr_workout_object = information[i]
+        let curr_workout_object = (information.current)[i]
         text_to_display += curr_workout_object.name + ": " + curr_workout_object.sets + "  -  Notes: " + curr_workout_object.notes + "\n"
     }
 
-    let failure_text = " Cannot retrieve the workout for "+date+" at this time. We apologize for the inconvenience.";
-    if (det!==false) failure_text = "Full data requested. "+failure_text;
+    // let failure_text = " Cannot retrieve the workout for "+date+" at this time. We apologize for the inconvenience.";
+    // if (det!==false) failure_text = "Full data requested. "+failure_text;
     return text_to_display;
 }
 
 function GetDataOfPastDate_element({user,date, ed, det, stg}) {
-    let text = "";
-    console.log("Here is the date:", date);
-    console.log("Here is the text:", text);
+    let displayText = ""
+
     if (date!="")
     {
-        console.log("IN IF STATEMENT");
-        if (ed==true) text = "CANNOT PROVIDE EDITING ACCESS AT THIS TIME."
-        else text = GetDataOfPastDate(user, date, det, stg);
+        if (ed==true) { displayText = "CANNOT PROVIDE EDITING ACCESS AT THIS TIME."}
+        else { displayText =  GetDataOfPastDate(user, date, det, stg);}
     }
+
     return (
         <div>
             <p style={{marginLeft:"10px"}}> <b> <em> 
-                {text}
+                {displayText}
             </em> </b> </p>
         </div>
     )
