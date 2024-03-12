@@ -6,7 +6,7 @@ import { useState, useRef } from 'react';
 
 const FullHeader = ({username, photo}) =>
 { 
-    console.log("from FullHeader:", username)
+    console.log("from FullHeader:", photo)
     
     const message_username = useRef();
     const message_signin = useRef();

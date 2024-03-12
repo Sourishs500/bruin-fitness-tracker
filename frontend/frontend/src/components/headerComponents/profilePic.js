@@ -18,13 +18,13 @@ export default function ProfilePic({username, photo})
     
     //console.log("FROM PROFILEPIC.JS:", photo);
 
-    const photo_src = useRef();
-    if (photo.includes(".jpg") || photo.includes(".jpeg") || photo.includes(".png")) {
-        photo_src.current = photo;
-    }
-    else {
-        photo_src.current = DefaultProfilePic;
-    }
+    // const [photo_src, setPhoto_src] = useState();
+    // if (photo.includes(".jpg") || photo.includes(".jpeg") || photo.includes(".png")) {
+    //     setPhoto_src(photo);
+    // }
+    // else {
+    //     setPhoto_src(DefaultProfilePic);
+    // }
     
     if (username != "")
     {
@@ -39,7 +39,7 @@ export default function ProfilePic({username, photo})
                         </div>
                     </div>
                     <Link to="/profile_page" style = {{color: '#0000cc'}}> 
-                        <img className="profilePicture" src={photo_src.current} alt = ""/>
+                        <img className="profilePicture" src={photo} alt = ""/>
                     </Link>
                 </span>);
     }
