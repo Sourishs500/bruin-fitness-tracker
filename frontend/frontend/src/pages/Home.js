@@ -140,15 +140,36 @@ const Home = ({username}) => {
 
         }
 
+        const handleSubmitStatistics = async (e) => {
+            const response = await fetch('/api/workouts/statistics', {
+                method: 'POST',
+                body: JSON.stringify(completeWorkoutData.current),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+
+            const json = await response.json();
+
+            if(!response.ok){
+                console.log(json.error)
+            }else{
+                console.log('Statistics added to the backend')
+            }
+        }
+
         console.log(completeWorkoutData.current);
         let myCopy = completeWorkoutData.current;
         console.log("HERE!")
         myCopy = GetAllMeasures({completeWorkoutData2:myCopy});
         if (myCopy!=="ERROR")
+        // Still sending workout data without statistics
             handleSubmitWorkoutButton();
         else
             alert("Errors prevented this workout from being uploaded.");
+        // Now workout data includes statistics
         completeWorkoutData.current = myCopy;
+        handleSubmitStatistics();
         console.log("Updated: ", completeWorkoutData.current);
     }
 

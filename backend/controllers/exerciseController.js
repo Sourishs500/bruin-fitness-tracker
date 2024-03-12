@@ -220,11 +220,43 @@ const getPastWorkoutsByMuscleGroup = async (req, res) => {
 }
 
 const getStatistics = async (req, res) => {
+    const user = (req.params).user;
+    const exercisename = (req.params).exercise;
+    const stattype = (req.params).stattype;
 
+    try{
+        const stats = await Statistics.find({"user" : user, "exercisename" : exercisename}).select(stattype);
+    } catch (e) {
+        return res.status(400).send({error : e})
+    }
 }
 
 const createStatistics = async (req, res) => {
-    
+    const date = req.body.Date;
+    const generalnotes = req.body.GeneralNotes;
+    const user = req.body.User;
+    const workout = req.body.Workout;
+
+    for(let i = 0; i < workout.length; i++){
+        const cur = workout[i];
+        const exercisename = cur.Exercise;
+        const stats = cur.OverallStats;
+
+        const max = stats.Max;
+        const mean = stats.Mean;
+        const min = stats.Min;
+        const stddev = stats["Standard Deviation"];
+        const sum = stats.Sum;
+        const totalreps = stats["Total Reps"];
+        const totalsets = stats["Total Sets"];
+
+        try{
+            const statisticsDoc = await Statistics.create({date, generalnotes, user, exercisename, max, mean, min, stddev, sum, totalreps, totalsets})
+        } catch (e){
+            return res.status(400).send({error : e})
+        }
+    }
+    return res.status(200).send({"message" : "Successfully added statistics document"})
 }
 
 module.exports = {

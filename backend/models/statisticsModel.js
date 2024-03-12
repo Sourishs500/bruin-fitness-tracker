@@ -20,31 +20,31 @@ const statisticsSchema = new Schema({
         required: true
     },
     max: {
-        type: Integer,
+        type: Number,
         required: true
     },
     mean: {
-        type: Integer,
+        type: Number,
         required: true
     },
     min: {
-        type: Integer,
+        type: Number,
         required: true
     },
     stddev: {
-        type: Double,
+        type: mongoose.Decimal128,
         required: true
     },
     sum: {
-        type: Integer,
+        type: Number,
         required: true
     },
     totalreps: {
-        type: Integer,
+        type: Number,
         required: true
     },
     totalsets: {
-        type: Integer,
+        type: Number,
         required: true
     }
 }, { timestamps: true })
