@@ -3,9 +3,9 @@ const User = require('../models/userModel.js');
 const GeneralComment = require('../models/generalCommentModel.js');
 
 const createUser = async (req, res) => {
-    const {username, password, gender, picture, image} = req.body;
+    const {username, password, gender, image} = req.body;
     try {
-        const user = await User.create({username, password, gender, "gold_stars": 0, "platinum_stars": 0, "picture": "DefaultProfilePic.png", image});
+        const user = await User.create({username, password, gender, "gold_stars": 0, "platinum_stars": 0, image});
         return res.status(200).json(user);
     } catch(e) {
         return res.status(400).json({error: e.message})
@@ -21,7 +21,21 @@ const getUser = async (req, res) => {
     return res.status(200).json(user)
 }
 
+const updateProfilePhoto = async (req, res) => {
+    const {name, URL} = req.body;
+
+    try {
+        u = await User.updateOne({'username': name}, {$set: {'image': URL}}) 
+        //res.send('Item Updated!');
+        return res.status(200)
+    } catch(e) {
+        return res.status(400).json({error: e.message})
+    }
+    
+}
+
 module.exports = {
     createUser,
-    getUser
+    getUser,
+    updateProfilePhoto
 }
