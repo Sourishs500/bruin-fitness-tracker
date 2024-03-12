@@ -2,16 +2,17 @@ import { useEffect, useState, useRef } from 'react';
 
 import GeneralInfo from './generalInfo.js';
 import MusclesWorkedOut from './musclesWorkedOut.js';
+import SummaryBox from '../specificInfoComponents/summaryBox.js'
+import UserDataEntries from '../specificInfoComponents/userDataEntries.js';
 
-
-export default function FullGeneralInfoComponents({SendValueUp, SendDateUp, exInfo, muscleGroupsToDisplay})
+export default function FullGeneralInfoComponents({SendValueUpGen, SendDateUpGen, exInfoGen, muscleGroupsToDisplay, SendValueUpSpec, summaryToDisplay, exInfoSpec})
 {
     const generalNotes = useRef("");
     function updateNotes({newNotes})
     {
         generalNotes.current = newNotes["n"];
         const n = generalNotes.current;
-        SendValueUp({notes:{n}});
+        SendValueUpGen({notes:{n}});
         //console.log("General Notes: ", generalNotes.current)
     }
 
@@ -20,15 +21,27 @@ export default function FullGeneralInfoComponents({SendValueUp, SendDateUp, exIn
     {
         dateNotes.current = newNotes["n"];
         const n = dateNotes.current;
-        SendDateUp({date:{n}});
+        SendDateUpGen({date:{n}});
+    }
+
+    const dataForWorkout_layer2 = useRef([]);
+    function receiveDataSpec({data})
+    {
+        dataForWorkout_layer2.current = data["n"];
+        const n = dataForWorkout_layer2.current;
+        SendValueUpSpec({data:{n}});
     }
 
     return (
-        <div style={{display:"flex", justifyContent:"flex-start"}}>
-            <div style={{}}>
-                <div> <GeneralInfo SendValueUp={updateNotes} SendDateUp = {updateDate} exInfo={exInfo}/> </div>
+        <div style = {{display:"flex", justifyContent:"space-evenly", flexDirection:"column"}}>
+            <GeneralInfo SendValueUp={updateNotes} SendDateUp = {updateDate} exInfo={exInfoGen}/>              
+            
+            <div style={{display:"flex", justifyContent:"flex-right", flexDirection:"row"}}> 
+                <UserDataEntries SendValueUp={receiveDataSpec} allExercises={exInfoSpec}/>      
+                <div style={{marginLeft:"auto", marginTop:20}}> <MusclesWorkedOut givenExercises={muscleGroupsToDisplay}/> </div>
             </div>
-            <div style={{marginLeft:"auto"}}> <MusclesWorkedOut givenExercises={muscleGroupsToDisplay}/> </div>
+            <div> <SummaryBox toShow={summaryToDisplay}/></div>
+            
         </div>
     );
 };

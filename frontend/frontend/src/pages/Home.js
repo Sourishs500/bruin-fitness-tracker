@@ -175,20 +175,17 @@ const Home = ({username}) => {
 
     return (
         <>
-        <div style={{ backgroundColor: 'lightgreen', padding:20 }}><FullGeneralInfoComponents 
-                                                        SendValueUp={receiveGeneralNotes}
-                                                        SendDateUp={receiveGeneralDate}
-                                                        exInfo={allExercisesOrganizedByTheme}
+        <div style={{ backgroundColor: 'lightyellow', padding:20 }}><FullGeneralInfoComponents 
+                                                        SendValueUpGen={receiveGeneralNotes}
+                                                        SendDateUpGen={receiveGeneralDate}
+                                                        exInfoGen={allExercisesOrganizedByTheme}
                                                         muscleGroupsToDisplay={allExercisesAcrossWorkout}
-                                                        username={username}
-                                                        /></div>
-
-        <div style={{ backgroundColor: 'lightyellow', padding:20 }}><FullSpecificInfoComponents 
-                                                        SendValueUp={receiveData} 
-                                                        exInfo={allExercises}
+                                                        SendValueUpSpec={receiveData} 
+                                                        exInfoSpec={allExercises}
                                                         summaryToDisplay={completeWorkoutData.current}
                                                         username={username}
                                                         /></div>
+
            
         </>
     )

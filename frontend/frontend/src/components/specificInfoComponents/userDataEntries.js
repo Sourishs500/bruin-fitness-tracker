@@ -15,7 +15,7 @@ function CreateTextBox({SendValueUp}) //pass in the text update function here
         const n = event.target.value;
         SendValueUp({val:{n}});
     };
-    return <textarea type="text" value={value} onChange={handleChange} placeholder="Exercise Notes" style={{ marginRight:"20px", rows: 5, width:200, resize: "none"}}/>
+    return <textarea type="text" value={value} onChange={handleChange} placeholder="Exercise Notes" style={{ marginRight:"20px", rows: 5, width:200, resize: "none", overflow:"visible"}}/>
 };
 
 function CreateSetBox({setNum, exLabel, SendValueUp} ) //pass in the text update function here
@@ -154,7 +154,7 @@ variables used:
     const [setInfo, obtainSetInfo] = useState([]);
 
     return (
-        <div style={{marginTop:"20px"}}>
+        <div style={{marginTop:"20px", flexGrow:3}}>
             <div style={{marginBottom:"15px"}}> {exerciseList} </div>
             <div style={{display:"flex", flexDirection:"row"}}>
                 <div style={{margin:10}}><Button size="sm" variant="outline-success" onClick={() => AddExercise(exCount.current)} style={{marginBottom:"15px"}}>Add Exercise</Button></div>
