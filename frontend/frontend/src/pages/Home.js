@@ -69,10 +69,12 @@ const Home = ({username}) => {
     function GetAllMeasures({completeWorkoutData2})
     {
         let workoutcopy = JSON.parse(JSON.stringify(completeWorkoutData2));
-        if (workoutcopy.Workout.length==0)
-        {
-            return {};
-        }
+        console.log("ABLE TO PARSE WORKOUT", workoutcopy.Workout.length)
+
+        //console.log("GET ALL MEASURES: ", workoutcopy, workoutcopy.Workout[0], " | ", workoutcopy.Workout[0].length)
+        //if (workoutcopy.Workout.length==0) return "ERROR";
+        if (workoutcopy.Workout.length==0) return "ERROR";
+        if (Object.keys(workoutcopy.Workout[0]).length==0) return "ERROR";
         workoutcopy.Workout.map(
                                         exercise => {
                                                         if (Object.keys(exercise).length!==0)
@@ -140,6 +142,7 @@ const Home = ({username}) => {
 
         console.log(completeWorkoutData.current);
         let myCopy = completeWorkoutData.current;
+        console.log("HERE!")
         myCopy = GetAllMeasures({completeWorkoutData2:myCopy});
         if (myCopy!=="ERROR")
             handleSubmitWorkoutButton();
