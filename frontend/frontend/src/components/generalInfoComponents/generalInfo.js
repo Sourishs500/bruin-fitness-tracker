@@ -7,6 +7,7 @@ Remaining Tasks
 import { useEffect, useState, useRef } from 'react';
 import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
 
 function CreateTextBox({SendValueUp, defaultText, x, y})
 {
@@ -60,7 +61,16 @@ export default function GeneralInfo ({SendValueUp, SendDateUp, exInfo}) //One te
         SendDateUp({newNotes:{n}});
     }
 
+    //<select value={chosenCat} onChange={ (event)=>{updateCat(event.target.value); console.log(event.target.value);} }>
+    //                    {possibleCategories.map( (category) =>   <option key={Math.random()} value={category}> {category} </option>)}
+    //</select> 
+
     const currentDateToday = new Date();
+    const EVENTS = (eventKey) => {
+        updateCat(eventKey);
+        console.log("SELECTED IN DROPDOWN: ", eventKey);
+      };
+
     return (
         <div style={{ display: "flex", alignItems: "flex-start" }}>
             <div>
@@ -78,14 +88,20 @@ export default function GeneralInfo ({SendValueUp, SendDateUp, exInfo}) //One te
                     <b>Exercise Recommendation System</b>
                 </div>
                 <br/>
-                <span>
-                    <select onClick={ (event)=>{updateCat(event.target.value); console.log(chosenCat);} }>
-                        {possibleCategories.map( (category) =>   <option key={Math.random()} value={category}> {category} </option>)}
-                    </select>         
-                    
+                <span style={{display:"flex"}}>
+                    <DropdownButton title={chosenCat} onSelect={ EVENTS} variant="info">
+                        {possibleCategories.map( (category) =>   <Dropdown.Item eventKey={category}> {category} </Dropdown.Item>)}
+                    </DropdownButton>   
+
                     <Button variant="light" onClick={() => getCategoryForRandomEx(chosenCat)} style={{marginLeft:"10px", marginRight:"10px"}}>Generate Recommendation</Button>
                     <span> <b>{recommendationGenerated}</b> </span>
                 </span>
+            </div>
+
+            
+
+            <div>
+
             </div>
        </div>
     );
