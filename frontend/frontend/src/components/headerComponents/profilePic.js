@@ -4,13 +4,9 @@ import DefaultProfilePic from '../profilePics/DefaultProfilePic.png'
 import {Link} from 'react-router-dom'
 import { useEffect, useState, useRef } from 'react';
 
-<<<<<<< HEAD
 
 
-async function GetGoldStars() 
-=======
 async function getGoldStars() 
->>>>>>> 51548fb88aa370f4b69da5a903a92372e441fa01
 {
     const [name, updateName] = useState("lara2")
     const [userInfo, updateUserInfo] = useState({});
@@ -31,7 +27,7 @@ async function getGoldStars()
 
 }
 
-async function GetPlatinumStars()
+async function getPlatinumStars()
 {
     return 200; //replace this statement with the implementation of the backend call required to get the actual value
 }
@@ -41,8 +37,8 @@ export default function ProfilePic({username, photo})
     const [goldStarCount, updateGoldStarCount] = useState(100)
     const [platinumStarCount, updatePlatStarCount] = useState(100)
 
-    const golds = async () => updateGoldStarCount(await GetGoldStars());
-    const plats = async () => updatePlatStarCount(await GetPlatinumStars());
+    const golds = async () => updateGoldStarCount(await getGoldStars());
+    const plats = async () => updatePlatStarCount(await getPlatinumStars());
     golds();
     plats();
     
