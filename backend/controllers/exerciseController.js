@@ -3,6 +3,7 @@
 
 const Exercise = require('../models/exerciseModel')
 const GeneralComment = require('../models/generalCommentModel')
+const Statistics = require('../models/statisticsModel')
 const mongoose = require('mongoose')
 const { hash } = require('immutable')
 
@@ -218,6 +219,14 @@ const getPastWorkoutsByMuscleGroup = async (req, res) => {
 
 }
 
+const getStatistics = async (req, res) => {
+
+}
+
+const createStatistics = async (req, res) => {
+    
+}
+
 module.exports = {
     getAllExercises,
     getExercise,
@@ -228,5 +237,7 @@ module.exports = {
     getAllWorkoutIDs,
     getAllWorkoutsOnDate,
     getWorkoutsOfName,
-    getAllExerciseNames
+    getAllExerciseNames,
+    getStatistics,
+    createStatistics
 }

@@ -11,8 +11,14 @@ const {
     getAllWorkoutIDs,
     getAllWorkoutsOnDate,
     getWorkoutsOfName,
-    getAllExerciseNames
+    getAllExerciseNames,
+    getStatistics,
+    createStatistics
 } = require('../controllers/exerciseController')
+
+
+router.post('/statistics/', createStatistics)
+router.get('/statistics/:user/:exercise/:stattype', getStatistics)
 
 // GET all workouts (changed)
 router.get('/:user', getAllExercises)
