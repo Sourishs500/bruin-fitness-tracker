@@ -223,9 +223,12 @@ const getStatistics = async (req, res) => {
     const user = (req.params).user;
     const exercisename = (req.params).exercise;
     const stattype = (req.params).stattype;
-
+    console.log(stattype.concat(" -_id"))
+    
     try{
-        const stats = await Statistics.find({"user" : user, "exercisename" : exercisename}).select(stattype);
+        const stats = await Statistics.find({"user" : user, "exercisename" : exercisename}).select(stattype.concat(" date -_id"));
+        console.log(stats)
+        return res.status(200).json(stats)
     } catch (e) {
         return res.status(400).send({error : e})
     }
