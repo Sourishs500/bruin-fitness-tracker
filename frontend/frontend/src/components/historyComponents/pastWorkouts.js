@@ -71,7 +71,7 @@ const fetchWorkoutInfo = async (username, date) => {
     if(indexOfDescriptor == -1) { workoutNumber = 0}
     else{ workoutNumber = Math.floor(date.substring(indexOfDescriptor+1, date.indexOf(")")))}
 
-    let workoutId = (json.GeneralNotes[workoutNumber-1]).workoutId
+    let workoutId = (json.GeneralNotes[workoutNumber-1]).workoutId; console.log("WID: ", workoutId)
     let desiredWorkouts = []
     for(let elem=0; elem < json.Workout.length; elem++)
     {
@@ -91,7 +91,7 @@ function GetDataOfPastDate(username, date, det, statGetter)
     }
     getWorkoutInfo();
 
-    let text_to_display = ""
+    let text_to_display = "\n"
     for(let i=0; i<information.current.length; i++)
     {
         let curr_workout_object = (information.current)[i]
@@ -111,12 +111,12 @@ function GetDataOfPastDate_element({user,date, ed, det, stg}) {
         if (ed==true) { displayText = "CANNOT PROVIDE EDITING ACCESS AT THIS TIME."}
         else { displayText =  GetDataOfPastDate(user, date, det, stg);}
     }
-
+    console.log(displayText)
     return (
         <div>
-            <p style={{marginLeft:"10px"}}> <b> <em> 
+            <pre style={{marginLeft:"10px"}}> <b> <em> 
                 {displayText}
-            </em> </b> </p>
+            </em> </b> </pre>
         </div>
     )
 };
@@ -170,13 +170,14 @@ export default function PastWorkouts({getStats, username})
     return (
         <div style={{marginTop:"20px"}}>
             <span style={{ display: "flex", alignItems: "flex-start" }}>
-                <div style={{"width":"150px", "height":"300px", "border":"1px solid black", marginRight:"20px", overflowY:"scroll"}}>
+                <div style={{"width":"150px", "height":"300px", "border":"3px solid black", marginRight:"20px", overflowY:"scroll"}}>
 
                         <p onClick={e=>{implementUpdateToColors(""); 
                                            console.log("called"); setReset("bold");}} 
                                        style={{color:colorMappingState[""], 
                                                fontWeight:resetClicked,
-                                               marginLeft:"5px"}}
+                                               marginLeft:"5px", 
+                                               textAlign: "center"}}
                         >
                             {clearTextShown.current}
                         </p>                       
@@ -189,7 +190,8 @@ export default function PastWorkouts({getStats, username})
                                                 onClick={()=>{implementUpdateToColors(x); console.log(x); setReset("normal")}} 
                                                 style={{color:colorMappingState[x], 
                                                         fontWeight:weight,
-                                                        marginLeft:"5px"}}
+                                                        marginLeft:"5px", 
+                                                        textAlign: "center"}}
                                                     >                                        
                                                         {x}
                                                     </p>
@@ -198,7 +200,7 @@ export default function PastWorkouts({getStats, username})
                         }
                     
                 </div>
-                <div style={{"width":"300px", "height":"300px", "border":"1px solid black"}}>
+                <div style={{"width":"400px", "height":"300px", "border":"3px solid black"}}>
                     <GetDataOfPastDate_element user={username} date={selectedDate} ed={edit_yn} det={detailed_yn} std={getStats}/>
                 </div>
             </span>
