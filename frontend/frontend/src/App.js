@@ -29,7 +29,7 @@ export default function App () {
                 />
                 <Route 
                     path="/profile_page"
-                    element={<ProfilePage username={username} photo={photo}/> }
+                    element={<ProfilePage username={username} photo={photo} setNewPhoto={setPhoto}/> }
                 />
             </Routes>
         </BrowserRouter>

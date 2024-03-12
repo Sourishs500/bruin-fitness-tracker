@@ -7,7 +7,7 @@ import rowlet from '../components/profilePics/rowlet.png'
 import Popup from 'reactjs-popup';
 
 
-const ProfilePage = ({username}) => {
+const ProfilePage = ({username, photo, setNewPhoto}) => {
 
     function Box({val}) {
         return <input type="text" ref={val} style = {{"width":"240px", height:"40px", marginTop:"5px", fontSize:"20px"}}
@@ -21,7 +21,7 @@ const ProfilePage = ({username}) => {
     const [current_username, setCurrent_Username] = useState(null);
     const [gender, setGender] = useState(null);
     const [password, setPassword] = useState(null);
-    const [photo, setPhoto] = useState(null);
+    //const [photo, setPhoto] = useState(null);
     const imageURL_dynamic = useRef();
     const photo_src = useRef();
 
@@ -68,15 +68,17 @@ const ProfilePage = ({username}) => {
                 setGender((user.current).gender);
                 setPassword((user.current).password);
                 photo_src.current = (user.current).image;
-                setPhoto((user.current).image);
+                //setNewPhoto((user.current).image);
 
-                if ((photo_src.current).includes(".jpg") || (photo_src.current).includes(".jpeg") || (photo_src.current).includes(".png")) {
+                if (photo_src.current && ((photo_src.current).includes("jpg") || (photo_src.current).includes("jpeg") || (photo_src.current).includes("png"))) {
+                    setNewPhoto((user.current).image);
                     photo_src.current = photo_src.current;
                 }
                 else {
+                    setNewPhoto(DefaultProfilePic);
                     photo_src.current = DefaultProfilePic;
                 }
-                setPhoto(photo_src.current);
+                //setPhoto(photo_src.current);
             }
             else {
                 console.log("HHU?g!");
@@ -90,7 +92,8 @@ const ProfilePage = ({username}) => {
     const handleImageButton = async () => {
         const u = await changePicture(username, imageURL_dynamic.current.value);
         //VerifyAccount();
-        //setPhoto()
+        const s = imageURL_dynamic.current.value;
+        setNewPhoto(s);
     }
 
     VerifyAccount();
