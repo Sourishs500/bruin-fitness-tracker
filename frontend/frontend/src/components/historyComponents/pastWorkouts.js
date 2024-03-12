@@ -81,7 +81,7 @@ const fetchWorkoutInfo = async (username, date) => {
     return desiredWorkouts;
 }
 
-function GetDataOfPastDate(username, date, det, statGetter)
+function GetDataOfPastDate(username, date, detail, statGetter)
 {
     const information = useRef([])
     if(date == "CLEAR") { return "" }
@@ -95,26 +95,27 @@ function GetDataOfPastDate(username, date, det, statGetter)
     for(let i=0; i<information.current.length; i++)
     {
         let curr_workout_object = (information.current)[i]
-        text_to_display += curr_workout_object.name + ": " + curr_workout_object.sets + "  -  Notes: " + curr_workout_object.notes + "\n"
+        text_to_display += curr_workout_object.name + ": " + curr_workout_object.sets
+        if (detail == true) { text_to_display += "  -  Notes: " + curr_workout_object.notes}
+        text_to_display +=  "\n\n"
     }
 
     // let failure_text = " Cannot retrieve the workout for "+date+" at this time. We apologize for the inconvenience.";
-    // if (det!==false) failure_text = "Full data requested. "+failure_text;
+    // if (detail!==false) failure_text = "Full data requested. "+failure_text;
     return text_to_display;
 }
 
-function GetDataOfPastDate_element({user,date, ed, det, stg}) {
+function GetDataOfPastDate_element({user,date, edit, detail, stg}) {
     let displayText = ""
 
     if (date!="")
     {
-        if (ed==true) { displayText = "CANNOT PROVIDE EDITING ACCESS AT THIS TIME."}
-        else { displayText =  GetDataOfPastDate(user, date, det, stg);}
+        if (edit==true) { displayText = "CANNOT PROVIDE EDITING ACCESS AT THIS TIME."}
+        else { displayText =  GetDataOfPastDate(user, date, detail, stg);}
     }
-    console.log(displayText)
     return (
         <div>
-            <pre style={{marginLeft:"10px"}}> <b> <em> 
+            <pre style={{marginLeft:"10px", fontFamily: "Helvetica", fontSize: "16px"}}> <b> <em> 
                 {displayText}
             </em> </b> </pre>
         </div>
@@ -126,6 +127,7 @@ function GetDataOfPastDate_element({user,date, ed, det, stg}) {
 export default function PastWorkouts({getStats, username}) 
 //One text box for the display of past data, [one text box for entering the date, one checkbox to show detailed version], one submit button
 {
+    // -------------------- Date Display Handling ------------------------------
     const [enteredDate, setDate] = useState("");
     const [selectedDate, setTrueDate] = useState("");
     const dates = useRef([])
@@ -133,12 +135,9 @@ export default function PastWorkouts({getStats, username})
     const getThoseDates = async () => {
         dates.current = (await fetchDates(username));
     }
-    
     getThoseDates();
     dates.current = dates.current.filter(x => x.startsWith(enteredDate))
     
-    const colors = useRef(Array(dates.current.length).fill("black"));
-
     let colorMappingFromDate = {};
     for (let i = 0; i < dates.current.length; i++) {
         colorMappingFromDate[dates[i]] = "black";
@@ -148,8 +147,8 @@ export default function PastWorkouts({getStats, username})
 
     function implementUpdateToColors(newDate)
     {
+        console.log("UPDATED")
         if(newDate != selectedDate) { setTrueDate(newDate); }
-        // selectedDate = newDate;
         let colorMappingFromDate = {};
         for (let i = 0; i < dates.length; i++) {
             colorMappingFromDate[dates[i]] = "black";
@@ -158,24 +157,24 @@ export default function PastWorkouts({getStats, username})
         updateColorMappingState(colorMappingFromDate);   
     }
 
+    // -------------------- Workout Display Handling ------------------------------
     const [detailed_yn, setDetailed_yn] = useState(false); //setting for details
     const [edit_yn, setEdited_yn] = useState(false); //setting for edits
 
-    const [resetClicked, setReset] = useState("normal");
     const clearTextShown = useRef("CLEAR");
 
     if (enteredDate!=="") clearTextShown.current = "";
     else clearTextShown.current = "CLEAR";
 
     return (
-        <div style={{marginTop:"20px"}}>
+        <div style={{marginTop:"10px"}}>
+            <p style={{marginLeft:"8px", fontWeight: "bold"}}>Submitted Dates</p>
             <span style={{ display: "flex", alignItems: "flex-start" }}>
                 <div style={{"width":"150px", "height":"300px", "border":"3px solid black", marginRight:"20px", overflowY:"scroll"}}>
 
                         <p onClick={e=>{implementUpdateToColors(""); 
-                                           console.log("called"); setReset("bold");}} 
+                                           console.log("called"); }} 
                                        style={{color:colorMappingState[""], 
-                                               fontWeight:resetClicked,
                                                marginLeft:"5px", 
                                                textAlign: "center"}}
                         >
@@ -187,7 +186,7 @@ export default function PastWorkouts({getStats, username})
                                             console.log("JUST CLICKED");
                                             if (colorMappingState[x]==="blue") weight = "bold";
                                             return  <p 
-                                                onClick={()=>{implementUpdateToColors(x); console.log(x); setReset("normal")}} 
+                                                onClick={()=>{implementUpdateToColors(x); console.log(x);}} 
                                                 style={{color:colorMappingState[x], 
                                                         fontWeight:weight,
                                                         marginLeft:"5px", 
@@ -201,7 +200,7 @@ export default function PastWorkouts({getStats, username})
                     
                 </div>
                 <div style={{"width":"400px", "height":"300px", "border":"3px solid black"}}>
-                    <GetDataOfPastDate_element user={username} date={selectedDate} ed={edit_yn} det={detailed_yn} std={getStats}/>
+                    <GetDataOfPastDate_element user={username} date={selectedDate} edit={edit_yn} detail={detailed_yn} std={getStats}/>
                 </div>
             </span>
             
