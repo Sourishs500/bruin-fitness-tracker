@@ -4,6 +4,7 @@ Remaining Tasks
 2) Display these images inside the div returned by this function (maybe the user can click through them)
 */
 import { useEffect, useState, useRef } from 'react';
+import Button from 'react-bootstrap/Button';
 
 
 
@@ -78,13 +79,19 @@ export default function MusclesWorkedOut({givenExercises})
     
     */ 
     return(
+        <div style={{display: "flex", flexDirection: "column"}}>
+        
         <div style={{"display":"inline-block","width":"400px", "height":"400px", "border":"1px solid black"}} 
-             onClick = {() => {incrementImageTracker(); console.log(imageTracker)}}
         > 
             {[...Array(givenExercises.length).keys()].map(
                 i => imageForExercise(givenExercises[i], imageTracker, i)
             )}
             
+        </div>
+        <div style = {{display: "flex", justifyContent:"center", padding:10}}>
+            <Button onClick = {() => {incrementImageTracker(); console.log(imageTracker)}}>Change Image</Button>
+        </div>
+        
         </div>
     );
 }

@@ -143,30 +143,31 @@ export default function GraphGeneration({username})
     }
     return (
         <div>
-            <div style={{ width: '600px', height: '300px', padding: '20px' }}> 
+            <div style={{ width: '600px', height: '300px', padding: '20px', alignContent:"center"}}> 
                 <Line data={data} options={options}></Line>
             </div>
-            <div>
-                <select 
+            <div style = {{display:"flex", flexDirection:"row", justifyContent: "center", alignContent:"center"}}>
+                <div>
+                <select
                     onChange={e => setExercise(e.target.value)} 
                     onClick={() => fetchExerciseNames()}
                     key={1} 
-                    style={{ marginRight: "10px" }}
+                    style={{ margin: 5}}
                 >{
                     exCount.map(category => <option key={category} value={category}>{allExercises[category]}</option>)
-                }</select>
-                <select 
+                }</select></div>
+                <div><select 
                     onChange={e => setMeasurement(e.target.value)} 
                     key={2} 
-                    style={{ marginRight: "10px" }}
+                    style={{ margin: 5 }}
                 >{
                     measCount.map(category => <option key={category} value={category}>{measurements[category]}</option>)
-                }</select>
+                }</select></div>
                 <Button 
                     onClick = {()=>ChangeGraph()}
                     size="sm"
                     key={3} 
-                    style={{ marginBottom: "40px", marginTop: "15px" }}
+                    style={{ margin: 5}}
                 >Submit Request</Button>
             </div>
         </div>
