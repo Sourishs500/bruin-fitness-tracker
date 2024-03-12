@@ -9,7 +9,7 @@ import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 
-function CreateTextBox({SendValueUp, defaultText, x, y})
+function CreateTextBox({SendValueUp, defaultText, x, y, ph})
 {
     const [value, setValue] = useState(defaultText);
     const handleChange = (event) => 
@@ -19,7 +19,7 @@ function CreateTextBox({SendValueUp, defaultText, x, y})
         SendValueUp({newNotes:{n}})
     };
     
-    return <textarea type="text" value={value} onChange={handleChange} placeholder="" style={{"width":x, "height":y, marginRight:"20px", overflowY:"scroll"}}>
+    return <textarea type="text" value={value} onChange={handleChange} placeholder={ph} style={{"width":x, "height":y, marginRight:"20px", resize: "none"}}>
                 
            </textarea>;
 };
@@ -36,7 +36,7 @@ export default function GeneralInfo ({SendValueUp, SendDateUp, exInfo}) //One te
     let possibleCategories = Object.keys(exInfo);
     const [chosenCat, updateCat] = useState(possibleCategories[0]);
 
-    const [recommendationGenerated, setRec] = useState("");
+    const [recommendationGenerated, setRec] = useState("Recommendation: ");
 
     const getCategoryForRandomEx = (cat) => {
         const array = exInfo[cat]//Object.values(exInfo).flat();//["Chest Press", "Preacher Curls", "Wall-Sits", "Bench Press", "Lat Pull-Downs", "Calf Raises"];
@@ -72,36 +72,34 @@ export default function GeneralInfo ({SendValueUp, SendDateUp, exInfo}) //One te
       };
 
     return (
-        <div style={{ display: "flex", alignItems: "flex-start" }}>
-            <div>
-                <b style={{marginRight:"20px"}}>
-                    Date of Workout
-                </b>
-                <div style={{marginBottom:"15px"}}><CreateTextBox defaultText={String(currentDateToday.getMonth()+1)+"/"+currentDateToday.getDate()+"/"+currentDateToday.getFullYear()} SendValueUp={updateDateOfWorkout} x = "130px" y = "30px" /></div>
+        <div style={{ display: "flex", justifyContent:"flex-start", flexDirection: "row"}}>
+            
+            <div style = {{ display: "flex", alignItems: "flex-start", flexDirection: "row"}}>
+                <div>
+                    <b style={{marginRight:"20px"}}>
+                        Date of Workout
+                    </b>
+                    <div style={{marginBottom:"15px"}}><CreateTextBox defaultText={String(currentDateToday.getMonth()+1)+"/"+currentDateToday.getDate()+"/"+currentDateToday.getFullYear()} SendValueUp={updateDateOfWorkout} x = "130px" y = "30px" /></div>
+                </div>
+                <div>
+                    <b style={{textAlign:"center"}}>Workout Notes: General</b>
+                    <div style={{marginBottom:"15px"}}><CreateTextBox SendValueUp={updateNotes} x = "200px" y = "145px" ph ="Workouts Notes"/></div>
+                </div>
             </div>
-            <div>
-                <b style={{textAlign:"center"}}>Workout Notes: General</b>
-                <div style={{marginBottom:"15px"}}><CreateTextBox SendValueUp={updateNotes} x = "200px" y = "145px" /></div>
-            </div>
-            <div>
-                <div style={{marginBottom:"-20px"}}>
+            <div  style={{backgroundColor: 'lightblue', padding:20, borderRadius:20, marginLeft:"auto"}}>
+                <div className ="directionText" style ={{marginBottom:"-10px"}}>
                     <b>Exercise Recommendation System</b>
                 </div>
                 <br/>
-                <span style={{display:"flex"}}>
-                    <DropdownButton title={chosenCat} onSelect={ EVENTS} variant="info">
-                        {possibleCategories.map( (category) =>   <Dropdown.Item eventKey={category}> {category} </Dropdown.Item>)}
-                    </DropdownButton>   
-
-                    <Button variant="light" onClick={() => getCategoryForRandomEx(chosenCat)} style={{marginLeft:"10px", marginRight:"10px"}}>Generate Recommendation</Button>
-                    <span> <b>{recommendationGenerated}</b> </span>
-                </span>
-            </div>
-
-            
-
-            <div>
-
+                <div style={{display:"flex", flexDirection: "column"}}>
+                    <div style={{display:"flex", flexDirection: "row", marginBottom:10}}>
+                        <DropdownButton title={chosenCat} onSelect={ EVENTS} variant="info">
+                            {possibleCategories.map( (category) =>   <Dropdown.Item eventKey={category}> {category} </Dropdown.Item>)}
+                        </DropdownButton>  
+                        <Button variant="light" onClick={() => getCategoryForRandomEx(chosenCat)} style={{marginLeft:"10px", marginRight:"10px", minWidth:225}}>Generate Recommendation</Button> 
+                    </div>   
+                    <div> <b>{recommendationGenerated}</b> </div>
+                </div>
             </div>
        </div>
     );

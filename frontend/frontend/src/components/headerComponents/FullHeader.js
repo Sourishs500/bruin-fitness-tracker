@@ -21,11 +21,11 @@ const FullHeader = ({username, photo}) =>
     }
 
     return (
-        <div style={{height: 80, display: "flex", justifyContent: "flex-start", alignItems: "center"}}>
+        <div style={{minHeight: 80, display: "flex", justifyContent: "flex-start", alignItems: "center"}}>
             <Link to={{pathname: "/", state: {current_username: message_username.current}}} style = {{color: '#0000cc'}} >
                 <div className="titleText" >{"Bruin Fitness Tracker"}</div>
             </Link>
-            <div style={{marginLeft:40, display: "flex", flexDirection: "row", alignItems: "center",  marginTop:"20px"}}>
+            <div style={{marginLeft:20, display: "flex", flexDirection: "row", alignItems: "center",  marginTop:"20px"}}>
                 <Link style={{marginLeft:20, marginRight:20, color: '#0000cc'}} 
                     to={{pathname: "/", state: {current_username: message_username.current}} }>
                     <div className="headerPageText"><p>Home</p></div>

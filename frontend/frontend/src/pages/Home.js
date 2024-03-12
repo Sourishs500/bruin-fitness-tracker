@@ -175,30 +175,18 @@ const Home = ({username}) => {
 
     return (
         <>
-        <div style={{ backgroundColor: 'pink' }}><GeneralInformation/></div> 
-        <div style={{ backgroundColor: 'lightgreen' }}><FullGeneralInfoComponents 
-                                                        SendValueUp={receiveGeneralNotes}
-                                                        SendDateUp={receiveGeneralDate}
-                                                        exInfo={allExercisesOrganizedByTheme}
+        <div style={{ backgroundColor: 'lightyellow', padding:20 }}><FullGeneralInfoComponents 
+                                                        SendValueUpGen={receiveGeneralNotes}
+                                                        SendDateUpGen={receiveGeneralDate}
+                                                        exInfoGen={allExercisesOrganizedByTheme}
                                                         muscleGroupsToDisplay={allExercisesAcrossWorkout}
-                                                        username={username}
-                                                        /></div>
-
-        <div style={{ backgroundColor: 'lightyellow' }}><FullSpecificInfoComponents 
-                                                        SendValueUp={receiveData} 
-                                                        exInfo={allExercises}
+                                                        SendValueUpSpec={receiveData} 
+                                                        exInfoSpec={allExercises}
                                                         summaryToDisplay={completeWorkoutData.current}
                                                         username={username}
                                                         /></div>
-        
-        <div style={{ backgroundColor: 'lightblue' }}><FullHistoryComponents username={username} 
-                                                        measureGetter={GetAllMeasures}/></div>
-        
-        <div>
-            {workouts && workouts.map((workout) => (
-                <p key={workout._id}>{workout.name}</p>
-            ))}
-        </div>
+
+           
         </>
     )
 }
