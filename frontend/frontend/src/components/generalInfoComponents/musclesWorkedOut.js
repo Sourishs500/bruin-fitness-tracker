@@ -39,6 +39,15 @@ import { useEffect, useState, useRef } from 'react';
 
 function imageForExercise(ex, oneToShow, place)
 {
+    if (place!==oneToShow) return null;
+    if (ex===undefined)
+    {
+        return (
+            <div style={{color:"red", fontSize:"25px", marginLeft:"15px"}}>
+                <b><em>No muscle group confirmed</em></b>
+            </div>
+        )
+    }
     if (place===oneToShow)
         return (
             <div style={{overflow:"scroll", "width":"400px", "height":"400px"}}>
@@ -56,6 +65,7 @@ function imageForExercise(ex, oneToShow, place)
 //{givenExercises.map(x => imageForExercise(x))}
 export default function MusclesWorkedOut({givenExercises})
 {
+    console.log(givenExercises)
     const [imageTracker, updateImageTracker] = useState(0);
     function incrementImageTracker()
     {
@@ -66,7 +76,7 @@ export default function MusclesWorkedOut({givenExercises})
 
     /*
     
-    */
+    */ 
     return(
         <div style={{"display":"inline-block","width":"400px", "height":"400px", "border":"1px solid black"}} 
              onClick = {() => {incrementImageTracker(); console.log(imageTracker)}}
