@@ -7,7 +7,7 @@ import { useEffect, useState, useRef } from 'react';
 
 
 
-    import kirby from '../../components/headerComponents/kirby.png';
+    // import kirby from '../../components/headerComponents/kirby.png';
     import chest from '../headerComponents/chest_image.png';
     import bicep from '../headerComponents/bicep.png';
     import legs from "../headerComponents/legs.png";
@@ -53,7 +53,7 @@ function imageForExercise(ex, oneToShow, place)
             <div style={{overflow:"scroll", "width":"400px", "height":"400px"}}>
                 <h3 style={{display:"block", fontSize:"25px"}}>Muscles used for {ex}</h3>
                 
-                <img style={{display:"block", overflow:"hidden", height:"300px", width:"350px"}} src={exercisesAndMuscles[ex]}/>
+                <img style={{display:"block", overflow:"hidden", height:"300px", width:"350px"}} src={exercisesAndMuscles[ex]} alt = ""/>
                 
             </div>
         );

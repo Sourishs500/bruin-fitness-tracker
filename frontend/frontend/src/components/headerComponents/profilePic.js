@@ -39,13 +39,13 @@ export default function ProfilePic({username, photo})
                         </div>
                     </div>
                     <Link to="/profile_page" style = {{color: '#0000cc'}}> 
-                        <img className="profilePicture" src={photo_src.current}/>
+                        <img className="profilePicture" src={photo_src.current} alt = ""/>
                     </Link>
                 </span>);
     }
     else {
         return (<span className="topBarRight">
-                    <img className="profilePicture" src={DefaultProfilePic}/>
+                    <img className="profilePicture" src={DefaultProfilePic} alt = ""/>
                 </span>
         );
     }
