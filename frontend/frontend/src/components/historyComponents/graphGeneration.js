@@ -123,13 +123,13 @@ export default function GraphGeneration({username})
 
     const ChangeGraph = async () => {
         const f = await fetchData(allExercises[exercise], measurementsMap[measurements[measurement]])
-        
+        graphData.current.sort((a, b) => a["date"] < b["date"]);
         changeData(
             {
-            labels : graphData.current.map(x => x["date"]), 
+            labels : [""].concat(graphData.current.map(x => x["date"])), 
             datasets : [{ 
                label : measurements[measurement],
-                data:  graphData.current.map( x => x[measurementsMap[measurements[measurement]]]),
+                data:  [0].concat(graphData.current.map( x => x[measurementsMap[measurements[measurement]]])),
                 backgroundColor: 'aqua',
                 borderColor: 'black',
                 pointBorderColor: 'aqua',
