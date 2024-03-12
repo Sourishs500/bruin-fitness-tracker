@@ -3,35 +3,8 @@ import DefaultProfilePic from '../profilePics/DefaultProfilePic.png'
 //import bicep from './bicep.png'
 import {Link} from 'react-router-dom'
 import { useEffect, useState, useRef } from 'react';
-
-
-
-async function GetGoldStars() 
-{
-    /*const [name, updateName] = useState("lara2")
-    const [userInfo, updateUserInfo] = useState({});
-    //return 400; //replace this statement with the implementation of the backend call required to get the actual value
-    const fetchAccount = async (myName) => {
-        const path = '/api/user/getUser/'.concat("", myName)
-        const response = await fetch(path)
-        const json = await response.json()
-        if (json.length == 1) { 
-            updateUserInfo(json); 
-        } 
-        else {
-            console.log("Username doesn't exist.");
-        }
-    }
-    const u = await fetchAccount(name);
-    return userInfo[0].gold_stars;*/
-    return 400;
-
-}
-
-async function GetPlatinumStars()
-{
-    return 200; //replace this statement with the implementation of the backend call required to get the actual value
-}
+import GetGoldStars from './goldstar';
+import GetPlatinumStars from './platinumstar';
 
 export default function ProfilePic({username, photo})
 {
@@ -44,6 +17,14 @@ export default function ProfilePic({username, photo})
     plats();
     
     //console.log("FROM PROFILEPIC.JS:", photo);
+
+    const photo_src = useRef();
+    if (photo.includes(".jpg") || photo.includes(".jpeg") || photo.includes(".png")) {
+        photo_src.current = photo;
+    }
+    else {
+        photo_src.current = DefaultProfilePic;
+    }
     
     if (username != "")
     {
@@ -58,7 +39,7 @@ export default function ProfilePic({username, photo})
                         </div>
                     </div>
                     <Link to="/profile_page" style = {{color: '#0000cc'}}> 
-                        <img className="profilePicture" src={photo}/>
+                        <img className="profilePicture" src={photo_src.current}/>
                     </Link>
                 </span>);
     }

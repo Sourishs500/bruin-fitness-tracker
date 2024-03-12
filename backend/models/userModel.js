@@ -22,11 +22,6 @@ const userSchema = new Schema({
         type: Number,
         required: false
     },
-    picture: {
-        type: String,
-        required: false,
-        default: "DefaultProfilePic.png"
-    },
     image: {
         type: String,
         required: true,

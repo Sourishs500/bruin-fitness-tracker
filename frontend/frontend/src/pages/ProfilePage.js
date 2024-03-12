@@ -10,7 +10,7 @@ import Popup from 'reactjs-popup';
 const ProfilePage = ({username}) => {
 
     function Box({val}) {
-        return <input type="text" ref={val} style = {{"width":"240px", height:"40px", marginTop:"5px"}}
+        return <input type="text" ref={val} style = {{"width":"240px", height:"40px", marginTop:"5px", fontSize:"20px"}}
         onChange={(e) => ((val).current.value = e.target.value)}/>;   
     }
 
@@ -18,10 +18,12 @@ const ProfilePage = ({username}) => {
     // const current_username = useRef();
     // const gender = useRef();
     // const password = useRef();
-    const [current_username, setCurrent_Username] = useState("Not signed in!");
-    const [gender, setGender] = useState("Not signed in!");
-    const [password, setPassword] = useState("Not signed in!");
-    const [photo, setPhoto] = useState("Not signed in!");
+    const [current_username, setCurrent_Username] = useState(null);
+    const [gender, setGender] = useState(null);
+    const [password, setPassword] = useState(null);
+    const [photo, setPhoto] = useState(null);
+    const imageURL_dynamic = useRef();
+    const photo_src = useRef();
 
     async function fetchAccount(name) {
         try {
@@ -41,28 +43,40 @@ const ProfilePage = ({username}) => {
         }
     }
 
-    const changePicture = async (name, URL) => {
-        const path = '/api/user/updateProfilePhoto/'.concat("", name, "", URL)
-        const response = await fetch(path)
-        const json = await response.json()
-        if (json.length == 1) { 
-            user.current = json; 
-        } 
-        else {
-            user.current = [];
-            console.log("Username doesn't exist.");
-        }
+    async function changePicture(name, URL) {
+        let data = {"name":name, "URL":URL};
+        const path = '/api/user/updateProfilePhoto'
+        const response = await fetch(path, {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        const json = await response.json();
+        console.log(json);
+        
+        console.log("UHHH!", json);
     }
 
     const VerifyAccount = async () => {
-        if (username) {
+        if (username != "Not signed in!") {
             const u = await fetchAccount(username, user);
             console.log("???:", user.current);
             if (user.current) {
                 setCurrent_Username((user.current).username);
                 setGender((user.current).gender);
                 setPassword((user.current).password);
+                photo_src.current = (user.current).image;
                 setPhoto((user.current).image);
+
+                if ((photo_src.current).includes(".jpg") || (photo_src.current).includes(".jpeg") || (photo_src.current).includes(".png")) {
+                    photo_src.current = photo_src.current;
+                }
+                else {
+                    photo_src.current = DefaultProfilePic;
+                }
+                setPhoto(photo_src.current);
             }
             else {
                 console.log("HHU?g!");
@@ -73,16 +87,14 @@ const ProfilePage = ({username}) => {
         }
     }
 
-    VerifyAccount();
-
-    const imageURL_dynamic = useRef();
-    const [imageURL, setImageURL] = useState(photo);
-    function handleImageButton() {
-        if (imageURL_dynamic.current.value) {
-            setImageURL(imageURL_dynamic.current.value);
-            console.log(imageURL);
-        }
+    const handleImageButton = async () => {
+        const u = await changePicture(username, imageURL_dynamic.current.value);
+        //VerifyAccount();
+        //setPhoto()
     }
+
+    VerifyAccount();
+    
 
     const vale = useRef();
     const Modal = () => (
@@ -102,11 +114,11 @@ const ProfilePage = ({username}) => {
                     style={{"width": "240px", height:"40px", marginTop:"20px", marginBottom:"20px",
                     fontFamily: "Trebuchet MS", fontSize: "20px"}}>Set my picture!</Button>
                 </div>         
-                {imageURL && (
+                {/* {imageURL && (
                     <img className="showProfilePic"
                         src={imageURL}
                     />
-                )}
+                )} */}
             </div>
         </Popup>
     );
@@ -127,7 +139,7 @@ const ProfilePage = ({username}) => {
             <div style={{display: "flex", justifyContent: "center"}}> 
                 <div style={{"width":"200px", height:"400px", display: "flex", flexDirection: "column"}}>
                 <div className="biggerText" style = {{alignSelf:"self-start", marginTop:"10px"}} >{"Profile Picture"}</div>
-                    <img className="largeProfilePicture" style = {{marginTop:"10px"}} src={photo}/>
+                    <img className="largeProfilePicture" style = {{marginTop:"10px"}} src={photo_src.current}/>
                     <div> <Modal/> </div>
                 </div>
             </div>

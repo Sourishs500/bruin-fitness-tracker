@@ -76,7 +76,7 @@ a:active { text-decoration: none; }
 
 .modal {
     width: 350px;
-    height: 450px;
+    height: 200px;
     position: initial;
     display: block;
     padding: 20px 20px;
