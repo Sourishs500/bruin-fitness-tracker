@@ -9,7 +9,7 @@ export default function Directions()
     return (
     <Accordion alwaysOpen style={{width:1000}}>
       <Accordion.Item eventKey="0">
-        <Accordion.Header><div style={{textAlign:"center", fontFamily: "Helvetica-BoldOblique", fontSize: "20px"}}>Direction</div></Accordion.Header>
+        <Accordion.Header><div style={{textAlign:"center", fontFamily: "Helvetica-BoldOblique", fontSize: "20px"}}>Directions</div></Accordion.Header>
         <Accordion.Body>
             <p>
                 To create your workout, enter your workout data in the yellow section. Select the appropriate exercise from the drop-down menu. Then,
