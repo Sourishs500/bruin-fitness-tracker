@@ -26,7 +26,7 @@ function CreateSetBox({setNum, exLabel, SendValueUp} ) //pass in the text update
         const n=event.target.value;
         SendValueUp({val:{n}, i:{setNum}});
     };
-    return <div style = {{padding:2.5}}><input type="text" label = {setNum} name = {exLabel} style = {{"width":"100px", height:"30px"}} onInput = {handleChange}/></div>;   
+    return <div style = {{padding:2.5}}><input type="text" placeholder="Set Info" label = {setNum} name = {exLabel} style = {{"width":"100px", height:"30px"}} onInput = {handleChange}/></div>;   
 }
 
 export default function UserDataEntries ({SendValueUp, allExercises}) //List of exercise rows, along with three buttons at the end (add exercise, remove exercise, and submit)
