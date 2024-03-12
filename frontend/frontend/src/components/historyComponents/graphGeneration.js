@@ -9,12 +9,13 @@ import { useState } from 'react';
 import { useRef } from 'react';
 import Button from 'react-bootstrap/Button';
 import { Line } from 'react-chartjs-2'; 
+import 'chartjs-adapter-date-fns';
 import {
-  Chart as ChartJS, LineElement, CategoryScale, LinearScale, PointElement, Legend, Filler
+  Chart as ChartJS, TimeScale, LineElement, CategoryScale, LinearScale, PointElement, Legend, Filler
 } from 'chart.js';
 
 ChartJS.register( 
-    LineElement, CategoryScale, LinearScale, PointElement, Legend, Filler
+    LineElement, CategoryScale, LinearScale, TimeScale, PointElement, Legend, Filler
 ); 
 
 
@@ -40,15 +41,15 @@ export default function GraphGeneration({username})
                                 "Total Sets": 'totalsets'
                             }
     const options = {
-        plugins: {
-            legend: true
-        },
         scales: {
-            y: {}
+            x: {
+                type: 'time',
+                time: {
+                    unit:'day'    
+                }, 
+              },
         }
     }
-
-    let checkIfCalled=true;
 
     
     const [allExercises, setAllExercises] = useState(["Choose An Exercise"])
@@ -56,14 +57,14 @@ export default function GraphGeneration({username})
     const fetchExerciseNames = async () => {
         const path = '/api/workouts/names/getAllExerciseNames/'.concat("", username)
         
-        if (username != "")
+        if (username !== "")
         {
             // console.log(path)
             const response = await fetch(path)
             const json = await response.json()
             // console.log(json)
             if (response.ok){
-                if(json.length != 0)
+                if(json.length !== 0)
                 {
                     setAllExercises(json);
                 }
@@ -81,7 +82,7 @@ export default function GraphGeneration({username})
     
     const graphData=useRef({})
     const fetchData = async (exerciseName, statistic) => {
-        if (username != "" && exerciseName != "Choose An Exercise")
+        if (username !== "" && exerciseName !== "Choose An Exercise")
         {
 
             const path = '/api/workouts/statistics/'.concat("", username, "/", exerciseName, "/", statistic);
@@ -124,12 +125,14 @@ export default function GraphGeneration({username})
     const ChangeGraph = async () => {
         const f = await fetchData(allExercises[exercise], measurementsMap[measurements[measurement]])
         graphData.current.sort((a, b) => a["date"] < b["date"]);
+
+
         changeData(
             {
-            labels : [""].concat(graphData.current.map(x => x["date"])), 
+            labels : graphData.current.map(x => new Date (x["date"])), 
             datasets : [{ 
                label : measurements[measurement],
-                data:  [0].concat(graphData.current.map( x => x[measurementsMap[measurements[measurement]]])),
+                data:  graphData.current.map( x => x[measurementsMap[measurements[measurement]]]),
                 backgroundColor: 'aqua',
                 borderColor: 'black',
                 pointBorderColor: 'aqua',
