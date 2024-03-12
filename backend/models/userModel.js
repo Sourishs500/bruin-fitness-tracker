@@ -28,8 +28,8 @@ const userSchema = new Schema({
         default: "DefaultProfilePic.png"
     },
     image: {
-        data: Buffer,
-        type: String
+        type: String,
+        required: true,
     }
     
 }, { timestamps: true })

@@ -21,7 +21,7 @@ const ProfilePage = ({username}) => {
     const [current_username, setCurrent_Username] = useState("Not signed in!");
     const [gender, setGender] = useState("Not signed in!");
     const [password, setPassword] = useState("Not signed in!");
-    const [image, setImage] = useState(DefaultProfilePic);
+    const [photo, setPhoto] = useState("Not signed in!");
 
     async function fetchAccount(name) {
         try {
@@ -51,15 +51,7 @@ const ProfilePage = ({username}) => {
                 console.log("current_username:", current_username);
                 setGender((user.current).gender);
                 setPassword((user.current).password);
-
-                if ((user.current).picture == "kirby.png") {
-                    setImage(kirby);
-                } else if ((user.current).picture == "rowlet.png") {
-                    setImage(rowlet);
-                } else {
-                    setImage(DefaultProfilePic);
-                }
-                console.log("YAY");
+                setPhoto((user.current).image);
             }
             else {
                 console.log("HHU?g!");
@@ -72,6 +64,19 @@ const ProfilePage = ({username}) => {
 
     VerifyAccount();
 
+    const updateDoc = {
+        $set: {
+          plot: `A harvest of random numbers, such as: ${Math.random()}`
+        },
+    };
+
+    const imageURL_dynamic = useRef();
+    const [imageURL, setImageURL] = useState(photo);
+    function handleImageButton() {
+        if (imageURL_dynamic.current.value) {
+            setImageURL(imageURL_dynamic.current.value);
+        }
+    }
 
     const vale = useRef();
     const Modal = () => (
@@ -83,43 +88,43 @@ const ProfilePage = ({username}) => {
             modal
             nested
             >
-            <div className="modal" style={{display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column"}}>
-                <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
-                    <img className="largeProfilePicture" style = {{marginRight:"20px"}} src={kirby}/>
-                    <img className="largeProfilePicture" style = {{marginRight:"20px"}} src={kirby}/>
-                    <img className="largeProfilePicture" style = {{marginRight:"0px"}} src={kirby}/>
-                </div>
-                <div style={{display: "flex", justifyContent: "center", alignItems: "center", marginTop:"30px"}}>
-                    <img className="largeProfilePicture" style = {{marginRight:"20px"}} src={kirby}/>
-                    <img className="largeProfilePicture" style = {{marginRight:"20px"}} src={kirby}/>
-                    <img className="largeProfilePicture" style = {{marginRight:"0px"}} src={kirby}/>
-                </div>
+            <div className="modal"style={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}} >
+                <div className="accountText" >{"image URL"}</div>
+                <div> <Box val={imageURL_dynamic}/> </div>  
+                <div> 
+                    <Button size="sm" variant="outline-primary" onClick={() => handleImageButton()} 
+                    style={{"width": "240px", height:"40px", marginTop:"20px", marginBottom:"20px",
+                    fontFamily: "Trebuchet MS", fontSize: "20px"}}>Set my picture!</Button>
+                </div>         
+                {imageURL && (
+                    <img className="showProfilePic"
+                        src={imageURL}
+                    />
+                )}
             </div>
-            
         </Popup>
     );
 
     return (
         <div style={{display: "flex", flexDirection: "row", justifyContent: "center", marginTop:"20px"}}>
-
-        <div style={{display: "flex", justifyContent: "center", alignItems: "center", marginRight:"20px"}}> 
-            <div style={{"width":"250px", height:"200px", display: "flex", flexDirection: "column"}}>
-                <div className="biggerText" style = {{alignSelf:"self-start", marginTop:"10px"}} >{"Your Account"}</div>
-                <div className="biggerText" style = {{alignSelf:"self-start", marginTop:"10px"}} >{"username"}</div>
-                <div className="generalText" style = {{alignSelf:"self-start", marginTop:"7px"}} >{current_username}</div>
-                <div className="biggerText" style = {{alignSelf:"self-start", marginTop:"10px"}} >{"gender"}</div>
-                <div className="generalText" style = {{alignSelf:"self-start", marginTop:"7px"}} >{gender}</div>
-                <div className="biggerText" style = {{alignSelf:"self-start", marginTop:"10px"}} >{"password"}</div>
-                <div className="generalText" style = {{alignSelf:"self-start", marginTop:"7px"}} >{password}</div>
+            <div style={{display: "flex", justifyContent: "center", marginRight:"20px"}}> 
+                <div style={{"width":"200px", height:"200px", display: "flex", flexDirection: "column"}}>
+                    <div className="biggerText" style = {{alignSelf:"self-start", marginTop:"10px"}} >{"Your Account"}</div>
+                    <div className="biggerText" style = {{alignSelf:"self-start", marginTop:"10px"}} >{"Username"}</div>
+                    <div className="accountText" style = {{marginTop:"7px"}} >{current_username}</div>
+                    <div className="biggerText" style = {{alignSelf:"self-start", marginTop:"10px"}} >{"Gender"}</div>
+                    <div className="accountText" style = {{marginTop:"7px"}} >{gender}</div>
+                    <div className="biggerText" style = {{alignSelf:"self-start", marginTop:"10px"}} >{"Password"}</div>
+                    <div className="accountText" style = {{marginTop:"7px"}} >{password}</div>
+                </div>
             </div>
-        </div>
-        <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}> 
-            <div style={{"width":"250px", height:"200px", display: "flex", flexDirection: "column"}}>
-                <div className="generalText" style = {{alignSelf:"self-start", marginTop:"7px"}} >{"idk profile picture"}</div>
-                <img className="largeProfilePicture" style = {{marginTop:"10px"}} src={image}/>
-                <div> <Modal/> </div>
+            <div style={{display: "flex", justifyContent: "center"}}> 
+                <div style={{"width":"200px", height:"400px", display: "flex", flexDirection: "column"}}>
+                <div className="biggerText" style = {{alignSelf:"self-start", marginTop:"10px"}} >{"Profile Picture"}</div>
+                    <img className="largeProfilePicture" style = {{marginTop:"10px"}} src={photo}/>
+                    <div> <Modal/> </div>
+                </div>
             </div>
-        </div>
         </div>
     )
 }

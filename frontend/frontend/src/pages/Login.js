@@ -39,8 +39,8 @@ const Login = ({username, setUsername, setPhoto}) => {
             }
             else {
                 setUsername(new_username.current.value);
-                setPhoto((user.current)[0].picture);
-                //console.log((user.current)[0].picture);
+                setPhoto((user.current)[0].image);
+                console.log((user.current)[0].image);
                 console.log("hooray!");
                 const s = "Successfully logged in. Welcome " + new_username.current.value + "!";
                 setMessage(s);
