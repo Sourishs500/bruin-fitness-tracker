@@ -40,15 +40,26 @@ const ProfilePage = ({username}) => {
             console.log(err);
         }
     }
+
+    const changePicture = async (name, URL) => {
+        const path = '/api/user/updateProfilePhoto/'.concat("", name, "", URL)
+        const response = await fetch(path)
+        const json = await response.json()
+        if (json.length == 1) { 
+            user.current = json; 
+        } 
+        else {
+            user.current = [];
+            console.log("Username doesn't exist.");
+        }
+    }
+
     const VerifyAccount = async () => {
         if (username) {
-            //console.log("USERNAME:", username);
             const u = await fetchAccount(username, user);
             console.log("???:", user.current);
             if (user.current) {
-                console.log("USER.CURRENT.USERNAME:",(user.current).username);
                 setCurrent_Username((user.current).username);
-                console.log("current_username:", current_username);
                 setGender((user.current).gender);
                 setPassword((user.current).password);
                 setPhoto((user.current).image);
@@ -64,17 +75,12 @@ const ProfilePage = ({username}) => {
 
     VerifyAccount();
 
-    const updateDoc = {
-        $set: {
-          plot: `A harvest of random numbers, such as: ${Math.random()}`
-        },
-    };
-
     const imageURL_dynamic = useRef();
     const [imageURL, setImageURL] = useState(photo);
     function handleImageButton() {
         if (imageURL_dynamic.current.value) {
             setImageURL(imageURL_dynamic.current.value);
+            console.log(imageURL);
         }
     }
 
