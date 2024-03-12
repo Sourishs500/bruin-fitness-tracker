@@ -59,7 +59,6 @@ const fetchWorkoutInfo = async (username, date) => {
     let convertedDate = (date.replace("/", "-")).replace("/", "-")
     let indexOfDescriptor = convertedDate.indexOf("(")
     if(indexOfDescriptor != -1) { convertedDate = convertedDate.substring(0,indexOfDescriptor-1)}
-
     const path = '/api/workouts/' + convertedDate +"/" +username
     const response = await fetch(path)
     const json = await response.json()
@@ -68,7 +67,7 @@ const fetchWorkoutInfo = async (username, date) => {
     }
 
     let workoutNumber
-    if(indexOfDescriptor == -1) { workoutNumber = 0}
+    if(indexOfDescriptor == -1) { workoutNumber = 1}
     else{ workoutNumber = Math.floor(date.substring(indexOfDescriptor+1, date.indexOf(")")))}
 
     let workoutId = (json.GeneralNotes[workoutNumber-1]).workoutId; console.log("Workout ID: ", workoutId)
