@@ -10,7 +10,7 @@ const DirectionsPage = ({username}) => {
                 <div className="headerText">
                     <h1 style={{ fontWeight: 'bold', marginTop:"10px" }}>Directions</h1>
                 </div>
-                <div className="directionText" style={{background: "linear-gradient(110deg, #f0f6ff, #e8f2ff)", padding:15, borderRadius:5}}>
+                <div className="directionText" style={{background: "linear-gradient(110deg, #f0f6ff, #e8f2ff)", padding:15, borderRadius:25}}>
                 <p>
                     To create your workout, enter your workout data in the yellow section. Select the appropriate exercise from the drop-down menu. Then,
                     click the "Add Set" button and enter your information in the following format: [WEIGHT]x[NUMBER OF REPS]. If you changed your weight in the
@@ -36,7 +36,7 @@ const DirectionsPage = ({username}) => {
             <div className="headerText">
                 <h1 style={{ fontWeight: 'bold', marginTop:"50px"}}>Additional Features</h1>
             </div>
-            <div className="directionText" style={{background: "linear-gradient(110deg, #f0f6ff, #e8f2ff)", padding:15, borderRadius:5}}> 
+            <div className="directionText" style={{background: "linear-gradient(110deg, #f0f6ff, #e8f2ff)", padding:15, borderRadius:25}}> 
                 <p>
                     1) <b>Recommendation System:</b> Enter the muscle group for the day into the drop-down menu underneath these directions and then click "Generate Recommendation". <em></em>
                 </p>
