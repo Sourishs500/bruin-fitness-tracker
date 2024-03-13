@@ -5,8 +5,8 @@ const DirectionsPage = ({username}) => {
     //console.log("HELLO!", username)
 
     return (
-        <>
-        <div style = {{padding:20, backgroundColor: 'lightblue', height:"750px"}}>
+
+        <div style = {{backgroundColor: '#b3cef2', padding:20, height:"100vmin"}}>
                 <div >
                     <div style={{fontFamily: 'Trebuchet MS', fontSize: "30px", alignSelf: "self-start", marginTop:"10px", fontWeight: 'bold'}}>Directions</div>
                 </div>
@@ -51,7 +51,7 @@ const DirectionsPage = ({username}) => {
                 </p>
             </div>
         </div>
-        </>
+
     )
 }
 
