@@ -28,7 +28,7 @@ const fetchDates = async (username) => {
             dates.push(date)
         }
     }
-
+    dates.sort()
     let numberOfWorkouts = dates.length
     let current_date = ""
     let current_date_counter = 0
