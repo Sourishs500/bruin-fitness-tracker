@@ -40,13 +40,28 @@ export default function GeneralInfo ({SendValueUp, SendDateUp, exInfo}) //One te
 
     const getCategoryForRandomEx = (cat) => {
         const array = exInfo[cat]//Object.values(exInfo).flat();//["Chest Press", "Preacher Curls", "Wall-Sits", "Bench Press", "Lat Pull-Downs", "Calf Raises"];
-        var arr = [];
+        var arr = []
         while(arr.length < 3)
         {
             var r = Math.floor(Math.random() * array.length);
             if(arr.indexOf(r) === -1) arr.push(r);
         }
-        const randomElement = array[arr[0]].concat(", ", array[arr[1]], ", ", array[arr[2]]);
+        var sets = []
+        while(sets.length < 3)
+        {
+            var r = Math.floor(Math.random() * 4 + 2);
+            if(sets.indexOf(r) === -1) sets.push(r);
+        }
+        
+        var reps = []
+        while(reps.length < 3)
+        {
+            var r = Math.floor(Math.random() * 6 + 6);
+            if(reps.indexOf(r) === -1) reps.push(r);
+        }
+        const randomElement = array[arr[0]].concat(" (", sets[0], "x", reps[0], ")",
+            ", ", array[arr[1]], " (", sets[1], "x", reps[1], ")",
+            ", ", array[arr[2]], " (", sets[2], "x", reps[2], ")");
         setRec(randomElement);
     } //To un-hardcode later
 
