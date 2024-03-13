@@ -28,8 +28,25 @@ const fetchDates = async (username) => {
             dates.push(date)
         }
     }
-    dates.sort()
+
     let numberOfWorkouts = dates.length
+    // Check to make sure two digits for month and two for day
+    for (let i=0; i < numberOfWorkouts; i++)
+    {
+        let cur_date = dates[i]; let constructed_date = "";
+        let month_digits = cur_date.indexOf("/")
+        let day_digits = cur_date.substring(month_digits+1).indexOf("/")
+        
+        if(month_digits < 2) { constructed_date += "0"} 
+        constructed_date += cur_date.substring(0,month_digits) + "/"
+
+        if(day_digits < 2) { constructed_date += "0"} 
+        constructed_date += cur_date.substring(month_digits+1)
+        
+        dates[i] = constructed_date
+    }
+
+    dates.sort()
     let current_date = ""
     let current_date_counter = 0
     for (let i=0; i < numberOfWorkouts; i++)
@@ -46,6 +63,21 @@ const fetchDates = async (username) => {
                 dates[i-j] = current_date + " (" + (current_date_counter-j) +")"
             }
         }
+    }
+
+    // Check to make sure two digits for month and two for day
+    for (let i=0; i < numberOfWorkouts; i++)
+    {
+        let cur_date = dates[i]; let constructed_date = "";
+        
+        if(cur_date.substring(0,1) == "0") { constructed_date += cur_date.substring(1,3)} 
+        else { constructed_date += cur_date.substring(0,3)}
+
+        let first_slash = cur_date.indexOf("/")
+        if(cur_date.substring(first_slash+1, first_slash+2) == "0") { constructed_date += cur_date.substring(first_slash+2)} 
+        else { constructed_date += cur_date.substring(first_slash+1) }
+        
+        dates[i] = constructed_date
     }
     
     return dates.reverse();
