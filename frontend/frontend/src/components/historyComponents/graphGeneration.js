@@ -67,7 +67,7 @@ export default function GraphGeneration({username})
             if (response.ok){
                 if(json.length !== 0)
                 {
-                    setAllExercises(json);
+                    setAllExercises(["Choose An Exercise"].concat(json));
                 }
                 else
                 {
@@ -128,10 +128,10 @@ export default function GraphGeneration({username})
 
         function compDate(a ,b)
         {
-            console.log("cDate")
-            console.log(a["date"])
-            console.log(b["date"])
-            console.log((new Date(a["date"])) < (new Date( b["date"])))
+            // console.log("cDate")
+            // console.log(a["date"])
+            // console.log(b["date"])
+            // console.log((new Date(a["date"])) < (new Date( b["date"])))
             
             if ((new Date(a["date"])) < (new Date( b["date"])))
             {
@@ -146,9 +146,10 @@ export default function GraphGeneration({username})
                 return 0
             }
         }
+
         graphData.current.sort(compDate)
 
-        changeData(
+        changeData( 
             {
             labels : graphData.current.map(x => new Date (x["date"])), 
             datasets : [{ 
