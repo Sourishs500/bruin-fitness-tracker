@@ -94,29 +94,31 @@ const createExercise = async (req, res) => {
     console.log(date)
     if(whichWeek != ""){
         try{
-            const updatedStar = await Star.findOneAndUpdate({"startOfWeek" : whichWeek}, {$inc: { workoutnumber: 1 }}, {upsert: true, new : true, setDefaultsOnInsert: true})
+            const updatedStar = await Star.findOneAndUpdate({"user": user, "startOfWeek" : whichWeek}, {$inc: { workoutnumber: 1 }}, {upsert: true, new : true, setDefaultsOnInsert: true})
             console.log(updatedStar.startOfWeek)
             if(updatedStar.workoutnumber >= 3){
                 gold_increment = 1;
-                const updatedWithGold = await Star.findOneAndUpdate({"startOfWeek" : whichWeek}, {$inc: { gold_stars : 1}}, {new: true})
+                const updatedWithGold = await Star.findOneAndUpdate({"user": user, "startOfWeek" : whichWeek}, {$inc: { gold_stars : 1}}, {new: true})
                 if(updatedWithGold){
                     const curIndex = weeks.indexOf(whichWeek);
                     let plat = true;
                     for(let i = curIndex - 1; i >= curIndex - 2 && i >= 0; i--){
-                        const check = await Star.findOne({"startOfWeek" : weeks[curIndex]});
+                        const check = await Star.findOne({"user": user, "startOfWeek" : weeks[curIndex]});
                         if(check.gold_stars === 0){
                             plat = false;
                         }
                     }
+                    if (curIndex < 2 ){
+                        plat = false;
+                    }
                     if(plat){
-                        const updatedWithPlat = await Star.findOneAndUpdate({"startOfWeek" : whichWeek}, {$inc : {platinum_stars : 1}}, {new : true})
+                        const updatedWithPlat = await Star.findOneAndUpdate({"user": user, "startOfWeek" : whichWeek}, {$inc : {platinum_stars : 1}}, {new : true})
                         plat_increment = 1;
                     }
                 }
             }
         } catch (e) {
             console.log(e)
-            // return res.status(400).json({error : e})
         }
         try{
             const updatedUser = await User.findOneAndUpdate({"username" : user}, {$inc : {gold_stars : gold_increment, platinum_stars : plat_increment}}, {new : true})

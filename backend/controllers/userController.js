@@ -32,7 +32,6 @@ const updateProfilePhoto = async (req, res) => {
     } catch(e) {
         return res.status(400).json({error: e.message});
     }
-    
 }
 
 const getStars = async (req, res) => {
