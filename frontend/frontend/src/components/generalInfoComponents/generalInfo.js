@@ -50,14 +50,14 @@ export default function GeneralInfo ({SendValueUp, SendDateUp, exInfo}) //One te
         while(sets.length < 3)
         {
             var r = Math.floor(Math.random() * 4 + 2);
-            if(sets.indexOf(r) === -1) sets.push(r);
+            sets.push(r);
         }
         
         var reps = []
         while(reps.length < 3)
         {
             var r = Math.floor(Math.random() * 6 + 6);
-            if(reps.indexOf(r) === -1) reps.push(r);
+            reps.push(r);
         }
         const randomElement = array[arr[0]].concat(" (", sets[0], "x", reps[0], ")",
             ", ", array[arr[1]], " (", sets[1], "x", reps[1], ")",
