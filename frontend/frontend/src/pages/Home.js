@@ -158,6 +158,20 @@ const Home = ({username}) => {
             }
         }
 
+        const updateStars = async (e) => {
+            const path = '/api/workouts/statistics'
+            const response = await fetch(path)
+
+
+            const json = await response.json();
+
+            if(!response.ok){
+                console.log(json.error)
+            }else{
+                console.log('updatedStars')
+            }
+        }
+
         console.log(completeWorkoutData.current);
         let myCopy = completeWorkoutData.current;
         console.log("HERE!")
@@ -171,6 +185,9 @@ const Home = ({username}) => {
         completeWorkoutData.current = myCopy;
         handleSubmitStatistics();
         console.log("Updated: ", completeWorkoutData.current);
+        
+        //updateStars();
+
     }
 
     return (
