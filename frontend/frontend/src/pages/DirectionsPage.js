@@ -7,7 +7,9 @@ const DirectionsPage = ({username}) => {
     return (
         <>
         <div style = {{padding:20, backgroundColor: 'lightblue'}}>
-                <div className="headerText"><h1>Directions</h1></div>
+                <div className="headerText">
+                    <h1 style={{ fontWeight: 'bold' }}>Directions</h1>
+                </div>
                 <div className="directionText">
                 <p>
                     To create your workout, enter your workout data in the yellow section. Select the appropriate exercise from the drop-down menu. Then,
@@ -31,10 +33,12 @@ const DirectionsPage = ({username}) => {
                 </p>
                 </div>
         
-            <div className="headerText"><h1>Additional Features</h1></div>
+            <div className="headerText">
+                <h1 style={{ fontWeight: 'bold' }}>Additional Features</h1>
+            </div>
             <div className="directionText"> 
                 <p>
-                    1) <b>Recommendation System:</b> Enter the theme for the day into the drop-down menu underneath these directions and then click "Generate Recommendation". <em></em>
+                    1) <b>Recommendation System:</b> Enter the muscle group for the day into the drop-down menu underneath these directions and then click "Generate Recommendation". <em></em>
                 </p>
                 <p>
                     2) <b>Past Workout Access:</b> Go to the bottom right of the page in the blue section. Enter the date whose records you are looking for into the text box and click submit.
