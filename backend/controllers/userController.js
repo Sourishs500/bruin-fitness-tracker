@@ -2,6 +2,8 @@ const mongoose = require('mongoose')
 const User = require('../models/userModel.js');
 const GeneralComment = require('../models/generalCommentModel.js');
 
+const weeks = ["2-25-2024", "3-3-2024", "3-10-24"];
+
 const createUser = async (req, res) => {
     const {username, password, gender, image} = req.body;
     try {
@@ -33,8 +35,19 @@ const updateProfilePhoto = async (req, res) => {
     
 }
 
+const getStars = async (req, res) => {
+    const user = req.params.user
+    try{
+        const stars = await User.find({"username" : user}, 'gold_stars platinum_stars -_id')
+        return res.status(200).json(stars)
+    } catch (e) {
+        return res.status(400).json({error : e.message})
+    }
+}
+
 module.exports = {
     createUser,
     getUser,
-    updateProfilePhoto
+    updateProfilePhoto,
+    getStars
 }

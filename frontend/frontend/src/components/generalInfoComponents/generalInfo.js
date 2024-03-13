@@ -36,12 +36,12 @@ export default function GeneralInfo ({SendValueUp, SendDateUp, exInfo}) //One te
     let possibleCategories = Object.keys(exInfo);
     const [chosenCat, updateCat] = useState(possibleCategories[0]);
 
-    const [recommendationGenerated, setRec] = useState("Recommendation: ");
+    const [recommendationGenerated, setRec] = useState("");
 
     const getCategoryForRandomEx = (cat) => {
         const array = exInfo[cat]//Object.values(exInfo).flat();//["Chest Press", "Preacher Curls", "Wall-Sits", "Bench Press", "Lat Pull-Downs", "Calf Raises"];
         const randomElement = array[Math.floor(Math.random() * array.length)];
-        setRec("Recommendation: "+randomElement);
+        setRec(randomElement);
     } //To un-hardcode later
 
     const generalNotes = useRef("");
@@ -72,33 +72,30 @@ export default function GeneralInfo ({SendValueUp, SendDateUp, exInfo}) //One te
       };
 
     return (
-        <div style={{ display: "flex", justifyContent:"flex-start", flexDirection: "row"}}>
+        <div style={{ display: "flex", justifyContent:"space-between", flexDirection: "row", flexGrow: "1"}}>
             
-            <div style = {{ display: "flex", alignItems: "flex-start", flexDirection: "row"}}>
+            <div style = {{display: "flex", alignItems: "flex-start", flexDirection: "row", background: "linear-gradient(110deg, #f0f6ff, #e8f2ff)", padding:15, borderRadius:15, width: "800px", marginRight:"20px"}}>
                 <div>
-                    <b style={{marginRight:"20px"}}>
-                        Date of Workout
-                    </b>
-                    <div style={{marginBottom:"15px"}}><CreateTextBox defaultText={String(currentDateToday.getMonth()+1)+"/"+currentDateToday.getDate()+"/"+currentDateToday.getFullYear()} SendValueUp={updateDateOfWorkout} x = "130px" y = "30px" /></div>
+                    <b className ="directionText" style={{marginRight:"30px"}}>Date of Workout</b>
+                    <div style={{marginBottom:"15px"}}><CreateTextBox defaultText={String(currentDateToday.getMonth()+1)+"/"+currentDateToday.getDate()+"/"+currentDateToday.getFullYear()} SendValueUp={updateDateOfWorkout} x = "160px" y = "30px" /></div>
                 </div>
                 <div>
-                    <b style={{textAlign:"center"}}>Workout Notes: General</b>
-                    <div style={{marginBottom:"15px"}}><CreateTextBox SendValueUp={updateNotes} x = "200px" y = "145px" ph ="Workouts Notes"/></div>
+                    <b className ="directionText" style={{textAlign:"center"}}>Workout Notes: General</b>
+                    <div><CreateTextBox SendValueUp={updateNotes} x = "450px" y = "170px" ph ="Workouts Notes"/></div>
                 </div>
             </div>
-            <div  style={{backgroundColor: 'lightblue', padding:20, borderRadius:20, marginLeft:"auto"}}>
-                <div className ="directionText" style ={{marginBottom:"-10px"}}>
-                    <b>Exercise Recommendation System</b>
-                </div>
+            <div style={{backgroundColor: 'lightblue', padding:15, borderRadius:15, width: "700px", background: "linear-gradient(110deg, #f0f6ff, #e8f2ff)"}}>
+                <div className ="directionText" style ={{marginBottom:"-17px"}}>
+                    <b>Exercise Recommendation System</b></div>
                 <br/>
                 <div style={{display:"flex", flexDirection: "column"}}>
                     <div style={{display:"flex", flexDirection: "row", marginBottom:10}}>
-                        <DropdownButton title={chosenCat} onSelect={ EVENTS} variant="info">
-                            {possibleCategories.map( (category) =>   <Dropdown.Item eventKey={category}> {category} </Dropdown.Item>)}
+                        <DropdownButton style={{fontFamily: 'Trebuchet MS'}} title={chosenCat} onSelect={EVENTS} variant="primary">
+                            {possibleCategories.map( (category) => <Dropdown.Item eventKey={category}> {category} </Dropdown.Item>)}
                         </DropdownButton>  
-                        <Button variant="light" onClick={() => getCategoryForRandomEx(chosenCat)} style={{marginLeft:"10px", marginRight:"10px", minWidth:225}}>Generate Recommendation</Button> 
+                        <Button variant="primary" onClick={() => getCategoryForRandomEx(chosenCat)} style={{marginLeft:"10px", marginRight:"10px", minWidth:300, fontFamily: 'Trebuchet MS', fontSize:"17px", height:"37px"}}>Generate Recommendation</Button> 
                     </div>   
-                    <div> <b>{recommendationGenerated}</b> </div>
+                    <div className="generalText">Recommendation: <b>{recommendationGenerated}</b> </div>
                 </div>
             </div>
        </div>

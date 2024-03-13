@@ -4,6 +4,8 @@
 const Exercise = require('../models/exerciseModel')
 const GeneralComment = require('../models/generalCommentModel')
 const Statistics = require('../models/statisticsModel')
+const Star = require('../models/starModel')
+const User = require('../models/userModel')
 const mongoose = require('mongoose')
 const { hash } = require('immutable')
 
@@ -32,6 +34,37 @@ const getExercise = async (req, res) => {
     res.status(200).json(exercise)
 }
 
+const inWeek = (date) => {
+    const d = date.split('/')
+    const month = parseInt(d[0])
+    const day = parseInt(d[1])
+    const year = parseInt(d[2])
+    
+    const inputDate = new Date(year, month, day);
+
+    const weeks = ["2/18/2024", "2/25/2024", "3/3/2024", "3/10/2024", "3/17/2024"];
+    
+    for(let i = 1; i < weeks.length; i++){
+        const cur = weeks[i].split('/')
+        const curMonth = parseInt(cur[0]);
+        const curDay = parseInt(cur[1])
+        const curYear = parseInt(cur[2])
+
+        const curDate = new Date(curYear, curMonth, curDay);
+        if(inputDate < curDate){
+            return weeks[i - 1];
+        }
+        /* if(year <= curYear){
+            if(month <= curMonth){
+                if(day < curDay){
+                    return weeks[i - 1];
+                }
+            }
+        } */
+    }
+    return "";
+}
+
 // create new exercise
 const createExercise = async (req, res) => {
 
@@ -53,6 +86,45 @@ const createExercise = async (req, res) => {
     const dateString = date + sameDayWorkoutCount;
     const workoutId = hash(dateString)
 
+    const whichWeek = inWeek(date)
+    const weeks = ["2/18/2024", "2/25/2024", "3/3/2024", "3/10/2024", "3/17/2024"];
+
+    let gold_increment = 0;
+    let plat_increment = 0;
+    console.log(date)
+    if(whichWeek != ""){
+        try{
+            const updatedStar = await Star.findOneAndUpdate({"startOfWeek" : whichWeek}, {$inc: { workoutnumber: 1 }}, {upsert: true, new : true, setDefaultsOnInsert: true})
+            console.log(updatedStar.startOfWeek)
+            if(updatedStar.workoutnumber >= 3){
+                gold_increment = 1;
+                const updatedWithGold = await Star.findOneAndUpdate({"startOfWeek" : whichWeek}, {$inc: { gold_stars : 1}}, {new: true})
+                if(updatedWithGold){
+                    const curIndex = weeks.indexOf(whichWeek);
+                    let plat = true;
+                    for(let i = curIndex - 1; i >= curIndex - 2 && i >= 0; i--){
+                        const check = await Star.findOne({"startOfWeek" : weeks[curIndex]});
+                        if(check.gold_stars === 0){
+                            plat = false;
+                        }
+                    }
+                    if(plat){
+                        const updatedWithPlat = await Star.findOneAndUpdate({"startOfWeek" : whichWeek}, {$inc : {platinum_stars : 1}}, {new : true})
+                        plat_increment = 1;
+                    }
+                }
+            }
+        } catch (e) {
+            console.log(e)
+            // return res.status(400).json({error : e})
+        }
+        try{
+            const updatedUser = await User.findOneAndUpdate({"username" : user}, {$inc : {gold_stars : gold_increment, platinum_stars : plat_increment}}, {new : true})
+        } catch (e) {
+            console.log(e)
+        }
+        
+    }
     // Add General Comment document
     try{
         const generalNotesDocument = await GeneralComment.create({comment: generalNotes, workoutId, date, user});
