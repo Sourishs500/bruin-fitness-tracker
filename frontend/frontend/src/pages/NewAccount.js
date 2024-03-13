@@ -63,8 +63,12 @@ const NewAccount = ({username}) => {
             setMessage("Please input a username.");
         } else if (await usernameExists(new_username.current.value)) {
             setMessage("Username already taken. Please choose a different one.");
+        } else if (!password.current.value) {
+            setMessage("Please input a password.");
         } else if (password.current.value != password2.current.value) {
-            setMessage("Passwords must match.");
+            setMessage("Password must match.");
+        } else if ((password.current.value).length <= 4) {
+            setMessage("Passwords is too short. Minimum 5 characters.");
         }
         else { handleCreateAccount(); }
         
