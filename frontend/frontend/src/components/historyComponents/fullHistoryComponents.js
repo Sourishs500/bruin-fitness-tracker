@@ -6,13 +6,16 @@ import PastWorkouts from './pastWorkouts.js';
 export default function FullHistoryComponents({username, measureGetter})
 {
     return (
-        <div style={{ display: "flex", justifyContent: 'space-between' }}>
-            <div></div> 
-            <div style={{ flex: 2 }}> 
-                <GraphGeneration username={username} style={{ width: '125%', height: '125%' }} />
-            </div>
-            <div style={{ flex: 2 }}> 
+        <div style={{ display: "flex", flexDirection: "column", justifyContent: 'space-between', }}>
+           
+            <div style={{padding:10, boxShadow: "7px 7px #8daee0", background: "linear-gradient(110deg, #f0f6ff, #e8f2ff"}}> 
+                <div style={{ fontFamily: 'Trebuchet MS', fontSize: 28, textAlign: "center"}}><p>Past Workout History</p></div>
                 <PastWorkouts getStats={measureGetter} username={username} style={{ width: '125%', height: '125%' }} />
+            </div>
+            
+            <div style={{marginTop:20, boxShadow: "7px 7px #8daee0", background: "linear-gradient(110deg, #f0f6ff, #e8f2ff"}}> 
+                <div style={{padding:2.5, fontFamily: 'Trebuchet MS', fontSize: 28, textAlign: "center"}}><p>Exercise Statistics</p></div>
+                <GraphGeneration username={username} style={{ width: '125%', height: '125%' }} />
             </div>
             <div></div>
         </div>
