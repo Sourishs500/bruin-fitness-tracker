@@ -125,8 +125,28 @@ export default function GraphGeneration({username})
 
     const ChangeGraph = async () => {
         const f = await fetchData(allExercises[exercise], measurementsMap[measurements[measurement]])
-        graphData.current.sort((a, b) => a["date"] < b["date"]);
 
+        function compDate(a ,b)
+        {
+            console.log("cDate")
+            console.log(a["date"])
+            console.log(b["date"])
+            console.log((new Date(a["date"])) < (new Date( b["date"])))
+            
+            if ((new Date(a["date"])) < (new Date( b["date"])))
+            {
+                return -1
+            }
+            if ((new Date(a["date"])) > (new Date( b["date"])))
+            {
+                return 1
+            }
+            if ((new Date(a["date"])) > (new Date( b["date"])))
+            {
+                return 0
+            }
+        }
+        graphData.current.sort(compDate)
 
         changeData(
             {
