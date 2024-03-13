@@ -139,12 +139,11 @@ export default function GraphGeneration({username})
                 pointBorderColor: 'aqua',
                }],
             }
-        )
-       
+        )  
     }
     return (
         <div>
-            <div style={{ width: '600px', height: '300px', padding: '20px', alignContent:"center"}}> 
+            <div style={{ width: '800px', height: '500px', padding: '25px', alignContent:"center", marginBottom: "-100px"}}> 
                 <Line data={data} options={options}></Line>
             </div>
             <div style = {{display:"flex", flexDirection:"row", justifyContent: "center", alignContent:"center"}}>
@@ -166,7 +165,7 @@ export default function GraphGeneration({username})
                 }</select></div>
                 <Button 
                     onClick = {()=>ChangeGraph()}
-                    size="sm"
+                    size="md"
                     key={3} 
                     style={{ margin: 5}}
                 >Submit Request</Button>
