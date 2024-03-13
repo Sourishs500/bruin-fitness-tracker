@@ -36,17 +36,18 @@ export default function FullGeneralInfoComponents({SendValueUpGen, SendDateUpGen
         <div style = {{display:"flex", justifyContent:"space-evenly", flexDirection:"column"}}>
             <GeneralInfo SendValueUp={updateNotes} SendDateUp = {updateDate} exInfo={exInfoGen}/>              
         
-            <div style={{display:"flex", justifyContent:"space-between", flexDirection:"row", marginTop:"20px", flexGrow:"1"}}> 
-                <div style={{backgroundColor: 'lightblue', padding:15, borderRadius:15, width:"1000px", background: "linear-gradient(110deg, #f0f6ff, #e8f2ff)", marginRight:"20px"}}>
+            <div style={{display:"flex", justifyContent:"space-between", flexDirection:"row", marginTop:"20px", marginBottom:"20px", flexGrow:"1"}}> 
+                <div style={{display:"flex", flexGrow:"1", backgroundColor: 'lightblue', padding:15, borderRadius:15, background: "linear-gradient(110deg, #f0f6ff, #e8f2ff)", minWidth:"65%", marginRight:"20px"}}>
                     <UserDataEntries SendValueUp={receiveDataSpec} allExercises={exInfoSpec}/>  
                 </div>
-                <div style={{display:"flex", justifyContent:"center", backgroundColor: 'lightblue', padding:15, borderRadius:15, width:"450px", background: "linear-gradient(110deg, #f0f6ff, #e8f2ff)"}}>
+                <div style={{display:"flex", justifyContent:"center", flexGrow:"1", backgroundColor: 'lightblue', padding:15, borderRadius:15, background: "linear-gradient(110deg, #f0f6ff, #e8f2ff)"}}>
                     <div style={{marginTop:"5px"}}> <MusclesWorkedOut givenExercises={muscleGroupsToDisplay}/> </div>
                 </div>
             </div>
-            
-            <div style={{marginLeft:"auto", marginRight:"auto"}}  > <SummaryBox toShow={summaryToDisplay}/></div>
-            
+            <div style={{display:"flex", justifyContent:"center", flexDirection:"column", alignItems:"center", backgroundColor: 'lightblue', padding:15, borderRadius:15, background: "linear-gradient(110deg, #f0f6ff, #e8f2ff)"}}>
+                <div style={{marginBottom:"10px"}} className="generalText"> <b>Workout Summary</b> </div>
+                <div > <SummaryBox toShow={summaryToDisplay}/></div>
+            </div>
         </div>
     );
 };

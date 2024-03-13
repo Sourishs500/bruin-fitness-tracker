@@ -40,7 +40,28 @@ export default function GeneralInfo ({SendValueUp, SendDateUp, exInfo}) //One te
 
     const getCategoryForRandomEx = (cat) => {
         const array = exInfo[cat]//Object.values(exInfo).flat();//["Chest Press", "Preacher Curls", "Wall-Sits", "Bench Press", "Lat Pull-Downs", "Calf Raises"];
-        const randomElement = array[Math.floor(Math.random() * array.length)];
+        var arr = []
+        while(arr.length < 3)
+        {
+            var r = Math.floor(Math.random() * array.length);
+            if(arr.indexOf(r) === -1) arr.push(r);
+        }
+        var sets = []
+        while(sets.length < 3)
+        {
+            var r = Math.floor(Math.random() * 4 + 2);
+            if(sets.indexOf(r) === -1) sets.push(r);
+        }
+        
+        var reps = []
+        while(reps.length < 3)
+        {
+            var r = Math.floor(Math.random() * 6 + 6);
+            if(reps.indexOf(r) === -1) reps.push(r);
+        }
+        const randomElement = array[arr[0]].concat(" (", sets[0], "x", reps[0], ")",
+            ", ", array[arr[1]], " (", sets[1], "x", reps[1], ")",
+            ", ", array[arr[2]], " (", sets[2], "x", reps[2], ")");
         setRec(randomElement);
     } //To un-hardcode later
 
@@ -74,7 +95,7 @@ export default function GeneralInfo ({SendValueUp, SendDateUp, exInfo}) //One te
     return (
         <div style={{ display: "flex", justifyContent:"space-between", flexDirection: "row", flexGrow: "1"}}>
             
-            <div style = {{display: "flex", alignItems: "flex-start", flexDirection: "row", background: "linear-gradient(110deg, #f0f6ff, #e8f2ff)", padding:15, borderRadius:15, width: "800px", marginRight:"20px"}}>
+            <div style = {{display: "flex", flexGrow:"1", alignItems: "flex-start", flexDirection: "row", background: "linear-gradient(110deg, #f0f6ff, #e8f2ff)", padding:15, borderRadius:5, width: "800px", marginRight:"20px"}}>
                 <div>
                     <b className ="directionText" style={{marginRight:"30px"}}>Date of Workout</b>
                     <div style={{marginBottom:"15px"}}><CreateTextBox defaultText={String(currentDateToday.getMonth()+1)+"/"+currentDateToday.getDate()+"/"+currentDateToday.getFullYear()} SendValueUp={updateDateOfWorkout} x = "160px" y = "30px" /></div>
@@ -84,7 +105,7 @@ export default function GeneralInfo ({SendValueUp, SendDateUp, exInfo}) //One te
                     <div><CreateTextBox SendValueUp={updateNotes} x = "450px" y = "170px" ph ="Workouts Notes"/></div>
                 </div>
             </div>
-            <div style={{backgroundColor: 'lightblue', padding:15, borderRadius:15, width: "700px", background: "linear-gradient(110deg, #f0f6ff, #e8f2ff)"}}>
+            <div style={{display:"flex", flexGrow:"1", flexDirection:"column", padding:15, borderRadius:5, width: "700px", background: "linear-gradient(110deg, #f0f6ff, #e8f2ff)"}}>
                 <div className ="directionText" style ={{marginBottom:"-17px"}}>
                     <b>Exercise Recommendation System</b></div>
                 <br/>

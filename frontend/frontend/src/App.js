@@ -20,7 +20,7 @@ export default function App () {
 
     return (
         <BrowserRouter>
-            <div style={{ backgroundColor: '#6699ff' }}><FullHeader username={username} photo={photo} goldStarCount={goldStarCount} platStarCount={platStarCount} /></div>
+            <div style={{ backgroundColor: '#1e3373' }}><FullHeader username={username} photo={photo} goldStarCount={goldStarCount} platStarCount={platStarCount} /></div>
             <Routes>
                 <Route 
                     path="/"
