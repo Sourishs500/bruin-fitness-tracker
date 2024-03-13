@@ -15,7 +15,7 @@ function CreateTextBox({SendValueUp}) //pass in the text update function here
         const n = event.target.value;
         SendValueUp({val:{n}});
     };
-    return <textarea type="text" value={value} onChange={handleChange} placeholder="Exercise Notes" style={{ marginRight:"20px", rows: 5, width:200, resize: "none", overflow:"visible"}}/>
+    return <textarea type="text" value={value} onChange={handleChange} placeholder="Exercise Notes" style={{ marginRight:"20px", rows: 5, width:240, resize: "none", overflow:"visible"}}/>
 };
 
 function CreateSetBox({setNum, exLabel, SendValueUp} ) //pass in the text update function here
@@ -26,7 +26,7 @@ function CreateSetBox({setNum, exLabel, SendValueUp} ) //pass in the text update
         const n=event.target.value;
         SendValueUp({val:{n}, i:{setNum}});
     };
-    return <div style = {{padding:2.5}}><input type="text" placeholder="Set Info" label = {setNum} name = {exLabel} style = {{"width":"100px", height:"30px"}} onInput = {handleChange}/></div>;   
+    return <div style = {{marginLeft:"-5px", marginRight:"10px"}}><input type="text" placeholder="Set Info" label = {setNum} name = {exLabel} style = {{"width":"150px", height:"40px"}} onInput = {handleChange}/></div>;   
 }
 
 export default function UserDataEntries ({SendValueUp, allExercises}) //List of exercise rows, along with three buttons at the end (add exercise, remove exercise, and submit)
@@ -95,13 +95,13 @@ variables used:
         return(
             <div style={{display:"flex", flexDirection:"row", justifyContent:"flex-start"}}>
                 <div style={{display:"flex", flexDirection:"column", justifyContent:"flex-start"}}>
-                    <div><select onChange={TrackEx} style={{marginBottom:5, width:200}}>{exList.map(category => <option key={category} value={category}>{category}</option>)}</select></div>
+                    <div><select onChange={TrackEx} style={{marginBottom:10, width:240}}>{exList.map(category => <option key={category} value={category}>{category}</option>)}</select></div>
                     <div><CreateTextBox key={"specificNotes"} SendValueUp={TrackSpecificNotes} style = {{}}/></div>
                 </div>
-                <div style = {{marginBottom:"auto", marginTop: "auto", display:"flex", flexFlow: "row wrap"}}>{sets}</div>
+                <div style = {{display:"flex", justifyContent:"start", flexFlow: "row wrap"}}>{sets}</div>
                 <div style = {{marginLeft:"auto"}}>
-                    <div style = {{marginBottom:2.5, marginLeft: "auto", marginTop:2.5}}><Button size="sm" variant="success" onClick={incSets} style={{marginLeft:"10px", marginRight:"10px", minHeight:30, minWidth: 95}}>Add Set</Button></div>
-                    <div style = {{marginBottom:2.5, marginLeft: "auto", marginTop:2.5}}><Button size="sm" variant="danger" onClick={decSets} style={{marginLeft:"10px", marginRight:"10px",  minHeight:30, minWidth: 95}}>Remove Set</Button></div>
+                    <div style = {{marginBottom:2.5, marginLeft: "auto", marginTop:2.5, fontFamily: 'Trebuchet MS', fontSize:"20px"}}><Button variant="success" onClick={incSets} style={{marginLeft:"10px", marginRight:"10px", minHeight:30, minWidth: "140px"}}>Add Set</Button></div>
+                    <div style = {{marginBottom:2.5, marginLeft: "auto", marginTop:2.5, fontFamily: 'Trebuchet MS', fontSize:"20px"}}><Button variant="danger" onClick={decSets} style={{marginLeft:"10px", marginRight:"10px",  minHeight:30, minWidth: "140px"}}>Remove Set</Button></div>
                 </div>
                 
 
@@ -154,13 +154,14 @@ variables used:
     const [setInfo, obtainSetInfo] = useState([]);
 
     return (
-        <div style={{marginTop:"20px", flexGrow:3}}>
-            <div style={{marginBottom:"15px"}}> {exerciseList} </div>
+        <div style={{flexGrow:3}}>
+            <div> {exerciseList} </div>
             <div style={{display:"flex", flexDirection:"row"}}>
-                <div style={{margin:10}}><Button size="sm" variant="outline-success" onClick={() => AddExercise(exCount.current)} style={{marginBottom:"15px"}}>Add Exercise</Button></div>
-                <div style={{margin:10}}><Button size="sm" variant="outline-danger" onClick={() => specialRemoveExercise()} style={{marginBottom:"15px"}}>Remove Final Exercise</Button></div>
+                <div style={{marginTop:"5px", marginBottom:"10px", marginRight:"10px", fontFamily: 'Trebuchet MS', fontSize:"20px"}}><Button variant="outline-success" onClick={() => AddExercise(exCount.current)} >Add Exercise</Button></div>
+                <div style={{marginTop:"5px", marginBottom:"10px", fontFamily: 'Trebuchet MS', fontSize:"20px"}}><Button variant="outline-danger" onClick={() => specialRemoveExercise()} >Remove Final Exercise</Button></div>
             </div>
-            <div style={{margin:10}}><Button onClick={() => getAllSetsForExercisesSubmitted()} style={{marginBottom:"15px"}}>Submit Workout</Button></div>
+            <div style={{}}><Button onClick={() => getAllSetsForExercisesSubmitted()} 
+            style={{width:"200px", fontFamily: 'Trebuchet MS', fontSize:"20px"}}>Submit Workout</Button></div>
         </div>
     );
 }
