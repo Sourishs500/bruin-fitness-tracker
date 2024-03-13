@@ -24,7 +24,7 @@ export default function ProfilePic({username, photo, goldStarCount, platStarCoun
     if (username != "")
     {
         return (<span className="topBarRight">
-                    <div style={{display: "flex", flexDirection: "column", alignItems: "end", marginLeft:"25px"}}>
+                    <div style={{display: "flex", flexDirection: "column", alignItems: "end", marginLeft:"25px", color: '#ffd700'}}>
                         <div className="usernameText">
                             Gold Stars: {goldStarCount}
                         </div>

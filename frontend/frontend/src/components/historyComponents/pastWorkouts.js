@@ -247,10 +247,6 @@ export default function PastWorkouts({getStats, username})
                     onClick = {() => {setDetailed_yn(!(detailed_yn))}}/>
                     <span style={{marginTop:"10px"}}>SHOW DETAILED</span>
                     <br/>
-                    <input type="checkbox" 
-                    style = {{"width":"150px", height:"20px", marginTop:"10px", marginRight:"-63px"}}
-                    onClick = {() => {setEdited_yn(!(edit_yn))}}/>
-                    <span style={{marginTop:"10px"}}>EDIT PAST WORKOUT</span>
                 </span>
             </div>
             
