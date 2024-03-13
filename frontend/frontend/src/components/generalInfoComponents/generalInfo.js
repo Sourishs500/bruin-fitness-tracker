@@ -40,7 +40,13 @@ export default function GeneralInfo ({SendValueUp, SendDateUp, exInfo}) //One te
 
     const getCategoryForRandomEx = (cat) => {
         const array = exInfo[cat]//Object.values(exInfo).flat();//["Chest Press", "Preacher Curls", "Wall-Sits", "Bench Press", "Lat Pull-Downs", "Calf Raises"];
-        const randomElement = array[Math.floor(Math.random() * array.length)];
+        var arr = [];
+        while(arr.length < 3)
+        {
+            var r = Math.floor(Math.random() * array.length);
+            if(arr.indexOf(r) === -1) arr.push(r);
+        }
+        const randomElement = array[arr[0]].concat(", ", array[arr[1]], ", ", array[arr[2]]);
         setRec(randomElement);
     } //To un-hardcode later
 
