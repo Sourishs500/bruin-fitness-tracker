@@ -66,7 +66,7 @@ function imageForExercise(ex, oneToShow, place)
 //{givenExercises.map(x => imageForExercise(x))}
 export default function MusclesWorkedOut({givenExercises})
 {
-    console.log(givenExercises)
+    //console.log(givenExercises)
     const [imageTracker, updateImageTracker] = useState(0);
     function incrementImageTracker()
     {
