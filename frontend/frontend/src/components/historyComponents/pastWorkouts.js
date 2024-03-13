@@ -145,7 +145,7 @@ function GetDataOfPastDate_element({user,date, edit, detail, stg}) {
         if (edit==true) { displayText = "CANNOT PROVIDE EDITING ACCESS AT THIS TIME."}
         else { displayText =  GetDataOfPastDate(user, date, detail, stg);}
     }
-    console.log("Rerendered workout detail section")
+    //console.log("Rerendered workout detail section")
     return (
         <div>
             <pre style={{marginLeft:"10px", fontFamily: "Helvetica", fontSize: "16px"}}> <b> <em> 

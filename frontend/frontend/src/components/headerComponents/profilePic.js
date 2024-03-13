@@ -18,9 +18,9 @@ export default function ProfilePic({username, photo, goldStarCount, platStarCoun
     // else {
     //     setPhoto_src(DefaultProfilePic);
     // }
-    console.log("PFP")
-    console.log(goldStarCount)
-    console.log(platStarCount)
+    // console.log("PFP")
+    // console.log(goldStarCount)
+    // console.log(platStarCount)
     if (username != "")
     {
         return (<span className="topBarRight">
