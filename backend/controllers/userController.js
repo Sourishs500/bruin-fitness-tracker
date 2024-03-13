@@ -35,8 +35,19 @@ const updateProfilePhoto = async (req, res) => {
     
 }
 
+const getStars = async (req, res) => {
+    const user = req.params.user
+    try{
+        const stars = await User.find({"username" : user}, 'gold_stars platinum_stars -_id')
+        return res.status(200).json(stars)
+    } catch (e) {
+        return res.status(400).json({error : e.message})
+    }
+}
+
 module.exports = {
     createUser,
     getUser,
-    updateProfilePhoto
+    updateProfilePhoto,
+    getStars
 }
