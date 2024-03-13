@@ -148,12 +148,12 @@ export default function GraphGeneration({username})
         }
 
         graphData.current.sort(compDate)
-
+        const dataLabel = (exercise !== 0)? measurements[measurement] : "Please Choose an Exercise"
         changeData( 
             {
             labels : graphData.current.map(x => new Date (x["date"])), 
             datasets : [{ 
-               label : measurements[measurement],
+               label : dataLabel, 
                 data:  graphData.current.map( x => x[measurementsMap[measurements[measurement]]]),
                 backgroundColor: 'aqua',
                 borderColor: 'black',
