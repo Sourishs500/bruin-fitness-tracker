@@ -25,7 +25,7 @@ const Login = ({username, setUsername, setPhoto}) => {
             console.log("Username doesn't exist.");
         }
     }
-        
+    
     const VerifyAccount = async () => {
         //console.log(username);
         if (username) {
@@ -49,7 +49,6 @@ const Login = ({username, setUsername, setPhoto}) => {
         else {
             setMessage("Failed to log in! Username incorrect.");
         }
-
     }
 
     return (

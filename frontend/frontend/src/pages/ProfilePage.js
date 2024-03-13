@@ -13,9 +13,6 @@ const ProfilePage = ({username, photo, setPhoto}) => {
     }
 
     const user = useRef();
-    // const current_username = useRef();
-    // const gender = useRef();
-    // const password = useRef();
     const [current_username, setCurrent_Username] = useState(null);
     const [gender, setGender] = useState(null);
     const [password, setPassword] = useState(null);
@@ -30,7 +27,6 @@ const ProfilePage = ({username, photo, setPhoto}) => {
             const response = await fetch(path)
             const json = await response.json()
             if (json.length == 1) { 
-                //console.log("JSON[0]:",json[0]); 
                 user.current = json[0];
             } 
             else {
@@ -42,18 +38,15 @@ const ProfilePage = ({username, photo, setPhoto}) => {
         }
     }
 
-    const VerifyAccount = async (imageURL) => {
-        //console.log("IMAGEURL:", imageURL);
-        console.log("USERNAME:", username);
+    const VerifyAccount = async () => {
         if (username != "Not signed in!") {
             const u = await fetchAccount(username, user);
-            console.log("???:", user.current);
+            //console.log("???:", user.current);
             if (user.current) {
                 setCurrent_Username((user.current).username);
                 setGender((user.current).gender);
                 setPassword((user.current).password);
                 setPhoto_show((user.current).image);
-                //setPhoto((user.current).image);
             } else {
                 console.log("HHU?g!");
             }
@@ -63,7 +56,6 @@ const ProfilePage = ({username, photo, setPhoto}) => {
     }
 
     const changePicture = async (URL) => {
-        console.log("HELLO???");
         let data = {"name":username, "URL":URL};
         const path = '/api/user/updateProfilePhoto'
         const response = await fetch(path, {
@@ -74,8 +66,9 @@ const ProfilePage = ({username, photo, setPhoto}) => {
             }
         })
         const json = await response.json();
-        console.log(json);
         setPhoto_show(URL);
+        setPhoto(URL);
+        setMessage("Updated your profile photo!");
     }
 
     VerifyAccount();
@@ -94,7 +87,7 @@ const ProfilePage = ({username, photo, setPhoto}) => {
                 </div>
             </div>
             <div style={{display: "flex", justifyContent: "center"}}> 
-                <div style={{"width":"250px", height:"450px", display: "flex", flexDirection: "column"}}>
+                <div style={{"width":"250px", height:"550px", display: "flex", flexDirection: "column"}}>
                 <div className="biggerText" style = {{alignSelf:"self-start", marginTop:"10px"}} >{"Profile Picture"}</div>
 
                     <img className="largeProfilePicture" style = {{marginTop:"10px", marginBottom:"10px"}} src={photo_show}/>
@@ -103,10 +96,10 @@ const ProfilePage = ({username, photo, setPhoto}) => {
                     <div> <Box val={imageURL_dynamic}/> </div>  
                     <div> 
                         <Button size="sm" variant="outline-primary" onClick={() => changePicture(imageURL_dynamic.current.value)} 
-                        style={{"width": "220px", height:"40px", marginTop:"10px", marginBottom:"20px",
+                        style={{"width": "220px", height:"40px", marginTop:"10px", marginBottom:"10px",
                         fontFamily: "Trebuchet MS", fontSize: "20px"}}>Set my picture!</Button>
                     </div>
-                    <div className="generalText" style = {{alignSelf:"self-start", marginTop:"10px"}}> {message}</div>
+                    <div className="generalText" style = {{alignSelf:"self-start"}}> {message}</div>
                 </div>
             </div>
         </div>

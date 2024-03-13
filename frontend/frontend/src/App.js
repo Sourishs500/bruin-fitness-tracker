@@ -14,7 +14,7 @@ export default function App () {
 
     return (
         <BrowserRouter>
-            <div style={{ backgroundColor: '#6699ff' }}><FullHeader username={username}  photo={photo}/></div>
+            <div style={{ backgroundColor: '#6699ff' }}><FullHeader username={username} photo={photo} setUsername={setUsername}/></div>
             <Routes>
                 <Route 
                     path="/"

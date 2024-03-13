@@ -30,7 +30,7 @@ const Home = ({username}) => {
         }
 
         fetchWorkouts();
-    }, [])
+    }, [username])
 
     let allExercisesOrganizedByTheme = {
         "Push":["Chest Press", "Bench Press", "Lateral Raises", "Incline Press"],
