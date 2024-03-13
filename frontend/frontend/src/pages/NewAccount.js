@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import Button from 'react-bootstrap/Button';
 import {Link} from 'react-router-dom'
 import {Buffer} from "buffer";
+import DefaultProfilePic from '../components/profilePics/DefaultProfilePic.png'
 
 const NewAccount = ({username}) => {
     const new_username = useRef();
@@ -14,6 +15,7 @@ const NewAccount = ({username}) => {
     const genderCount = [...Array(genderOptions.length).keys()];
     const completeUser = useRef({});
     const [message, setMessage] = useState("");
+    const [message2, setMessage2] = useState("");
     
 
     function Box({val}) {
@@ -70,7 +72,14 @@ const NewAccount = ({username}) => {
 
     function handleImageButton() {
         if (imageURL_dynamic.current.value) {
-            setImageURL(imageURL_dynamic.current.value);
+            let URL = imageURL_dynamic.current.value;
+            if (URL.includes("png") || URL.includes("jpg") || URL.includes("jpeg") || URL.includes("http")) {
+                setImageURL(imageURL_dynamic.current.value);
+                setMessage2("Profile photo updated!");
+            }
+            else {
+                setMessage2("Invalid profile photo URL. Profile photo not updated");
+            }   
         }
     }
 
@@ -108,7 +117,7 @@ const NewAccount = ({username}) => {
                 </div>
                 <div className="accountText" >{message}</div>
             </div>
-            <div>
+            <div style={{width:"250px"}}>
                 <div className="accountText" >{"image URL"}</div>
                 <div> <Box val={imageURL_dynamic}/> </div>  
                 <div> 
@@ -121,6 +130,7 @@ const NewAccount = ({username}) => {
                         src={imageURL}
                     />
                 )}
+                <div className="accountText" >{message2}</div>
             </div>
         </div>
         </>
