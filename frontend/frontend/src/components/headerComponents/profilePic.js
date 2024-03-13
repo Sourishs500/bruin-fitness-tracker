@@ -6,15 +6,8 @@ import { useEffect, useState, useRef } from 'react';
 import GetGoldStars from './goldstar';
 import GetPlatinumStars from './platinumstar';
 
-export default function ProfilePic({username, photo})
+export default function ProfilePic({username, photo, goldStarCount, platStarCount})
 {
-    const [goldStarCount, updateGoldStarCount] = useState(100)
-    const [platinumStarCount, updatePlatStarCount] = useState(100)
-
-    const golds = async () => updateGoldStarCount(await GetGoldStars());
-    const plats = async () => updatePlatStarCount(await GetPlatinumStars());
-    golds();
-    plats();
     
     //console.log("FROM PROFILEPIC.JS:", photo);
 
@@ -25,7 +18,9 @@ export default function ProfilePic({username, photo})
     // else {
     //     setPhoto_src(DefaultProfilePic);
     // }
-    
+    console.log("PFP")
+    console.log(goldStarCount)
+    console.log(platStarCount)
     if (username != "")
     {
         return (<span className="topBarRight">
@@ -35,7 +30,7 @@ export default function ProfilePic({username, photo})
                         </div>
     
                         <div className="usernameText">
-                            Platinum Stars: {platinumStarCount}
+                            Platinum Stars: {platStarCount}
                         </div>
                     </div>
                     <Link to="/profile_page" style = {{color: '#0000cc'}}> 

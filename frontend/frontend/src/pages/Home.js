@@ -6,7 +6,7 @@ import GeneralInformation from '../components/basicInformation/fullGeneralInform
 import FullHistoryComponents from '../components/historyComponents/fullHistoryComponents.js'; 
 import FullSpecificInfoComponents from '../components/specificInfoComponents/fullSpecificInfoComponents.js';
 
-const Home = ({username}) => {
+const Home = ({username, setGoldStar, setPlatStar}) => {
     //console.log("HELLO!", username)
 
     const [workouts, setWorkouts] = useState(null)
@@ -158,18 +158,24 @@ const Home = ({username}) => {
             }
         }
 
-        const updateStars = async (e) => {
-            const path = '/api/workouts/statistics'
+        const updateStars = async () => {
+            const path = '/api/user/getStars/'.concat(username)
+
             const response = await fetch(path)
 
 
             const json = await response.json();
 
+
             if(!response.ok){
                 console.log(json.error)
             }else{
                 console.log('updatedStars')
+                console.log(json)
+                setGoldStar(json[0]["gold_stars"])
+                setPlatStar(json[0]["platinum_stars"])
             }
+           
         }
 
         console.log(completeWorkoutData.current);
@@ -186,13 +192,13 @@ const Home = ({username}) => {
         handleSubmitStatistics();
         console.log("Updated: ", completeWorkoutData.current);
         
-        //updateStars();
+        updateStars();
 
     }
 
     return (
         <>
-        <div style={{ backgroundColor: 'lightyellow', padding:20 }}><FullGeneralInfoComponents 
+        <div style={{ backgroundColor: 'lightblue', padding:20 }}><FullGeneralInfoComponents 
                                                         SendValueUpGen={receiveGeneralNotes}
                                                         SendDateUpGen={receiveGeneralDate}
                                                         exInfoGen={allExercisesOrganizedByTheme}

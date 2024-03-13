@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import Button from 'react-bootstrap/Button';
 import {Link} from 'react-router-dom'
 
-const Login = ({username, setUsername, setPhoto}) => {
+const Login = ({username, setUsername, setPhoto, setGoldStar, setPlatStar}) => {
     const new_username = useRef();
     const password = useRef();
     const user = useRef();
@@ -40,6 +40,7 @@ const Login = ({username, setUsername, setPhoto}) => {
             else {
                 setUsername(new_username.current.value);
                 setPhoto((user.current)[0].image);
+                updateStars();
                 console.log((user.current)[0].image);
                 console.log("hooray!");
                 const s = "Successfully logged in. Welcome " + new_username.current.value + "!";
@@ -48,6 +49,25 @@ const Login = ({username, setUsername, setPhoto}) => {
         }
         else {
             setMessage("Failed to log in! Username incorrect.");
+        }
+    }
+
+    const updateStars = async () => {
+        const path = '/api/user/getStars/'.concat(new_username.current.value)
+
+        const response = await fetch(path)
+
+
+        const json = await response.json();
+
+
+        if(!response.ok){
+            console.log(json.error)
+        }else{
+            console.log('updatedStars')
+            console.log(json)
+            setGoldStar(json[0]["gold_stars"])
+            setPlatStar(json[0]["platinum_stars"])
         }
     }
 

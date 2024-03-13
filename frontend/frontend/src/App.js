@@ -11,14 +11,20 @@ import HistoryPage  from './pages/HistoryPage.js';
 export default function App () {
     const [username, setUsername] = useState("");
     const [photo, setPhoto] = useState("");
+    const [goldStarCount, setGoldStar] = useState(0);
+    const [platStarCount, setPlatStar] = useState(0);
+
+    console.log("APP")
+    console.log(platStarCount)
+    console.log(goldStarCount)
 
     return (
         <BrowserRouter>
-            <div style={{ backgroundColor: '#6699ff' }}><FullHeader username={username} photo={photo} setUsername={setUsername}/></div>
+            <div style={{ backgroundColor: '#6699ff' }}><FullHeader username={username} photo={photo} goldStarCount={goldStarCount} platStarCount={platStarCount} /></div>
             <Routes>
                 <Route 
                     path="/"
-                    element={<Home username={username}/>}
+                    element={<Home username={username} setGoldStar={setGoldStar} setPlatStar={setPlatStar}/>}
                 />
                 <Route 
                     path="/directions"
@@ -30,7 +36,7 @@ export default function App () {
                 />
                 <Route 
                     path="/login"
-                    element={<Login username={username} setUsername={setUsername} setPhoto={setPhoto} />}
+                    element={<Login username={username} setUsername={setUsername} setPhoto={setPhoto} setGoldStar={setGoldStar} setPlatStar={setPlatStar} />}
                 />
                 <Route 
                     path="/create_new_account"
@@ -38,7 +44,7 @@ export default function App () {
                 />
                 <Route 
                     path="/profile_page"
-                    element={<ProfilePage username={username} photo={photo} setPhoto={setPhoto}/> }
+                    element={<ProfilePage username={username} photo={photo} setPhoto={setPhoto} /> }
                 />
             </Routes>
         </BrowserRouter>
