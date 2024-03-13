@@ -4,11 +4,12 @@ import { useState, useRef } from 'react';
 
 //To-Do: Implementing the profile pic feature
 
-const FullHeader = ({username, photo, goldStarCount, platStarCount}) =>
+const FullHeader = ({username, photo, setUsername, goldStarCount, platStarCount}) =>
 { 
     console.log("from FullHeader:", photo)
     const message_username = useRef();
-    
+    const sign_in = (username !== "") ? "" : "sign in"
+    const sign_out = (username !== "") ? "sign out" : ""
     if (username != "") {
         message_username.current = username;
     }
@@ -44,7 +45,13 @@ const FullHeader = ({username, photo, goldStarCount, platStarCount}) =>
                     <Link to="/login" style = {{color: '#ffffff'}}>
                         <div className="usernameText" 
                         style={{marginLeft:"15px"}}>  
-                        {"sign in"}
+                        {sign_in}
+                        </div> 
+                     </Link>
+                     <Link to="/" style = {{color: '#ffffff'}} onClick={() => setUsername("")}>
+                        <div className="usernameText" 
+                        style={{marginLeft:"15px"}}>  
+                        {sign_out}
                         </div> 
                      </Link>
                 </div>
