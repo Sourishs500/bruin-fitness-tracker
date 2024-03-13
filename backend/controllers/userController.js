@@ -2,6 +2,8 @@ const mongoose = require('mongoose')
 const User = require('../models/userModel.js');
 const GeneralComment = require('../models/generalCommentModel.js');
 
+const weeks = ["2-25-2024", "3-3-2024", "3-10-24"];
+
 const createUser = async (req, res) => {
     const {username, password, gender, image} = req.body;
     try {

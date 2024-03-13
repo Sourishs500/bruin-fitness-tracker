@@ -16,11 +16,13 @@ const userSchema = new Schema({
     },
     gold_stars: {
         type: Number,
-        required: false
+        required: false,
+        default: 0
     },
     platinum_stars: {
         type: Number,
-        required: false
+        required: false,
+        default: 0
     },
     image: {
         type: String,
