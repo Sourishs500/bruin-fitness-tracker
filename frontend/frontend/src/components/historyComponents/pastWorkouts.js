@@ -157,14 +157,14 @@ function GetDataOfPastDate_element({user,date, edit, detail, stg}) {
 
 // --------- MAIN FUNCTION --------
 
-export default function PastWorkouts({getStats, username}) 
+export default function PastWorkouts({getStats, username, pastDates}) 
 //One text box for the display of past data, [one text box for entering the date, one checkbox to show detailed version], one submit button
 {
     // -------------------- Date Display Handling ------------------------------
     const [enteredDate, setDate] = useState("");
     const [selectedDate, setTrueDate] = useState("");
     const dates = useRef([])
-
+    dates.current=pastDates;
     const getThoseDates = async () => {
         dates.current = (await fetchDates(username));
     }

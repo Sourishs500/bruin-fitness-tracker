@@ -13,14 +13,21 @@ export default function App () {
     const [photo, setPhoto] = useState("");
     const [goldStarCount, setGoldStar] = useState(0);
     const [platStarCount, setPlatStar] = useState(0);
+    const [pastDates, setPastDates] = useState([]);
 
-    console.log("APP")
-    console.log(platStarCount)
-    console.log(goldStarCount)
+    // console.log("APP")
+    // console.log(platStarCount)
+    // console.log(goldStarCount)
 
     return (
         <BrowserRouter>
-            <div style={{ backgroundColor: '#1e3373' }}><FullHeader username={username} setUsername={setUsername} photo={photo} goldStarCount={goldStarCount} platStarCount={platStarCount} /></div>
+            <div style={{ backgroundColor: '#1e3373' }}><FullHeader 
+                username={username} 
+                setUsername={setUsername} 
+                photo={photo} 
+                goldStarCount={goldStarCount} 
+                platStarCount={platStarCount} 
+                setPastDates={setPastDates}/></div>
             <Routes>
                 <Route 
                     path="/"
@@ -32,7 +39,7 @@ export default function App () {
                 />
                 <Route 
                     path="/history"
-                    element={<HistoryPage username={username}/>}
+                    element={<HistoryPage username={username} pastDates={pastDates}/>}
                 />
                 <Route 
                     path="/login"
