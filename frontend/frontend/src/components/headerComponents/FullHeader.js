@@ -21,7 +21,7 @@ const FullHeader = ({username, photo, setUsername, goldStarCount, platStarCount}
     return (
         <div style={{minHeight: 80, display: "flex", justifyContent: "flex-start", alignItems: "center"}}>
             <Link to={{pathname: "/", state: {current_username: message_username.current}}} style = {{color: '#ffffff'}} >
-                <div className="titleText" >{"Bruin Fitness Tracker"}</div>
+                <div style={{fontStyle:"italic"}} className="titleText" >{"Bruin Fitness Tracker"}</div>
             </Link>
             <div style={{marginLeft:20, display: "flex", flexDirection: "row", alignItems: "center",  marginTop:"20px"}}>
                 <Link style={{marginLeft:20, marginRight:20, color: '#ffffff'}} 

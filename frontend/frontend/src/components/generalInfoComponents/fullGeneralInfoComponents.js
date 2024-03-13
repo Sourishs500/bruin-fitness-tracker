@@ -37,15 +37,15 @@ export default function FullGeneralInfoComponents({SendValueUpGen, SendDateUpGen
             <GeneralInfo SendValueUp={updateNotes} SendDateUp = {updateDate} exInfo={exInfoGen}/>              
         
             <div style={{display:"flex", justifyContent:"space-between", flexDirection:"row", marginTop:"20px", marginBottom:"20px", flexGrow:"1"}}> 
-                <div style={{display:"flex", flexGrow:"1", backgroundColor: 'lightblue', padding:15, borderRadius:15, background: "linear-gradient(110deg, #f0f6ff, #e8f2ff)", minWidth:"65%", marginRight:"20px"}}>
+                <div style={{display:"flex", flexGrow:"1", padding:15, boxShadow: "7px 7px #8daee0", background: "linear-gradient(110deg, #f0f6ff, #e8f2ff", minWidth:"65%", marginRight:"20px", marginLeft:"-20px"}}>
                     <UserDataEntries SendValueUp={receiveDataSpec} allExercises={exInfoSpec}/>  
                 </div>
-                <div style={{display:"flex", justifyContent:"center", flexGrow:"1", backgroundColor: 'lightblue', padding:15, borderRadius:15, background: "linear-gradient(110deg, #f0f6ff, #e8f2ff)"}}>
+                <div style={{display:"flex", justifyContent:"center", flexGrow:"1", padding:15, boxShadow: "7px 7px #8daee0", background: "linear-gradient(110deg, #f0f6ff, #e8f2ff)", marginRight:"-20px"}}>
                     <div style={{marginTop:"5px"}}> <MusclesWorkedOut givenExercises={muscleGroupsToDisplay}/> </div>
                 </div>
             </div>
-            <div style={{display:"flex", justifyContent:"center", flexDirection:"column", alignItems:"center", backgroundColor: 'lightblue', padding:15, borderRadius:15, background: "linear-gradient(110deg, #f0f6ff, #e8f2ff)"}}>
-                <div style={{marginBottom:"10px"}} className="generalText"> <b>Workout Summary</b> </div>
+            <div style={{display:"flex", justifyContent:"center", flexDirection:"column", alignItems:"center", padding:15, boxShadow: "7px 7px #8daee0", background: "linear-gradient(110deg, #f0f6ff, #e8f2ff)", marginLeft:"-20px", marginRight:"-20px"}}>
+                <div style={{fontFamily: "verdana, sans-serif", marginBottom:"10px"}} className="generalText"> <b>Workout Summary</b> </div>
                 <div > <SummaryBox toShow={summaryToDisplay}/></div>
             </div>
         </div>

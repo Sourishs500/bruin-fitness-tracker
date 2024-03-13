@@ -95,29 +95,30 @@ export default function GeneralInfo ({SendValueUp, SendDateUp, exInfo}) //One te
     return (
         <div style={{ display: "flex", justifyContent:"space-between", flexDirection: "row", flexGrow: "1"}}>
             
-            <div style = {{display: "flex", flexGrow:"1", alignItems: "flex-start", flexDirection: "row", background: "linear-gradient(110deg, #f0f6ff, #e8f2ff)", padding:15, borderRadius:5, width: "800px", marginRight:"20px"}}>
-                <div>
-                    <b style={{fontFamily: 'Trebuchet MS', fontSize: "25px", alignSelf: "self-start", marginRight:"30px"}}>Date of Workout</b>
+            <div style = {{display: "flex", flexGrow:"1", alignItems: "flex-start", flexDirection: "row", background: "linear-gradient(110deg, #f0f6ff, #e8f2ff)", padding:15, width: "800px", marginRight:"20px", marginLeft:"-20px", 
+            boxShadow: "7px 7px #8daee0"}}>
+                <div style = {{marginLeft:"20px"}}>
+                    <b style={{fontFamily: 'verdana, sans-serif', fontSize: "22px", alignSelf: "self-start", marginRight:"30px"}}>Date of Workout</b>
                     <div style={{marginBottom:"15px"}}><CreateTextBox defaultText={String(currentDateToday.getMonth()+1)+"/"+currentDateToday.getDate()+"/"+currentDateToday.getFullYear()} SendValueUp={updateDateOfWorkout} x = "160px" y = "30px" /></div>
                 </div>
                 <div>
-                    <b style={{fontFamily: 'Trebuchet MS', fontSize: "25px", alignSelf: "self-start", textAlign:"center"}}>Workout Notes: General</b>
+                    <b style={{fontFamily: 'verdana, sans-serif', fontSize: "22px", alignSelf: "self-start", textAlign:"center"}}>Workout Notes: General</b>
                     <div><CreateTextBox SendValueUp={updateNotes} x = "450px" y = "170px" ph ="Workouts Notes"/></div>
                 </div>
             </div>
-            <div style={{display:"flex", flexGrow:"1", flexDirection:"column", padding:15, borderRadius:5, width: "700px", background: "linear-gradient(110deg, #f0f6ff, #e8f2ff)"}}>
-                <div style ={{fontFamily: 'Trebuchet MS', fontSize: "25px", alignSelf: "self-start",
-                    marginBottom:"-17px"}}>
-                    <b>Exercise Recommendation System</b></div>
+            <div style={{display:"flex", flexGrow:"1", flexDirection:"column", padding:15, width: "700px", boxShadow: "7px 7px #8daee0", background: "linear-gradient(110deg, #f0f6ff, #e8f2ff)", marginRight:"-20px"}}>
+                <div style ={{fontFamily: 'verdana, sans-serif', fontSize: "22px", alignSelf: "self-start", marginBottom:"-17px"}}>
+                    <b>Exercise Recommendation System</b>
+                </div>
                 <br/>
                 <div style={{display:"flex", flexDirection: "column"}}>
                     <div style={{display:"flex", flexDirection: "row", marginBottom:10}}>
                         <DropdownButton style={{fontFamily: 'Trebuchet MS'}} title={chosenCat} onSelect={EVENTS} variant="primary">
                             {possibleCategories.map( (category) => <Dropdown.Item eventKey={category}> {category} </Dropdown.Item>)}
                         </DropdownButton>  
-                        <Button variant="primary" onClick={() => getCategoryForRandomEx(chosenCat)} style={{marginLeft:"10px", marginRight:"10px", minWidth:300, fontFamily: 'Trebuchet MS', fontSize:"17px", height:"37px"}}>Generate Recommendation</Button> 
+                        <Button variant="primary" onClick={() => getCategoryForRandomEx(chosenCat)} style={{marginLeft:"10px", marginRight:"10px", minWidth:300, fontFamily: 'verdana, sans-serif', fontSize:"17px", height:"37px"}}>Generate Recommendation</Button> 
                     </div>   
-                    <div className="generalText">Recommendation: <b>{recommendationGenerated}</b> </div>
+                    <div style={{marginRight:"20px"}} className="generalText">Recommendation: <b>{recommendationGenerated}</b> </div>
                 </div>
             </div>
        </div>

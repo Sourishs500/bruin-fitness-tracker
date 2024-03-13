@@ -6,11 +6,12 @@ const DirectionsPage = ({username}) => {
 
     return (
 
-        <div style = {{backgroundColor: '#b3cef2', padding:20, height:"100vmin"}}>
+        <div style = {{backgroundColor: '#b3cef2', padding:10, height:"100vmin"}}>
                 <div >
-                    <div style={{fontFamily: 'Trebuchet MS', fontSize: "30px", alignSelf: "self-start", marginTop:"10px", fontWeight: 'bold'}}>Directions</div>
+                    <div style={{fontFamily: 'verdana, sans-serif', fontSize: "22px", alignSelf: "self-start", marginTop:"10px", fontWeight: 'bold', marginLeft:"10px", marginBottom:"5px"}}>Directions</div>
                 </div>
-                <div className="directionText" style={{background: "linear-gradient(110deg, #f0f6ff, #e8f2ff)", padding:15, borderRadius:25}}>
+                <div className="directionText" style={{background: "linear-gradient(110deg, #f0f6ff, #e8f2ff)", padding:15, boxShadow: "7px 7px #8daee0", marginLeft:"-20px", marginRight:"-20px"}}>
+                <div style = {{marginLeft:"20px", marginRight:"20px"}}>
                 <p>
                     To create your workout, enter your workout data on the Home Page. Select the appropriate exercise from the drop-down menu. Then,
                     click the "Add Set" button and enter your information in the following format: [WEIGHT]x[NUMBER OF REPS]. If you changed your weight in the
@@ -32,11 +33,13 @@ const DirectionsPage = ({username}) => {
                     Once you click the submit button, these notes will be recorded alongside your workout information.
                 </p>
                 </div>
+                </div>
         
             <div>
-                <div style={{fontFamily: 'Trebuchet MS', fontSize: "30px", alignSelf: "self-start", marginTop:"30px", fontWeight: 'bold'}}>Additional Features</div>
+                <div style={{fontFamily: 'verdana, sans-serif', fontSize: "22px", alignSelf: "self-start", marginTop:"30px", fontWeight: 'bold', marginLeft:"10px", marginBottom:"5px"}}>Additional Features</div>
             </div>
-            <div className="directionText" style={{background: "linear-gradient(110deg, #f0f6ff, #e8f2ff)", padding:15, borderRadius:25}}> 
+            <div className="directionText" style={{background: "linear-gradient(110deg, #f0f6ff, #e8f2ff)", padding:15, boxShadow: "7px 7px #8daee0", marginLeft:"-20px", marginRight:"-20px"}}> 
+                <div style = {{marginLeft:"20px", marginRight:"20px"}}>
                 <p>
                     1) <b>Recommendation System:</b> Go to the Home Page. Enter the muscle group for the day into the drop-down menu in the top right and then click "Generate Recommendation". <em></em>
                 </p>
@@ -49,6 +52,7 @@ const DirectionsPage = ({username}) => {
                     3) <b> Graph Generation: </b> This will show you a graph that maps out your progress for a given exercise over time. Go to the History page. 
                     Select the exercise whose graph you want to see and the kind of statistic that you want to track. Then, click the "Submit Request" button.
                 </p>
+                </div>
             </div>
         </div>
 
