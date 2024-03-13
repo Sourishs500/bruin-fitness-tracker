@@ -128,8 +128,20 @@ const createExercise = async (req, res) => {
         
     }
     // Add General Comment document
+    console.log("hi")
+    console.log(generalNotes)
     try{
-        const generalNotesDocument = await GeneralComment.create({comment: generalNotes, workoutId, date, user});
+        if (generalNotes === "")
+        {
+            console.log("em")
+            console.log(date)
+            const generalNotesDocument = await GeneralComment.create({comment: " ", workoutId, date, user});
+        }
+        else
+        {
+            const generalNotesDocument = await GeneralComment.create({comment: generalNotes, workoutId, date, user});
+        }
+            
         // ret = res.status(200).json(generalNotesDocument);
     } catch (e){
         return res.status(400).json({error : e.message});
@@ -310,7 +322,7 @@ const getStatistics = async (req, res) => {
 
 const createStatistics = async (req, res) => {
     const date = req.body.Date;
-    const generalnotes = req.body.GeneralNotes;
+    const generalnotes = (req.body.GeneralNotes !== "") ? req.body.GeneralNotes : " ";
     const user = req.body.User;
     const workout = req.body.Workout;
 
