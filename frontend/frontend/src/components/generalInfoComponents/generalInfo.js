@@ -74,7 +74,7 @@ export default function GeneralInfo ({SendValueUp, SendDateUp, exInfo}) //One te
     return (
         <div style={{ display: "flex", justifyContent:"space-between", flexDirection: "row", flexGrow: "1"}}>
             
-            <div style = {{display: "flex", alignItems: "flex-start", flexDirection: "row", background: "linear-gradient(110deg, #f0f6ff, #e8f2ff)", padding:15, borderRadius:15, width: "800px", marginRight:"20px"}}>
+            <div style = {{display: "flex", flexGrow:"1", alignItems: "flex-start", flexDirection: "row", background: "linear-gradient(110deg, #f0f6ff, #e8f2ff)", padding:15, borderRadius:5, width: "800px", marginRight:"20px"}}>
                 <div>
                     <b className ="directionText" style={{marginRight:"30px"}}>Date of Workout</b>
                     <div style={{marginBottom:"15px"}}><CreateTextBox defaultText={String(currentDateToday.getMonth()+1)+"/"+currentDateToday.getDate()+"/"+currentDateToday.getFullYear()} SendValueUp={updateDateOfWorkout} x = "160px" y = "30px" /></div>
@@ -84,7 +84,7 @@ export default function GeneralInfo ({SendValueUp, SendDateUp, exInfo}) //One te
                     <div><CreateTextBox SendValueUp={updateNotes} x = "450px" y = "170px" ph ="Workouts Notes"/></div>
                 </div>
             </div>
-            <div style={{backgroundColor: 'lightblue', padding:15, borderRadius:15, width: "700px", background: "linear-gradient(110deg, #f0f6ff, #e8f2ff)"}}>
+            <div style={{display:"flex", flexGrow:"1", flexDirection:"column", padding:15, borderRadius:5, width: "700px", background: "linear-gradient(110deg, #f0f6ff, #e8f2ff)"}}>
                 <div className ="directionText" style ={{marginBottom:"-17px"}}>
                     <b>Exercise Recommendation System</b></div>
                 <br/>

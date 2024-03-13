@@ -198,7 +198,7 @@ const Home = ({username, setGoldStar, setPlatStar}) => {
 
     return (
         <>
-        <div style={{ backgroundColor: 'lightblue', padding:20 }}><FullGeneralInfoComponents 
+        <div style={{ backgroundColor: '#b3cef2', padding:20 }}><FullGeneralInfoComponents 
                                                         SendValueUpGen={receiveGeneralNotes}
                                                         SendDateUpGen={receiveGeneralDate}
                                                         exInfoGen={allExercisesOrganizedByTheme}
