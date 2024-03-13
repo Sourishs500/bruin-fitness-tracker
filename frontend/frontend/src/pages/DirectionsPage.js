@@ -6,9 +6,9 @@ const DirectionsPage = ({username}) => {
 
     return (
         <>
-        <div style = {{padding:20, backgroundColor: 'lightblue'}}>
-                <div className="headerText">
-                    <h1 style={{ fontWeight: 'bold', marginTop:"10px" }}>Directions</h1>
+        <div style = {{padding:20, backgroundColor: 'lightblue', height:"750px"}}>
+                <div >
+                    <div style={{fontFamily: 'Trebuchet MS', fontSize: "30px", alignSelf: "self-start", marginTop:"10px", fontWeight: 'bold'}}>Directions</div>
                 </div>
                 <div className="directionText" style={{background: "linear-gradient(110deg, #f0f6ff, #e8f2ff)", padding:15, borderRadius:25}}>
                 <p>
@@ -33,8 +33,8 @@ const DirectionsPage = ({username}) => {
                 </p>
                 </div>
         
-            <div className="headerText">
-                <h1 style={{ fontWeight: 'bold', marginTop:"50px"}}>Additional Features</h1>
+            <div>
+                <div style={{fontFamily: 'Trebuchet MS', fontSize: "30px", alignSelf: "self-start", marginTop:"30px", fontWeight: 'bold'}}>Additional Features</div>
             </div>
             <div className="directionText" style={{background: "linear-gradient(110deg, #f0f6ff, #e8f2ff)", padding:15, borderRadius:25}}> 
                 <p>

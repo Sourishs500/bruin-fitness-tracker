@@ -7,7 +7,7 @@ const HistoryPage = ({username}) => {
     //padding: auto
 // , height:500, width:1200, marginLeft: "auto", marginRight: "auto", marginTop:"20px", padding:20, borderRadius:25
     return (
-        <div style={{ backgroundColor: 'lightblue',}}>
+        <div style={{ backgroundColor: '#b3cef2',}}>
              <div style={{ height:1000, width:1200, marginLeft: "auto", marginRight: "auto", padding:20, borderRadius:25 }}>
                 <div style={{ display: "flex", justifyContent: "center", alignItems: "center"}}><FullHistoryComponents username={username} 
                                                         measureGetter={GetAllMeasures}/></div>
