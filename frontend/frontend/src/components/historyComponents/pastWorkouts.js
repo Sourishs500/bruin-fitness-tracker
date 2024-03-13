@@ -11,7 +11,7 @@ function CreateDateBox({dateFunc})
 {
     const [value, setValue] = useState('');
     const handleChange = (event) => {setValue(event.target.value); dateFunc(event.target.value);};
-    return <input type="text" style = {{"width":"120px", height:"30px", marginTop:"10px"}} onInput = {handleChange}/>;   
+    return <input type="text" style = {{"width":"120px", height:"30px", marginTop:"10px"}} onInput = {handleChange} placeholder="Enter date" />;   
 }
 
 const fetchDates = async (username) => {
@@ -59,7 +59,6 @@ const fetchWorkoutInfo = async (username, date) => {
     let convertedDate = (date.replace("/", "-")).replace("/", "-")
     let indexOfDescriptor = convertedDate.indexOf("(")
     if(indexOfDescriptor != -1) { convertedDate = convertedDate.substring(0,indexOfDescriptor-1)}
-
     const path = '/api/workouts/' + convertedDate +"/" +username
     const response = await fetch(path)
     const json = await response.json()
@@ -68,16 +67,17 @@ const fetchWorkoutInfo = async (username, date) => {
     }
 
     let workoutNumber
-    if(indexOfDescriptor == -1) { workoutNumber = 0}
+    if(indexOfDescriptor == -1) { workoutNumber = 1}
     else{ workoutNumber = Math.floor(date.substring(indexOfDescriptor+1, date.indexOf(")")))}
 
-    let workoutId = (json.GeneralNotes[workoutNumber-1]).workoutId; console.log("WID: ", workoutId)
+    let workoutId = (json.GeneralNotes[workoutNumber-1]).workoutId; console.log("Workout ID: ", workoutId)
     let desiredWorkouts = []
     for(let elem=0; elem < json.Workout.length; elem++)
     {
         let currElem = json.Workout[elem]
         if(currElem.workoutId == workoutId) { desiredWorkouts.push(currElem) }
     }
+    console.log(date, ": ", desiredWorkouts)
     return desiredWorkouts;
 }
 
@@ -113,6 +113,7 @@ function GetDataOfPastDate_element({user,date, edit, detail, stg}) {
         if (edit==true) { displayText = "CANNOT PROVIDE EDITING ACCESS AT THIS TIME."}
         else { displayText =  GetDataOfPastDate(user, date, detail, stg);}
     }
+    console.log("Rerendered workout detail section")
     return (
         <div>
             <pre style={{marginLeft:"10px", fontFamily: "Helvetica", fontSize: "16px"}}> <b> <em> 
@@ -147,7 +148,7 @@ export default function PastWorkouts({getStats, username})
 
     function implementUpdateToColors(newDate)
     {
-        console.log("UPDATED")
+        console.log("Colors Changed")
         if(newDate != selectedDate) { setTrueDate(newDate); }
         let colorMappingFromDate = {};
         for (let i = 0; i < dates.length; i++) {
@@ -172,8 +173,7 @@ export default function PastWorkouts({getStats, username})
             <span style={{ display: "flex", alignItems: "flex-start" }}>
                 <div style={{"width":"150px", "height":"300px", "border":"3px solid black", marginRight:"20px", overflowY:"scroll"}}>
 
-                        <p onClick={e=>{implementUpdateToColors(""); 
-                                           console.log("called"); }} 
+                        <p onClick={e=>{implementUpdateToColors(""); }} 
                                        style={{color:colorMappingState[""], 
                                                marginLeft:"5px", 
                                                textAlign: "center"}}
@@ -183,10 +183,10 @@ export default function PastWorkouts({getStats, username})
                         {
                             (dates.current).map(x => {
                                             let weight = "normal";
-                                            console.log("JUST CLICKED");
+                                            console.log("New Date Selected");
                                             if (colorMappingState[x]==="blue") weight = "bold";
                                             return  <p 
-                                                onClick={()=>{implementUpdateToColors(x); console.log(x);}} 
+                                                onClick={()=>{console.log("Date clicked: ", x); implementUpdateToColors(x);}} 
                                                 style={{color:colorMappingState[x], 
                                                         fontWeight:weight,
                                                         marginLeft:"5px", 

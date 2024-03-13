@@ -14,7 +14,7 @@ export default function App () {
 
     return (
         <BrowserRouter>
-            <div style={{ backgroundColor: '#6699ff' }}><FullHeader username={username}  photo={photo}/></div>
+            <div style={{ backgroundColor: '#6699ff' }}><FullHeader username={username} photo={photo} setUsername={setUsername}/></div>
             <Routes>
                 <Route 
                     path="/"
@@ -38,7 +38,7 @@ export default function App () {
                 />
                 <Route 
                     path="/profile_page"
-                    element={<ProfilePage username={username} photo={photo} setNewPhoto={setPhoto}/> }
+                    element={<ProfilePage username={username} photo={photo} setPhoto={setPhoto}/> }
                 />
             </Routes>
         </BrowserRouter>

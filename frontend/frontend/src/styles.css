@@ -16,8 +16,8 @@ a:active { text-decoration: none; }
 
 .largeProfilePicture
 {
-    width: 200px;
-    height: 200px;
+    width: 220px;
+    height: 220px;
     border: 1.5px solid #000000;
     border-radius: 15px;
     object-fit: cover;

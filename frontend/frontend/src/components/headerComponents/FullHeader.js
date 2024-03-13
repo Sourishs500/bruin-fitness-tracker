@@ -4,22 +4,19 @@ import { useState, useRef } from 'react';
 
 //To-Do: Implementing the profile pic feature
 
-const FullHeader = ({username, photo}) =>
+const FullHeader = ({username, photo, setUsername}) =>
 { 
-    console.log("from FullHeader:", username)
-    
+    console.log("from FullHeader:", photo)
     const message_username = useRef();
-    const message_signin = useRef();
     
     if (username != "") {
         message_username.current = username;
-        message_signin.current = "sign out";
     }
     else {
         message_username.current = "not signed in";
-        message_signin.current = "sign in";
     }
 
+    //onClick={() => handleClick()}
     return (
         <div style={{minHeight: 80, display: "flex", justifyContent: "flex-start", alignItems: "center"}}>
             <Link to={{pathname: "/", state: {current_username: message_username.current}}} style = {{color: '#0000cc'}} >
@@ -44,9 +41,12 @@ const FullHeader = ({username, photo}) =>
             <div className="topBarRight">
                 <div style={{display: "flex", flexDirection: "column", alignItems: "end"}}>
                     <div className="usernameText" style={{marginLeft:"15px"}}> username: {message_username.current}</div>
-                    <Link to="/login" style = {{color: '#0000cc'}}> 
-                        <div className="usernameText" style={{marginLeft:"15px"}}>{message_signin.current}</div> 
-                    </Link>
+                    <Link to="/login" style = {{color: '#0000cc'}}>
+                        <div className="usernameText" 
+                        style={{marginLeft:"15px"}}>  
+                        {"sign in"}
+                        </div> 
+                     </Link>
                 </div>
                 <div>
                     <ProfilePic username={username} photo={photo}/>

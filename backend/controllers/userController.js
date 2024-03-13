@@ -25,13 +25,12 @@ const getUser = async (req, res) => {
 
 const updateProfilePhoto = async (req, res) => {
     const {name, URL} = req.body;
-
     try {
-        u = await User.updateOne({'username': name}, {$set: {'image': URL}}) 
-        //res.send('Item Updated!');
-        return res.status(200)
+        const u = await User.updateOne({'username': name}, {$set: {'image': URL}}) 
+        //console.log(u);
+        return res.status(200).json(u);
     } catch(e) {
-        return res.status(400).json({error: e.message})
+        return res.status(400).json({error: e.message});
     }
     
 }

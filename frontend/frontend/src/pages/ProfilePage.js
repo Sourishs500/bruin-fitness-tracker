@@ -1,29 +1,25 @@
 import { useEffect, useState, useRef } from 'react';
 import Button from 'react-bootstrap/Button';
 import {Link} from 'react-router-dom'
-import kirby from '../components/profilePics/kirby.png'
 import DefaultProfilePic from '../components/profilePics/DefaultProfilePic.png'
-import rowlet from '../components/profilePics/rowlet.png'
 import Popup from 'reactjs-popup';
 
 
-const ProfilePage = ({username, photo, setNewPhoto}) => {
+const ProfilePage = ({username, photo, setPhoto}) => {
 
     function Box({val}) {
-        return <input type="text" ref={val} style = {{"width":"240px", height:"40px", marginTop:"5px", fontSize:"20px"}}
+        return <input type="text" ref={val} style = {{"width":"220px", height:"40px", marginTop:"5px", fontSize:"20px"}}
         onChange={(e) => ((val).current.value = e.target.value)}/>;   
     }
 
     const user = useRef();
-    // const current_username = useRef();
-    // const gender = useRef();
-    // const password = useRef();
     const [current_username, setCurrent_Username] = useState(null);
     const [gender, setGender] = useState(null);
     const [password, setPassword] = useState(null);
-    //const [photo, setPhoto] = useState(null);
-    const imageURL_dynamic = useRef();
+    const [photo_show, setPhoto_show] = useState(photo);
+    const imageURL_dynamic = useRef(null);
     const photo_src = useRef();
+    const [message, setMessage] = useState("");
 
     async function fetchAccount(name) {
         try {
@@ -31,7 +27,6 @@ const ProfilePage = ({username, photo, setNewPhoto}) => {
             const response = await fetch(path)
             const json = await response.json()
             if (json.length == 1) { 
-                //console.log("JSON[0]:",json[0]); 
                 user.current = json[0];
             } 
             else {
@@ -43,8 +38,25 @@ const ProfilePage = ({username, photo, setNewPhoto}) => {
         }
     }
 
-    async function changePicture(name, URL) {
-        let data = {"name":name, "URL":URL};
+    const VerifyAccount = async () => {
+        if (username != "Not signed in!") {
+            const u = await fetchAccount(username, user);
+            //console.log("???:", user.current);
+            if (user.current) {
+                setCurrent_Username((user.current).username);
+                setGender((user.current).gender);
+                setPassword((user.current).password);
+                setPhoto_show((user.current).image);
+            } else {
+                console.log("HHU?g!");
+            }
+        } else {
+            console.log("Not signed in!");
+        }
+    }
+
+    const changePicture = async (URL) => {
+        let data = {"name":username, "URL":URL};
         const path = '/api/user/updateProfilePhoto'
         const response = await fetch(path, {
             method: 'POST',
@@ -54,77 +66,12 @@ const ProfilePage = ({username, photo, setNewPhoto}) => {
             }
         })
         const json = await response.json();
-        console.log(json);
-        
-        console.log("UHHH!", json);
-    }
-
-    const VerifyAccount = async () => {
-        if (username != "Not signed in!") {
-            const u = await fetchAccount(username, user);
-            console.log("???:", user.current);
-            if (user.current) {
-                setCurrent_Username((user.current).username);
-                setGender((user.current).gender);
-                setPassword((user.current).password);
-                photo_src.current = (user.current).image;
-                //setNewPhoto((user.current).image);
-
-                if (photo_src.current && ((photo_src.current).includes("jpg") || (photo_src.current).includes("jpeg") || (photo_src.current).includes("png"))) {
-                    setNewPhoto((user.current).image);
-                    photo_src.current = photo_src.current;
-                }
-                else {
-                    setNewPhoto(DefaultProfilePic);
-                    photo_src.current = DefaultProfilePic;
-                }
-                //setPhoto(photo_src.current);
-            }
-            else {
-                console.log("HHU?g!");
-            }
-        }
-        else {
-            console.log("Not signed in!");
-        }
-    }
-
-    const handleImageButton = async () => {
-        const u = await changePicture(username, imageURL_dynamic.current.value);
-        //VerifyAccount();
-        const s = imageURL_dynamic.current.value;
-        setNewPhoto(s);
+        setPhoto_show(URL);
+        setPhoto(URL);
+        setMessage("Updated your profile photo!");
     }
 
     VerifyAccount();
-    
-
-    const vale = useRef();
-    const Modal = () => (
-        <Popup 
-            trigger={<Button size="sm" variant="outline-primary" 
-            style={{"width": "200px", height:"40px", marginTop:"20px",
-            fontFamily: "Trebuchet MS", fontSize: "18px"}}>Change Profile Picture</Button>}
-            position="right center"
-            modal
-            nested
-            >
-            <div className="modal"style={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}} >
-                <div className="accountText" >{"image URL"}</div>
-                <div> <Box val={imageURL_dynamic}/> </div>  
-                <div> 
-                    <Button size="sm" variant="outline-primary" onClick={() => handleImageButton()} 
-                    style={{"width": "240px", height:"40px", marginTop:"20px", marginBottom:"20px",
-                    fontFamily: "Trebuchet MS", fontSize: "20px"}}>Set my picture!</Button>
-                </div>         
-                {/* {imageURL && (
-                    <img className="showProfilePic"
-                        src={imageURL}
-                    />
-                )} */}
-            </div>
-        </Popup>
-    );
 
     return (
         <div style={{display: "flex", flexDirection: "row", justifyContent: "center", marginTop:"20px"}}>
@@ -140,10 +87,19 @@ const ProfilePage = ({username, photo, setNewPhoto}) => {
                 </div>
             </div>
             <div style={{display: "flex", justifyContent: "center"}}> 
-                <div style={{"width":"200px", height:"400px", display: "flex", flexDirection: "column"}}>
+                <div style={{"width":"250px", height:"550px", display: "flex", flexDirection: "column"}}>
                 <div className="biggerText" style = {{alignSelf:"self-start", marginTop:"10px"}} >{"Profile Picture"}</div>
-                    <img className="largeProfilePicture" style = {{marginTop:"10px"}} src={photo_src.current}/>
-                    <div> <Modal/> </div>
+
+                    <img className="largeProfilePicture" style = {{marginTop:"10px", marginBottom:"10px"}} src={photo_show}/>
+
+                    <div className="accountText" >{"Set new profile picture:"}</div>
+                    <div> <Box val={imageURL_dynamic}/> </div>  
+                    <div> 
+                        <Button size="sm" variant="outline-primary" onClick={() => changePicture(imageURL_dynamic.current.value)} 
+                        style={{"width": "220px", height:"40px", marginTop:"10px", marginBottom:"10px",
+                        fontFamily: "Trebuchet MS", fontSize: "20px"}}>Set my picture!</Button>
+                    </div>
+                    <div className="generalText" style = {{alignSelf:"self-start"}}> {message}</div>
                 </div>
             </div>
         </div>
