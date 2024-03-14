@@ -7,7 +7,7 @@ To start the backend:
 1. cd backend
 2. Have a .env file in the /backend, which includes the following lines:
 PORT=port_that_you_are_hosting_backend_on
-MONGO_URI=generated_mongo_uri_from_mongodb_after_making_an_account
+MONGO_URL=generated_mongo_url_from_mongodb_after_making_an_account
 3. npm install -g nodemon
 4. nodemon run dev
 
@@ -17,3 +17,18 @@ To start the frontend:
 2. npm start
 3. Install any dependencies you need with npm install.
 4. npm start
+
+Script for the frontend
+
+#!/bin/bash
+
+# Change directory to frontend
+cd frontend
+
+# Install dependencies
+echo "Installing frontend dependencies..."
+npm install
+
+# Start the frontend
+echo "Starting the frontend..."
+npm start
