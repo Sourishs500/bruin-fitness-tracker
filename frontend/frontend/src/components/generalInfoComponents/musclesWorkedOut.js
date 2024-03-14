@@ -23,7 +23,7 @@ import Button from 'react-bootstrap/Button';
     
     //add more import statements here: import chestPressImage from ./chestPressImage is an example
 
-    const exercisesAndMuscles = {"Chest Press":chesspress, //change "kirby" to the variable representing the path for this exercise's image
+    const exercisesAndMuscles = {"Chest Press":chest, //change "kirby" to the variable representing the path for this exercise's image
                                 "Bench Press":chest, 
                                 "Preacher Curls":bicep, 
                                 "Lat Pull-Downs":lats, 
