@@ -60,20 +60,15 @@ const NewAccount = ({username}) => {
 
     const handleButton = async () => {
         console.log(imageURL);
-        console.log("USERNAME: ", new_username.current.value);
-        console.log("PASSWORD: ", password.current.value);
-        console.log("VERIFICATION: ", password2.current.value)
         console.log(
             password.current.value===password2.current.value
         );
         if (!(password.current.value===password2.current.value))
         {
-            console.log("Mismatched passwords.")
             setMessage("Passwords must match.")
         }
-        if (new_username.current.value.includes(" "))
+        else if (new_username.current.value.includes(" "))
         {
-            //console.log("Invalid user name")
             setMessage("Please remove all spaces from the username.")
         }
         else if (password.current.value.includes(" "))
