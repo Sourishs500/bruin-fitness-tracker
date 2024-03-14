@@ -72,6 +72,12 @@ const NewAccount = ({username}) => {
             setMessage("Password must match.");
         } else if ((password.current.value).length <= 4) {
             setMessage("Passwords is too short. Minimum 5 characters.");
+        } else if (new_username.current.value.includes(" "))
+        {
+            setMessage("No spaces allowed in the username.")
+        } else if (password.current.value.includes(" "))
+        {
+            setMessage("No spaces allowed in the password")
         }
         else { handleCreateAccount(); }
         
