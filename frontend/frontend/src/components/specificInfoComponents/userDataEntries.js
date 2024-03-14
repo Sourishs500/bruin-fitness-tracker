@@ -153,6 +153,7 @@ variables used:
 
     return (
         <div style={{flexGrow:3}}>
+            <b style={{fontFamily: 'verdana, sans-serif', fontSize: "22px", alignSelf: "self-start", marginRight:"30px"}}>Workout Details</b>
             <div> {exerciseList} </div>
             <div style={{marginLeft:"20px", display:"flex", flexDirection:"row"}}>
                 <div style={{marginTop:"5px", marginBottom:"10px", marginRight:"10px", fontFamily: 'Trebuchet MS', fontSize:"20px"}}><Button variant="outline-success" onClick={() => AddExercise(exCount.current)} >Add Exercise</Button></div>
