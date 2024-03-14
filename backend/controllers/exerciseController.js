@@ -95,20 +95,57 @@ const createExercise = async (req, res) => {
     if(whichWeek != ""){
         try{
             const updatedStar = await Star.findOneAndUpdate({"user": user, "startOfWeek" : whichWeek}, {$inc: { workoutnumber: 1 }}, {upsert: true, new : true, setDefaultsOnInsert: true})
-            console.log(updatedStar.startOfWeek)
-            if(updatedStar.workoutnumber >= 3){
+
+            if(updatedStar.workoutnumber == 3){
                 gold_increment = 1;
                 const updatedWithGold = await Star.findOneAndUpdate({"user": user, "startOfWeek" : whichWeek}, {$inc: { gold_stars : 1}}, {new: true})
                 if(updatedWithGold){
                     const curIndex = weeks.indexOf(whichWeek);
                     let plat = true;
+                    let alreadyPlat = false;
+                    // Checking last two weeks in stars (plus current week)
                     for(let i = curIndex - 1; i >= curIndex - 2 && i >= 0; i--){
                         const check = await Star.findOne({"user": user, "startOfWeek" : weeks[curIndex]});
                         if(check.gold_stars === 0){
                             plat = false;
                         }
+                        /* if(check.platinum_stars !== 0){
+                            alreadyPlat = true;
+                        } */
                     }
-                    if (curIndex < 2 ){
+                    console.log("1")
+                    console.log(plat)
+                    if(!plat){
+                        // Checking last week, current week, next week
+                        for(let i = curIndex - 1; i <= curIndex + 1 && i >= 0 && i < weeks.length; i++){
+                            const check = await Star.findOne({"user": user, "startOfWeek" : weeks[curIndex]});
+                            if(check.gold_stars === 0){
+                                plat = false;
+                            }
+                            /* if(check.platinum_stars !== 0){
+                                alreadyPlat = true;
+                            } */
+                        }
+                    }
+                    console.log("2")
+                    console.log(plat)
+                    if (!plat){
+                        // Checking next two weeks (plus current week)
+                        for(let i = curIndex + 1; i <= curIndex + 2 && i < weeks.length; i++){
+                            const check = await Star.findOne({"user": user, "startOfWeek" : weeks[curIndex]});
+                            if(check.gold_stars === 0){
+                                plat = false;
+                            }
+                            /* if(check.platinum_stars !== 0){
+                                alreadyPlat = true;
+                            } */
+                        }
+                    }
+                    console.log("3")
+                    console.log(plat)
+                    const numberOfWeeksCheck = await Star.countDocuments({"user" : user});
+                    console.log("weeks" + numberOfWeeksCheck)
+                    if (numberOfWeeksCheck < 3 ){
                         plat = false;
                     }
                     if(plat){
