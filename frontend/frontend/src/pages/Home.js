@@ -203,14 +203,16 @@ const Home = ({username, setGoldStar, setPlatStar}) => {
         myCopy = GetAllMeasures({completeWorkoutData2:myCopy});
         if (myCopy!=="ERROR")
         // Still sending workout data without statistics
+        {
              handleSubmitWorkoutButton();
+            // Now workout data includes statistics
+            completeWorkoutData.current = myCopy;
+            handleSubmitStatistics();
+            console.log("Updated: ", completeWorkoutData.current);
+
+        }
         else
             alert("Errors prevented this workout from being uploaded.");
-        // Now workout data includes statistics
-        completeWorkoutData.current = myCopy;
-        handleSubmitStatistics();
-        console.log("Updated: ", completeWorkoutData.current);
-        
 
     }
 
