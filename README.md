@@ -1,5 +1,10 @@
 This project is called the Bruin-fitness-tracker. This project is a fitness website where the user can track the workouts they have done. The user is able see the past workouts they have done and the user is able to generate a graph based on there workouts. The user can also generate workout reccomendations based on the muscle group they choose.This project utilizes mongoDb, express.js, node.js. 
 
+
+Note: We have a shell script in the repository called script_to_start that starts up our web app.
+
+Link to public GitHub repo (for submission) : https://github.com/Sourishs500/bruin-fitness-tracker.git
+
 Tips for starting up:
 
 To start the backend:
@@ -18,14 +23,4 @@ To start the frontend:
 3. Install any dependencies you need with npm install.
 4. npm start
 
-Script for the frontend
 
-#!/bin/bash
-
-cd frontend
-
-echo "Installing frontend dependencies..."
-npm install
-
-echo "Starting the frontend..."
-npm start
