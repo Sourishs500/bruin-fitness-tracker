@@ -73,11 +73,16 @@ const Home = ({username, setGoldStar, setPlatStar}) => {
 
 
         const digits = "[0123456789]";
-        const formatOfDate = digits+"{1,2}/"+digits+"{1,2}/"+digits+"{4}"
+        const dividers = "[/-]";
+        const formatOfDate = digits+"{1,2}"+dividers+digits+"{1,2}"+dividers+digits+"{4}"
 
         const dateValid = RegExp(formatOfDate).test(workoutcopy.Date);
         console.log(workoutcopy.Date, " is valid: ", dateValid);
-
+        if (!(RegExp(formatOfDate).test(workoutcopy.Date)))
+        {
+            alert("Please verify that the date is formatted correctly");
+            return "ERROR";
+        }
 
         console.log("ABLE TO PARSE WORKOUT", workoutcopy.Date)
 
