@@ -1,8 +1,3 @@
-/*
-Remaining Tasks
-1) Stop hard-coding the allExercises variable
-2) Implement getAllSetsForExercisesSubmitted
-*/
 
 import { useEffect, useState, useRef } from 'react';
 import Button from 'react-bootstrap/Button';

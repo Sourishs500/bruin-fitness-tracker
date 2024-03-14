@@ -1,7 +1,4 @@
-/*
-Remaining Tasks
-1) Implement the functionality to obtain a summary of the data from userDataEntries
-*/
+
 
 import { useEffect, useState, useRef } from 'react';
 

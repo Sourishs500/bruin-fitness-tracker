@@ -3,7 +3,6 @@ import { useEffect, useState, useRef } from 'react';
 import SummaryBox from './summaryBox.js';
 import UserDataEntries from './userDataEntries.js';
 
-//To-do: Actually implementing statistical analysis
 
 export default function FullSpecificInfoComponents({SendValueUpSpec, summaryToDisplay, exInfoSpec})
 {
