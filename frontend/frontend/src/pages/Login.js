@@ -63,8 +63,17 @@ const Login = ({username, setUsername, setPhoto, setGoldStar, setPlatStar}) => {
 
         if(!response.ok){
             console.log(json.error)
+        }else{
+            console.log('updatedStars')
+            console.log(json)
+            setGoldStar(json[0]["gold_stars"])
+            setPlatStar(json[0]["platinum_stars"])
         }
+       
     }
+
+
+
 
     return (
         <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}> 
