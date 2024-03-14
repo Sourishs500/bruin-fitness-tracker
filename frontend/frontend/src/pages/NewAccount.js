@@ -62,8 +62,26 @@ const NewAccount = ({username}) => {
         console.log(imageURL);
         console.log("USERNAME: ", new_username.current.value);
         console.log("PASSWORD: ", password.current.value);
-
-        if (username) {
+        console.log("VERIFICATION: ", password2.current.value)
+        console.log(
+            password.current.value===password2.current.value
+        );
+        if (!(password.current.value===password2.current.value))
+        {
+            console.log("Mismatched passwords.")
+            setMessage("Passwords must match.")
+        }
+        if (new_username.current.value.includes(" "))
+        {
+            //console.log("Invalid user name")
+            setMessage("Please remove all spaces from the username.")
+        }
+        else if (password.current.value.includes(" "))
+        {
+            console.log("Invalid password")
+            setMessage("Please remove all spaces from the password.")
+        }
+        else if (username) {
             setMessage("Already signed in, no need to create an account.");
         } else if (!new_username.current.value) {
             setMessage("Please input a username.");
@@ -71,7 +89,8 @@ const NewAccount = ({username}) => {
             setMessage("Username already taken. Please choose a different one.");
         } else if (!password.current.value) {
             setMessage("Please input a password.");
-        } else if (password.current.value != password2.current.value) {
+        } else if (!(password.current.value === password2.current.value)) {
+            console.log("Mismatched passwords")
             setMessage("Password must match.");
         } else if ((password.current.value).length <= 4) {
             setMessage("Passwords is too short. Minimum 5 characters.");
