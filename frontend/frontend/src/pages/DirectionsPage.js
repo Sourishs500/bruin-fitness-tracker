@@ -2,7 +2,6 @@
 import GeneralInformation from '../components/basicInformation/fullGeneralInformation.js'; 
 
 const DirectionsPage = ({username}) => {
-    //console.log("HELLO!", username)
 
     return (
 

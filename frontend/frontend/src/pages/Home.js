@@ -98,12 +98,10 @@ const Home = ({username, setGoldStar, setPlatStar}) => {
                                                         {
                                                             let exCopy = exercise;
 
-                                                            //console.log("Processing ", exCopy);
                                                             exCopy["UnwrappedSetInfo"] = exCopy.SetInformation.map(x => 
                                                                 parseWorkoutString(x, false, "x", ",")
                                                             );
 
-                                                            //console.log("Parsed it into  ", exCopy["UnwrappedSetInfo"]);
 
                                                             if (exCopy["UnwrappedSetInfo"].includes("ERROR") || exCopy["UnwrappedSetInfo"].length===0)
                                                             {
