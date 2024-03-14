@@ -22,13 +22,10 @@ Script for the frontend
 
 #!/bin/bash
 
-# Change directory to frontend
 cd frontend
 
-# Install dependencies
 echo "Installing frontend dependencies..."
 npm install
 
-# Start the frontend
 echo "Starting the frontend..."
 npm start
