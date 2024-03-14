@@ -1,9 +1,17 @@
 #!/bin/bash
 
-cd frontend
+cd frontend/frontend
 
 echo "Installing frontend dependencies..."
 npm install
 
+cd ../../backend
+echo "Installing backend dependencies..."
+npm install dotenv --save
+
+echo "Starting the backend..."
+nodemon run dev
+
+cd ../frontend/frontend
 echo "Starting the frontend..."
 npm start
