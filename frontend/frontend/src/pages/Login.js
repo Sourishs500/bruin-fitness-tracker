@@ -32,6 +32,11 @@ const Login = ({username, setUsername, setPhoto, setGoldStar, setPlatStar}) => {
             setMessage("You are already signed in.");
             return;
         }
+        else if (username === "")
+        {
+            setMessage("Please enter a username.")
+            return;
+        }
         const u = await fetchAccount(new_username.current.value);
         if ((user.current).length == 1) {
             if ((user.current)[0].password != password.current.value) {
