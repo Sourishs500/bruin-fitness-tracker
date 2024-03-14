@@ -69,7 +69,17 @@ const Home = ({username, setGoldStar, setPlatStar}) => {
     function GetAllMeasures ({completeWorkoutData2})
     {
         let workoutcopy = JSON.parse(JSON.stringify(completeWorkoutData2));
-        console.log("ABLE TO PARSE WORKOUT", workoutcopy.Workout.length)
+        console.log("CHECKING FOR ERRORS")
+
+
+        const digits = "[0123456789]";
+        const formatOfDate = digits+"{1,2}/"+digits+"{1,2}/"+digits+"{4}"
+
+        const dateValid = RegExp(formatOfDate).test(workoutcopy.Date);
+        console.log(workoutcopy.Date, " is valid: ", dateValid);
+
+
+        console.log("ABLE TO PARSE WORKOUT", workoutcopy.Date)
 
         //console.log("GET ALL MEASURES: ", workoutcopy, workoutcopy.Workout[0], " | ", workoutcopy.Workout[0].length)
         //if (workoutcopy.Workout.length==0) return "ERROR";
