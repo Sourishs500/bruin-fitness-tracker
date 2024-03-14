@@ -12,6 +12,6 @@ npm install dotenv --save
 echo "Starting the backend..."
 nodemon run dev
 
-cd ../frontend
+cd ../frontend/frontend
 echo "Starting the frontend..."
 npm start
