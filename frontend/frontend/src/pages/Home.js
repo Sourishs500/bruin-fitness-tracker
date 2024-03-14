@@ -69,7 +69,8 @@ const Home = ({username, setGoldStar, setPlatStar}) => {
     function GetAllMeasures ({completeWorkoutData2})
     {
         let workoutcopy = JSON.parse(JSON.stringify(completeWorkoutData2));
-        console.log("CHECKING FOR ERRORS")
+        console.log("CHECKING FOR ERRORS!!!")
+        console.log(workoutcopy.Workout[0])
 
 
         const digits = "[0123456789]";
@@ -88,8 +89,9 @@ const Home = ({username, setGoldStar, setPlatStar}) => {
 
         //console.log("GET ALL MEASURES: ", workoutcopy, workoutcopy.Workout[0], " | ", workoutcopy.Workout[0].length)
         //if (workoutcopy.Workout.length==0) return "ERROR";
-        if (workoutcopy.Workout.length==0) return "ERROR";
+        if (workoutcopy.Workout.length==0) {return "ERROR"};
         if (Object.keys(workoutcopy.Workout[0]).length==0) return "ERROR";
+        if (workoutcopy.Workout[0].SetInformation.length==0) return "ERROR";
         workoutcopy.Workout.map(
                                         exercise => {
                                                         if (Object.keys(exercise).length!==0)
