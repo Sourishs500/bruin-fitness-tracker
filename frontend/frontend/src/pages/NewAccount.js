@@ -60,6 +60,9 @@ const NewAccount = ({username}) => {
 
     const handleButton = async () => {
         console.log(imageURL);
+        console.log("USERNAME: ", new_username.current.value);
+        console.log("PASSWORD: ", password.current.value);
+
         if (username) {
             setMessage("Already signed in, no need to create an account.");
         } else if (!new_username.current.value) {
