@@ -1,12 +1,22 @@
 import { useEffect, useState, useRef } from 'react';
 import Button from 'react-bootstrap/Button';
 import {Link} from 'react-router-dom'
+import * as CryptoJS from 'crypto-js'
 
-const Login = ({username, setUsername, setPhoto, setGoldStar, setPlatStar}) => {
+
+
+const Login = ({username, setUsername, setPhoto, setGoldStar, setPlatStar, setHashed}) => {
     const new_username = useRef();
     const password = useRef();
     const user = useRef();
     const [message, setMessage] = useState("");
+
+    const hashed_version = () => {
+        const userPass = new_username.current.value + " " + password.current.value;
+        let encrypted = CryptoJS.AES.encrypt(userPass, "");
+        encrypted = (encrypted.toString()).replaceAll("/", "replacementdelimiter")
+        return encrypted;
+    }
 
     function Box({val}) {
         return <input type="text" ref={val} style = {{"width":"240px", height:"40px", marginTop:"5px"}} 
@@ -14,7 +24,7 @@ const Login = ({username, setUsername, setPhoto, setGoldStar, setPlatStar}) => {
     }
 
     const fetchAccount = async (name) => {
-        const path = '/api/user/getUser/'.concat("", name)
+        const path = '/api/user/getUser/'.concat("", hashed_version())
         const response = await fetch(path)
         const json = await response.json()
         if (json.length == 1) { 
@@ -44,6 +54,7 @@ const Login = ({username, setUsername, setPhoto, setGoldStar, setPlatStar}) => {
             }
             else {
                 setUsername(new_username.current.value);
+                setHashed(hashed_version())
                 setPhoto((user.current)[0].image);
                 updateStars();
                 console.log((user.current)[0].image);
@@ -58,7 +69,7 @@ const Login = ({username, setUsername, setPhoto, setGoldStar, setPlatStar}) => {
     }
 
     const updateStars = async () => {
-        const path = '/api/user/getStars/'.concat(new_username.current.value)
+        const path = '/api/user/getStars/'.concat(hashed_version())
 
         const response = await fetch(path)
 

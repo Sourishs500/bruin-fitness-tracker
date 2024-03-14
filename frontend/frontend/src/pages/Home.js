@@ -6,7 +6,7 @@ import GeneralInformation from '../components/basicInformation/fullGeneralInform
 import FullHistoryComponents from '../components/historyComponents/fullHistoryComponents.js'; 
 import FullSpecificInfoComponents from '../components/specificInfoComponents/fullSpecificInfoComponents.js';
 
-const Home = ({username, setGoldStar, setPlatStar}) => {
+const Home = ({username, setGoldStar, setPlatStar, encrypted}) => {
     //console.log("HELLO!", username)
 
     const [workouts, setWorkouts] = useState(null)
@@ -15,7 +15,7 @@ const Home = ({username, setGoldStar, setPlatStar}) => {
         const fetchWorkouts = async () => {
             if (username != "")
             {
-                const path = '/api/workouts/' + username
+                const path = '/api/workouts/' + encrypted
                 const response = await fetch(path)
                 const json = await response.json()
 
@@ -138,7 +138,7 @@ const Home = ({username, setGoldStar, setPlatStar}) => {
 
 
         const updateStars = async () => {
-            const path = '/api/user/getStars/'.concat(username)
+            const path = '/api/user/getStars/'.concat(encrypted)
 
             const response = await fetch(path)
 

@@ -4,12 +4,12 @@ import { useState, useRef } from 'react';
 //import fetchDates from '../historyComponents/pastWorkouts.js'
 //To-Do: Implementing the profile pic feature
 
-const FullHeader = ({username, photo, setUsername, goldStarCount, platStarCount, setPastDates}) =>
+const FullHeader = ({username, photo, setUsername, goldStarCount, platStarCount, setPastDates, encrypted}) =>
 { 
 
     const fetchDates = async (username) => {
         let dates = []
-        const path = '/api/workouts/allDates/' + username
+        const path = '/api/workouts/allDates/' + encrypted
         const response = await fetch(path)
         const json = await response.json()
         if (!response.ok){

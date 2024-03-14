@@ -20,7 +20,7 @@ ChartJS.register(
 ); 
 
 
-export default function GraphGeneration({username})
+export default function GraphGeneration({username, encrypted})
 //One div box where the graph will go, [a selection for exercises, a selection for the type of statistic to display, a submit button]
 /*
     functions defined:
@@ -56,7 +56,7 @@ export default function GraphGeneration({username})
     const [allExercises, setAllExercises] = useState(["Choose An Exercise"])
     
     const fetchExerciseNames = async () => {
-        const path = '/api/workouts/names/getAllExerciseNames/'.concat("", username)
+        const path = '/api/workouts/names/getAllExerciseNames/'.concat("", encrypted)
         
         if (username !== "")
         {
@@ -86,7 +86,7 @@ export default function GraphGeneration({username})
         if (username !== "" && exerciseName !== "Choose An Exercise")
         {
 
-            const path = '/api/workouts/statistics/'.concat("", username, "/", exerciseName, "/", statistic);
+            const path = '/api/workouts/statistics/'.concat("", encrypted, "/", exerciseName, "/", statistic);
             //const path = '/api/workouts/statistics/sourish/Calf Raises/max'
             const response = await fetch(path)
             const json = await response.json()

@@ -5,7 +5,7 @@ import DefaultProfilePic from '../components/profilePics/DefaultProfilePic.png'
 import Popup from 'reactjs-popup';
 
 
-const ProfilePage = ({username, photo, setPhoto}) => {
+const ProfilePage = ({username, photo, setPhoto, encrypted}) => {
 
     function Box({val}) {
         return <input type="text" ref={val} style = {{"width":"220px", height:"40px", marginTop:"5px", fontSize:"20px"}}
@@ -40,7 +40,7 @@ const ProfilePage = ({username, photo, setPhoto}) => {
 
     const VerifyAccount = async () => {
         if (username != "Not signed in!") {
-            const u = await fetchAccount(username, user);
+            const u = await fetchAccount(encrypted, user);
             //console.log("???:", user.current);
             if (user.current) {
                 setCurrent_Username((user.current).username);
@@ -58,7 +58,7 @@ const ProfilePage = ({username, photo, setPhoto}) => {
     const changePicture = async (URL) => {
         
         if (URL.includes("png") || URL.includes("jpg") || URL.includes("jpeg") || URL.includes("http")) {
-            let data = {"name":username, "URL":URL};
+            let data = {"name":encrypted, "URL":URL};
             const path = '/api/user/updateProfilePhoto'
             const response = await fetch(path, {
                 method: 'POST',
