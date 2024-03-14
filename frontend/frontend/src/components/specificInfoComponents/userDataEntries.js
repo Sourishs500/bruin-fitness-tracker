@@ -153,7 +153,8 @@ variables used:
 
     return (
         <div style={{flexGrow:3}}>
-            <div> {exerciseList} </div>
+            <b style={{fontFamily: 'verdana, sans-serif', fontSize: "22px", alignSelf: "self-start", marginLeft:"19px"}}>Workout Details</b>
+            <div style={{marginTop:"10px"}}> {exerciseList} </div>
             <div style={{marginLeft:"20px", display:"flex", flexDirection:"row"}}>
                 <div style={{marginTop:"5px", marginBottom:"10px", marginRight:"10px", fontFamily: 'Trebuchet MS', fontSize:"20px"}}><Button variant="outline-success" onClick={() => AddExercise(exCount.current)} >Add Exercise</Button></div>
                 <div style={{marginTop:"5px", marginBottom:"10px", fontFamily: 'Trebuchet MS', fontSize:"20px"}}><Button variant="outline-danger" onClick={() => specialRemoveExercise()} >Remove Final Exercise</Button></div>

@@ -232,7 +232,7 @@ export default function PastWorkouts({getStats, username, pastDates})
                     <input type="checkbox" 
                     style = {{"width":"150px", height:"20px", marginTop:"10px", marginRight:"-63px"}}
                     onClick = {() => {setDetailed_yn(!(detailed_yn))}}/>
-                    <span style={{marginTop:"10px"}}>SHOW DETAILED</span>
+                    <span style={{marginTop:"10px"}}>Show Workout Notes</span>
                     <br/>
                 </span>
             </div>
