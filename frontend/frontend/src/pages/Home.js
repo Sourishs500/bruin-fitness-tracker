@@ -66,10 +66,25 @@ const Home = ({username, setGoldStar, setPlatStar}) => {
         console.log("HOME.JS: ", generalDate.current); 
     }
     
-    function GetAllMeasures({completeWorkoutData2})
+    function GetAllMeasures ({completeWorkoutData2})
     {
         let workoutcopy = JSON.parse(JSON.stringify(completeWorkoutData2));
-        console.log("ABLE TO PARSE WORKOUT", workoutcopy.Workout.length)
+        console.log("CHECKING FOR ERRORS")
+
+
+        const digits = "[0123456789]";
+        const dividers = "[/-]";
+        const formatOfDate = digits+"{1,2}"+dividers+digits+"{1,2}"+dividers+digits+"{4}"
+
+        const dateValid = RegExp(formatOfDate).test(workoutcopy.Date);
+        console.log(workoutcopy.Date, " is valid: ", dateValid);
+        if (!(RegExp(formatOfDate).test(workoutcopy.Date)))
+        {
+            alert("Please verify that the date is formatted correctly");
+            return "ERROR";
+        }
+
+        console.log("ABLE TO PARSE WORKOUT", workoutcopy.Date)
 
         //console.log("GET ALL MEASURES: ", workoutcopy, workoutcopy.Workout[0], " | ", workoutcopy.Workout[0].length)
         //if (workoutcopy.Workout.length==0) return "ERROR";
@@ -119,44 +134,6 @@ const Home = ({username, setGoldStar, setPlatStar}) => {
         updateExercisesAcrossWorkout(dataWithoutGeneralComments.current.map(i => (i["Exercise"])));
         //console.log(allExercisesAcrossWorkout);
 
-        const handleSubmitWorkoutButton = async (e) => {
-            //e.preventDefault();
-
-            const response = await fetch('/api/workouts/', {
-                method: 'POST',
-                body: JSON.stringify(completeWorkoutData.current),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-
-            const json = await response.json();
-
-            if(!response.ok){
-                console.log(json.error)
-            }else{
-                console.log('Workout added to the backend')
-            }
-
-        }
-
-        const handleSubmitStatistics = async (e) => {
-            const response = await fetch('/api/workouts/statistics', {
-                method: 'POST',
-                body: JSON.stringify(completeWorkoutData.current),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-
-            const json = await response.json();
-
-            if(!response.ok){
-                console.log(json.error)
-            }else{
-                console.log('Statistics added to the backend')
-            }
-        }
 
         const updateStars = async () => {
             const path = '/api/user/getStars/'.concat(username)
@@ -178,13 +155,55 @@ const Home = ({username, setGoldStar, setPlatStar}) => {
            
         }
 
+        const handleSubmitWorkoutButton = async (e) => {
+            //e.preventDefault();
+
+            const response = await fetch('/api/workouts/', {
+                method: 'POST',
+                body: JSON.stringify(completeWorkoutData.current),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+
+            const json = await response.json();
+
+            if(!response.ok){
+                console.log(json.error)
+            }else{
+                console.log('Workout added to the backend')
+            }
+            updateStars()
+        }
+
+        const handleSubmitStatistics = async (e) => {
+            const response = await fetch('/api/workouts/statistics', {
+                method: 'POST',
+                body: JSON.stringify(completeWorkoutData.current),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+
+            const json = await response.json();
+
+            if(!response.ok){
+                console.log(json.error)
+            }else{
+                console.log('Statistics added to the backend')
+            }
+            
+        }
+
+       
+
         console.log(completeWorkoutData.current);
         let myCopy = completeWorkoutData.current;
         console.log("HERE!")
         myCopy = GetAllMeasures({completeWorkoutData2:myCopy});
         if (myCopy!=="ERROR")
         // Still sending workout data without statistics
-            handleSubmitWorkoutButton();
+             handleSubmitWorkoutButton();
         else
             alert("Errors prevented this workout from being uploaded.");
         // Now workout data includes statistics
@@ -192,7 +211,6 @@ const Home = ({username, setGoldStar, setPlatStar}) => {
         handleSubmitStatistics();
         console.log("Updated: ", completeWorkoutData.current);
         
-        updateStars();
 
     }
 

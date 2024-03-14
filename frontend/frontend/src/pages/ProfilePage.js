@@ -56,19 +56,25 @@ const ProfilePage = ({username, photo, setPhoto}) => {
     }
 
     const changePicture = async (URL) => {
-        let data = {"name":username, "URL":URL};
-        const path = '/api/user/updateProfilePhoto'
-        const response = await fetch(path, {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        const json = await response.json();
-        setPhoto_show(URL);
-        setPhoto(URL);
-        setMessage("Updated your profile photo!");
+        
+        if (URL.includes("png") || URL.includes("jpg") || URL.includes("jpeg") || URL.includes("http")) {
+            let data = {"name":username, "URL":URL};
+            const path = '/api/user/updateProfilePhoto'
+            const response = await fetch(path, {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            const json = await response.json();
+            setPhoto_show(URL);
+            setPhoto(URL);
+            setMessage("Updated your profile photo!");
+        }
+        else {
+            setMessage("Invalid profile photo URL.");
+        }   
     }
 
     VerifyAccount();

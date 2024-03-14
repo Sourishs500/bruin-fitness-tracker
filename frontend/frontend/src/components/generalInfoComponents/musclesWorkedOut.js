@@ -80,7 +80,7 @@ export default function MusclesWorkedOut({givenExercises})
     */ 
     return(
         <div style={{display: "flex", flexDirection: "column"}}>
-            <div style={{display: "flex", justifyContent: "center", marginBottom:"5px"}} className="generalText">  <b>Muscles Most Recently Worked Out</b> </div>
+            <div style={{fontFamily:"verdana, sans-serif", display: "flex", justifyContent: "center", marginBottom:"5px"}} className="generalText">  <b>Muscles Most Recently Worked Out</b> </div>
             <div style={{display:"inline-block", width:"400px", height:"400px", "border":"1px solid black"}}> 
                 {[...Array(givenExercises.length).keys()].map(
                     i => imageForExercise(givenExercises[i], imageTracker, i)

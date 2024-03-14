@@ -94,7 +94,7 @@ variables used:
 
         return(
             <div style={{display:"flex", flexDirection:"row", justifyContent:"flex-start"}}>
-                <div style={{display:"flex", flexDirection:"column", justifyContent:"flex-start"}}>
+                <div style={{marginLeft:"20px", display:"flex", flexDirection:"column", justifyContent:"flex-start"}}>
                     <div><select onChange={TrackEx} style={{marginBottom:10, width:240}}>{exList.map(category => <option key={category} value={category}>{category}</option>)}</select></div>
                     <div><CreateTextBox key={"specificNotes"} SendValueUp={TrackSpecificNotes} style = {{}}/></div>
                 </div>
@@ -103,8 +103,6 @@ variables used:
                     <div style = {{marginBottom:2.5, marginLeft: "auto", marginTop:2.5, fontFamily: 'Trebuchet MS', fontSize:"20px"}}><Button variant="success" onClick={incSets} style={{marginLeft:"10px", marginRight:"10px", minHeight:30, minWidth: "140px"}}>Add Set</Button></div>
                     <div style = {{marginBottom:2.5, marginLeft: "auto", marginTop:2.5, fontFamily: 'Trebuchet MS', fontSize:"20px"}}><Button variant="danger" onClick={decSets} style={{marginLeft:"10px", marginRight:"10px",  minHeight:30, minWidth: "140px"}}>Remove Set</Button></div>
                 </div>
-                
-
             </div>
         );
     };
@@ -155,12 +153,13 @@ variables used:
 
     return (
         <div style={{flexGrow:3}}>
-            <div> {exerciseList} </div>
-            <div style={{display:"flex", flexDirection:"row"}}>
+            <b style={{fontFamily: 'verdana, sans-serif', fontSize: "22px", alignSelf: "self-start", marginLeft:"19px"}}>Workout Details</b>
+            <div style={{marginTop:"10px"}}> {exerciseList} </div>
+            <div style={{marginLeft:"20px", display:"flex", flexDirection:"row"}}>
                 <div style={{marginTop:"5px", marginBottom:"10px", marginRight:"10px", fontFamily: 'Trebuchet MS', fontSize:"20px"}}><Button variant="outline-success" onClick={() => AddExercise(exCount.current)} >Add Exercise</Button></div>
                 <div style={{marginTop:"5px", marginBottom:"10px", fontFamily: 'Trebuchet MS', fontSize:"20px"}}><Button variant="outline-danger" onClick={() => specialRemoveExercise()} >Remove Final Exercise</Button></div>
             </div>
-            <div style={{}}><Button onClick={() => getAllSetsForExercisesSubmitted()} 
+            <div style={{marginLeft:"20px"}}><Button onClick={() => getAllSetsForExercisesSubmitted()} 
             style={{width:"200px", fontFamily: 'Trebuchet MS', fontSize:"20px"}}>Submit Workout</Button></div>
         </div>
     );

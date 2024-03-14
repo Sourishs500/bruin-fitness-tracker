@@ -32,6 +32,11 @@ const Login = ({username, setUsername, setPhoto, setGoldStar, setPlatStar}) => {
             setMessage("You are already signed in.");
             return;
         }
+        else if (new_username == "")
+        {
+            setMessage("Please enter a username.")
+            return;
+        }
         const u = await fetchAccount(new_username.current.value);
         if ((user.current).length == 1) {
             if ((user.current)[0].password != password.current.value) {
@@ -69,7 +74,11 @@ const Login = ({username, setUsername, setPhoto, setGoldStar, setPlatStar}) => {
             setGoldStar(json[0]["gold_stars"])
             setPlatStar(json[0]["platinum_stars"])
         }
+       
     }
+
+
+
 
     return (
         <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}> 

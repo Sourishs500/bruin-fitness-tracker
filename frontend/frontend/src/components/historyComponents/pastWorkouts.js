@@ -85,92 +85,78 @@ const fetchDates = async (username) => {
 
 // ------------- Workout Detail Fetching Functions ------------
 
-const fetchWorkoutInfo = async (username, date) => {
-    if(date == "" || date == "CLEAR") { return [] }
 
-    let convertedDate = (date.replace("/", "-")).replace("/", "-")
-    let indexOfDescriptor = convertedDate.indexOf("(")
-    if(indexOfDescriptor != -1) { convertedDate = convertedDate.substring(0,indexOfDescriptor-1)}
-    const path = '/api/workouts/' + convertedDate +"/" +username
-    const response = await fetch(path)
-    const json = await response.json()
-    if (!response.ok){
-        console.error("Something is wrong with getting dates")
-    }
 
-    let workoutNumber
-    if(indexOfDescriptor == -1) { workoutNumber = 1}
-    else{ workoutNumber = Math.floor(date.substring(indexOfDescriptor+1, date.indexOf(")")))}
 
-    let workoutId = (json.GeneralNotes[workoutNumber-1]).workoutId; console.log("Workout ID: ", workoutId)
-    let desiredWorkouts = []
-    for(let elem=0; elem < json.Workout.length; elem++)
-    {
-        let currElem = json.Workout[elem]
-        if(currElem.workoutId == workoutId) { desiredWorkouts.push(currElem) }
-    }
-    console.log(date, ": ", desiredWorkouts)
-    return desiredWorkouts;
-}
 
-function GetDataOfPastDate(username, date, detail, statGetter)
-{
-    const information = useRef([])
-    if(date == "CLEAR") { return "" }
-
-    const getWorkoutInfo = async () => {
-        information.current = (await fetchWorkoutInfo(username, date));
-    }
-    getWorkoutInfo();
-
-    let text_to_display = "\n"
-    for(let i=0; i<information.current.length; i++)
-    {
-        let curr_workout_object = (information.current)[i]
-        text_to_display += curr_workout_object.name + ": " + curr_workout_object.sets
-        if (detail == true) { text_to_display += "  -  Notes: " + curr_workout_object.notes}
-        text_to_display +=  "\n\n"
-    }
-
-    // let failure_text = " Cannot retrieve the workout for "+date+" at this time. We apologize for the inconvenience.";
-    // if (detail!==false) failure_text = "Full data requested. "+failure_text;
-    return text_to_display;
-}
-
-function GetDataOfPastDate_element({user,date, edit, detail, stg}) {
-    let displayText = ""
-
-    if (date!="")
-    {
-        if (edit==true) { displayText = "CANNOT PROVIDE EDITING ACCESS AT THIS TIME."}
-        else { displayText =  GetDataOfPastDate(user, date, detail, stg);}
-    }
-    console.log("Rerendered workout detail section")
-    return (
-        <div>
-            <pre style={{marginLeft:"10px", fontFamily: "Helvetica", fontSize: "16px"}}> <b> <em> 
-                {displayText}
-            </em> </b> </pre>
-        </div>
-    )
-};
 
 // --------- MAIN FUNCTION --------
 
-export default function PastWorkouts({getStats, username}) 
+export default function PastWorkouts({getStats, username, pastDates}) 
 //One text box for the display of past data, [one text box for entering the date, one checkbox to show detailed version], one submit button
 {
     // -------------------- Date Display Handling ------------------------------
     const [enteredDate, setDate] = useState("");
     const [selectedDate, setTrueDate] = useState("");
     const dates = useRef([])
-
+    const [displayText, setDisplayText] = useState("")
+    dates.current=pastDates;
     const getThoseDates = async () => {
         dates.current = (await fetchDates(username));
     }
     getThoseDates();
     dates.current = dates.current.filter(x => x.startsWith(enteredDate))
     
+    const fetchWorkoutInfo = async (date) => {
+        console.log(date)
+        if(date == "" || date == "CLEAR") { return [] }
+    
+        let convertedDate = (date.replace("/", "-")).replace("/", "-")
+        let indexOfDescriptor = convertedDate.indexOf("(")
+        if(indexOfDescriptor != -1) { convertedDate = convertedDate.substring(0,indexOfDescriptor-1)}
+        const path = '/api/workouts/' + convertedDate +"/" +username
+        const response = await fetch(path)
+        const json = await response.json()
+        if (!response.ok){
+            console.error("Something is wrong with getting dates")
+        }
+    
+        let workoutNumber
+        if(indexOfDescriptor == -1) { workoutNumber = 1}
+        else{ workoutNumber = Math.floor(date.substring(indexOfDescriptor+1, date.indexOf(")")))}
+    
+        let workoutId = (json.GeneralNotes[workoutNumber-1]).workoutId; console.log("Workout ID: ", workoutId)
+        let desiredWorkouts = []
+        for(let elem=0; elem < json.Workout.length; elem++)
+        {
+            let currElem = json.Workout[elem]
+            if(currElem.workoutId == workoutId) { desiredWorkouts.push(currElem) }
+        }
+        console.log(date, ": ", desiredWorkouts)
+        return desiredWorkouts;
+    }
+
+    const GetDataOfPastDate = async (date, detail) =>
+    {
+        if(date == "CLEAR") { return "" }
+
+        const info = await fetchWorkoutInfo(date);
+  
+
+        let text_to_display = "\n"
+        for(let i=0; i<info.length; i++)
+        {
+            let curr_workout_object = (info)[i]
+            text_to_display += curr_workout_object.name + ": " + curr_workout_object.sets
+            if (detail == true) { text_to_display += "  -  Notes: " + curr_workout_object.notes}
+            text_to_display +=  "\n\n"
+        }
+
+        // let failure_text = " Cannot retrieve the workout for "+date+" at this time. We apologize for the inconvenience.";
+        // if (detail!==false) failure_text = "Full data requested. "+failure_text;
+        setDisplayText(text_to_display)
+    }
+
     let colorMappingFromDate = {};
     for (let i = 0; i < dates.current.length; i++) {
         colorMappingFromDate[dates[i]] = "black";
@@ -215,10 +201,9 @@ export default function PastWorkouts({getStats, username})
                         {
                             (dates.current).map(x => {
                                             let weight = "normal";
-                                            console.log("New Date Selected");
                                             if (colorMappingState[x]==="blue") weight = "bold";
                                             return  <p 
-                                                onClick={()=>{console.log("Date clicked: ", x); implementUpdateToColors(x);}} 
+                                                onClick={()=>{console.log("Date clicked: ", x); implementUpdateToColors(x); GetDataOfPastDate(x, detailed_yn)}} 
                                                 style={{color:colorMappingState[x], 
                                                         fontWeight:weight,
                                                         marginLeft:"5px", 
@@ -232,7 +217,9 @@ export default function PastWorkouts({getStats, username})
                     
                 </div>
                 <div style={{"width":"400px", "height":"300px", "border":"3px solid black"}}>
-                    <GetDataOfPastDate_element user={username} date={selectedDate} edit={edit_yn} detail={detailed_yn} std={getStats}/>
+                    <pre style={{marginLeft:"10px", fontFamily: "Helvetica", fontSize: "16px"}}> <b> <em> 
+                        {displayText}
+                    </em> </b> </pre>
                 </div>
             </span>
             
@@ -245,7 +232,7 @@ export default function PastWorkouts({getStats, username})
                     <input type="checkbox" 
                     style = {{"width":"150px", height:"20px", marginTop:"10px", marginRight:"-63px"}}
                     onClick = {() => {setDetailed_yn(!(detailed_yn))}}/>
-                    <span style={{marginTop:"10px"}}>SHOW DETAILED</span>
+                    <span style={{marginTop:"10px"}}>Show Workout Notes</span>
                     <br/>
                 </span>
             </div>
