@@ -32,7 +32,7 @@ const Login = ({username, setUsername, setPhoto, setGoldStar, setPlatStar}) => {
             setMessage("You are already signed in.");
             return;
         }
-        else if (username === "")
+        else if (new_username == "")
         {
             setMessage("Please enter a username.")
             return;
