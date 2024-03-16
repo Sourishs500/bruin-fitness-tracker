@@ -8,12 +8,12 @@ import Button from 'react-bootstrap/Button';
     import legs from "../headerComponents/legs.png";
     // import chesspress from "../headerComponents/chestpress.png";
     import calfraises from "../headerComponents/calfraises.png"
-    import hipthrust from "../headerComponents/hipthrust.png"
     import lateralraises from "../headerComponents/lateralraises.png"
     import lats from "../headerComponents/lats.png"
     import inclinepress from "../headerComponents/inclinepress.png"
     import deadlift from "../headerComponents/deadlift.png"
     import cablerows from "../headerComponents/cablerows.png"
+    import hipthrust from "../headerComponents/hip_thrust.png"
     
 
     const exercisesAndMuscles = {"Chest Press":chest, //change "kirby" to the variable representing the path for this exercise's image
