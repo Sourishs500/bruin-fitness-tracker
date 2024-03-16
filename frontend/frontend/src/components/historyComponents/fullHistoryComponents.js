@@ -1,4 +1,4 @@
-import GraphGeneration from './graphGeneration.js';
+import GraphGeneration from './graphGenerations.js';
 import PastWorkouts from './pastWorkouts.js';
 
 //To-do: Everything
