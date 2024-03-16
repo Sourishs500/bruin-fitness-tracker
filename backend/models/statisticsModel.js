@@ -32,7 +32,7 @@ const statisticsSchema = new Schema({
         required: true
     },
     stddev: {
-        type: mongoose.Decimal128,
+        type: Number,
         required: true
     },
     sum: {
