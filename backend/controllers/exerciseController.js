@@ -7,11 +7,25 @@ const Statistics = require('../models/statisticsModel')
 const Star = require('../models/starModel')
 const User = require('../models/userModel')
 const mongoose = require('mongoose')
+const cryptojs = require('crypto-js')
 const { hash } = require('immutable')
 
+const decryptedUser = (enc) => {
+    const decryptedUser = (cryptojs.AES.decrypt(enc.replaceAll("replacementdelimiter", "/"), "").toString(cryptojs.enc.Utf8)).split(" ")[0]
+    return decryptedUser
+}
 // get all exercises
 const getAllExercises = async (req, res) => {
-    const exercises = await Exercise.find({"user" : req.params.user}).sort({createdAt: -1})
+    // Frontend 
+    /* const userPass = "username" + " " + "password";
+    let encrypted = cryptojs.AES.encrypt(userPass, "");
+    encrypted = (encrypted.toString()).replace("/", "replacementdelimiter")
+    // Frontend end
+    console.log(encrypted)
+    const decryptedUser = (cryptojs.AES.decrypt(encrypted.replace("replacementdelimiter", "/"), "").toString(cryptojs.enc.Utf8)).split(" ")[0]
+    console.log(decryptedUser) */
+    const user = decryptedUser(req.params.user)
+    const exercises = await Exercise.find({"user" : user}).sort({createdAt: -1})
 
     res.status(200).json(exercises)
 }
@@ -91,7 +105,6 @@ const createExercise = async (req, res) => {
 
     let gold_increment = 0;
     let plat_increment = 0;
-    console.log(date)
     if(whichWeek != ""){
         try{
             const updatedStar = await Star.findOneAndUpdate({"user": user, "startOfWeek" : whichWeek}, {$inc: { workoutnumber: 1 }}, {upsert: true, new : true, setDefaultsOnInsert: true})
@@ -141,10 +154,7 @@ const createExercise = async (req, res) => {
                             } */
                         }
                     }
-                    console.log("3")
-                    console.log(plat)
                     const numberOfWeeksCheck = await Star.countDocuments({"user" : user});
-                    console.log("weeks" + numberOfWeeksCheck)
                     if (numberOfWeeksCheck < 3 ){
                         plat = false;
                     }
@@ -251,7 +261,7 @@ const updateExercise = async (req, res) => {
 const getAllWorkoutsOnDate = async (req, res) => {
     const d = req.params.date
     const finalDate = d.replaceAll('-', '/')
-    const user = req.params.user;
+    const user = decryptedUser(req.params.user);
 
     console.log(finalDate)
 
@@ -290,7 +300,8 @@ const getWorkoutsOfName = async (req, res) => {
 
 // get all exercise names
 const getAllExerciseNames = async (req, res) => {
-    const exercises = await Exercise.find({"user" : req.params.user}).select('name -_id')
+    const user = decryptedUser(req.params.user)
+    const exercises = await Exercise.find({"user" : user}).select('name -_id')
     const names = [...new Set(exercises.map(x => x['name']))]
     //console.log(exercises)
     res.status(200).json(names)
@@ -298,9 +309,9 @@ const getAllExerciseNames = async (req, res) => {
 
 // Gets all dates of exercises
 const getAllDates = async (req, res) => {
-
+    const user = decryptedUser(req.params.user)
     try{    
-        const dates = await GeneralComment.find({"user" : req.params.user}).select('date -_id');
+        const dates = await GeneralComment.find({"user" : user}).select('date -_id');
         return res.status(200).json(dates)
     } catch (e) {
         return res.status(400).send({error : e.message})
@@ -343,7 +354,7 @@ const getPastWorkoutsByMuscleGroup = async (req, res) => {
 }
 
 const getStatistics = async (req, res) => {
-    const user = (req.params).user;
+    const user = decryptedUser((req.params).user);
     const exercisename = (req.params).exercise;
     const stattype = (req.params).stattype;
     console.log(stattype.concat(" -_id"))

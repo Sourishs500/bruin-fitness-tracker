@@ -1,8 +1,14 @@
 const mongoose = require('mongoose')
 const User = require('../models/userModel.js');
 const GeneralComment = require('../models/generalCommentModel.js');
+const cryptojs = require('crypto-js')
 
 const weeks = ["2-25-2024", "3-3-2024", "3-10-24"];
+
+const decryptedUser = (enc) => {
+    const decryptedUser = (cryptojs.AES.decrypt(enc.replaceAll("replacementdelimiter", "/"), "").toString(cryptojs.enc.Utf8)).split(" ")[0]
+    return decryptedUser
+}
 
 const createUser = async (req, res) => {
     const {username, password, gender, image} = req.body;
@@ -15,7 +21,7 @@ const createUser = async (req, res) => {
 }
 
 const getUser = async (req, res) => {
-    const username = req.params.user
+    const username = decryptedUser(req.params.user)
     const user = await User.find({'username' : username})
     if(!user) {
         return res.status(404).json({error: 'No such user exists.'})
@@ -26,7 +32,7 @@ const getUser = async (req, res) => {
 const updateProfilePhoto = async (req, res) => {
     const {name, URL} = req.body;
     try {
-        const u = await User.updateOne({'username': name}, {$set: {'image': URL}}) 
+        const u = await User.updateOne({'username': decryptedUser(name)}, {$set: {'image': URL}}) 
         //console.log(u);
         return res.status(200).json(u);
     } catch(e) {
@@ -35,7 +41,7 @@ const updateProfilePhoto = async (req, res) => {
 }
 
 const getStars = async (req, res) => {
-    const user = req.params.user
+    const user = decryptedUser(req.params.user)
     try{
         const stars = await User.find({"username" : user}, 'gold_stars platinum_stars -_id')
         return res.status(200).json(stars)

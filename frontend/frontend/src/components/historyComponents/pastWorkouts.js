@@ -92,7 +92,7 @@ const fetchDates = async (username) => {
 
 // --------- MAIN FUNCTION --------
 
-export default function PastWorkouts({getStats, username, pastDates}) 
+export default function PastWorkouts({getStats, username, pastDates, encrypted}) 
 //One text box for the display of past data, [one text box for entering the date, one checkbox to show detailed version], one submit button
 {
     // -------------------- Date Display Handling ------------------------------
@@ -102,7 +102,7 @@ export default function PastWorkouts({getStats, username, pastDates})
     const [displayText, setDisplayText] = useState("")
     dates.current=pastDates;
     const getThoseDates = async () => {
-        dates.current = (await fetchDates(username));
+        dates.current = (await fetchDates(encrypted));
     }
     getThoseDates();
     dates.current = dates.current.filter(x => x.startsWith(enteredDate))
@@ -114,7 +114,7 @@ export default function PastWorkouts({getStats, username, pastDates})
         let convertedDate = (date.replace("/", "-")).replace("/", "-")
         let indexOfDescriptor = convertedDate.indexOf("(")
         if(indexOfDescriptor != -1) { convertedDate = convertedDate.substring(0,indexOfDescriptor-1)}
-        const path = '/api/workouts/' + convertedDate +"/" +username
+        const path = '/api/workouts/' + convertedDate +"/" +encrypted
         const response = await fetch(path)
         const json = await response.json()
         if (!response.ok){
