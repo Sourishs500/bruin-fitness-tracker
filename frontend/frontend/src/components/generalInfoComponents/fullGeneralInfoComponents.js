@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 
 import GeneralInfo from './generalInfo.js';
-import MusclesWorkedOut from './musclesWorkedOut.js';
+import MusclesWorkedOut from './muscleWorkedOut.js';
 import SummaryBox from '../specificInfoComponents/summaryBox.js'
 import UserDataEntries from '../specificInfoComponents/userDataEntries.js';
 
